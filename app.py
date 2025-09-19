@@ -10,10 +10,10 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
-    db.session.add(TransactionType(type_name="add"))
-    db.session.add(TransactionType(type_name="remove"))
-    db.session.add(TransactionType(type_name="transfer"))
-    db.session.commit()
+    
+    
+    
+
     
     
 

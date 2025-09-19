@@ -27,6 +27,7 @@ create table if not exists employee (
     fyida_id text not null,
     position text not null,
     department text not null,
+    job_description text not null,
     tin_number int not null,
     bank_account_number int not null,
     salary float not null

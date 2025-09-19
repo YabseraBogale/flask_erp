@@ -34,6 +34,7 @@ class Employee(db.Model):
     fyida_id=db.Column(db.String,nullable=False)
     position=db.Column(db.String,nullable=False)
     department=db.Column(db.String,nullable=False)
+    job_description=db.Column(db.String,nullable=False)
     tin_number=db.Column(db.Integer,nullable=False)
     bank_account_number=db.Column(db.Integer,nullable=False)
     salary=db.Column(db.Float,nullable=False)

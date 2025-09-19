@@ -71,7 +71,7 @@ class ItemLog(db.Model):
     log_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
     transaction_type_id=db.Column(db.Integer,db.ForeignKey("TransactionType.transaction_type_id"))
-    employee_id=db.Column(db.Integer,db.ForeignKey("Emergency.employee_id"))
+    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     quantity_changed=db.Column(db.Integer,nullable=False)
     transaction_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     description=db.Column(db.String,nullable=False)
@@ -82,7 +82,7 @@ class Checkout(db.Model):
 
     checkout_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
-    employee_id=db.Column(db.Integer,db.ForeignKey("Emergency.employee_id"))
+    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     return_date=db.Column(db.DateTime(timezone=True))
     notes=db.Column(db.String)

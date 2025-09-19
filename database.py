@@ -53,8 +53,8 @@ class Item(db.Model):
     location=db.Column(db.String,nullable=False)
     created_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
-    created_by_employee_id=db.Column(db.Integer,db.ForeignKey("Emergency.employee_id"))
-    updated_by_employee_id=db.Column(db.Integer,db.ForeignKey("Emergency.employee_id"))
+    created_by_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    updated_by_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
 
 class TransactionType(db.Model):
 

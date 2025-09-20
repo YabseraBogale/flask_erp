@@ -12,7 +12,13 @@ with app.app_context():
     db.create_all()
     
     
-    
+
+@app.route("/employee_registeration",methods=["GET","POST"])
+def employee_registeration():
+    if request.method=="POST":
+        return "ok"
+    return render_template("employee_registeration.html")
+
 
     
     

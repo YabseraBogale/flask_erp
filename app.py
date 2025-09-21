@@ -21,10 +21,20 @@ def employee_registeration():
         emergency_contact_firstname=request.form["emergency_contact_firstname"]
         emergency_contact_lastname=request.form["emergency_contact_lastname"]
         emergency_contact_middlename=request.form["emergency_contact_middlename"]
-        emergency_contact_gender=request.form["emergency_contact_gender"].value
+        emergency_contact_gender=request.form["emergency_contact_gender"]
         emergency_contact_phonenumber=request.form["emergency_contact_phonenumber"]
         emergency_contact_email=request.form["emergency_contact_email"]
         emergency_contact_location=request.form["emergency_contact_location"]
+
+        emergency_contact=EmergencyContact(firstname=emergency_contact_firstname,
+                                           lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
+                                           phonenumber=emergency_contact_phonenumber,location=emergency_contact_location,
+                                           fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
+                                           email=emergency_contact_email
+                                           )
+        
+        db.session.add(emergency_contact)
+        db.session.commit()
 
         firstname=request.form["firstname"]
         lastname=request.form["lastname"]

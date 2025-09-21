@@ -7,7 +7,7 @@ db=SQLAlchemy()
 class EmergencyContact(db.Model):
     __tablename__="EmergencyContact"
 
-    emergency_contact_id=db.Column(db.Integer,primary_key=True,autoincrement=True) 
+    fyida_id=db.Column(db.String,primary_key=True) 
     firstname=db.Column(db.String,nullable=False)
     middlename=db.Column(db.String,nullable=False)
     lastname=db.Column(db.String,nullable=False)
@@ -15,14 +15,14 @@ class EmergencyContact(db.Model):
     phonenumber=db.Column(db.String,nullable=False)
     email=db.Column(db.String,nullable=False)
     location=db.Column(db.String,nullable=False)
-    fyida_id=db.Column(db.String,nullable=False)
+    
 
 
 class Employee(db.Model):
 
     __tablename__="Employee"
     employee_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    emergency_contact_id=db.Column(db.Integer,db.ForeignKey("EmergencyContact.emergency_contact_id")) 
+    emergency_contact_fyida_id=db.Column(db.Integer,db.ForeignKey("EmergencyContact.fyida_id")) 
     firstname=db.Column(db.String,nullable=False)
     middlename=db.Column(db.String,nullable=False)
     lastname=db.Column(db.String,nullable=False)

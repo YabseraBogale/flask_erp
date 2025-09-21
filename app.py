@@ -1,5 +1,5 @@
 from flask import Flask,url_for,render_template,redirect,request,session
-
+from datetime import datetime
 from database import db,EmergencyContact,Employee,Item,ItemLog,TransactionType,Checkout
 
 
@@ -43,6 +43,7 @@ def employee_registeration():
         phonenumber=request.form["phonenumber"]
         email=request.form["phonenumber"]
         date_of_employement=request.form["date_of_employement"]
+        date_of_employement = datetime.strptime(date_of_employement, "%Y-%m-%d").date()
         fyida_id=request.form["fyida_id"]
         position=request.form["position"]
         location=request.form["location"]
@@ -51,6 +52,16 @@ def employee_registeration():
         tin_number=request.form["tin_number"]
         bank_account_number=request.form["bank_account_number"]
         salary=request.form["salary"]
+
+        employee=Employee(emergency_contact_fyida_id=emergency_contact_fyida_id,
+                        firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
+                        gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
+                        position=position,location=location,department=department,job_description=job_description,
+                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary
+                        )
+        
+        db.session.add(employee)
+        db.session.commit()
 
         return "ok"
     return render_template("employee_registeration.html")

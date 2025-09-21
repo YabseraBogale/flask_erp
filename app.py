@@ -94,9 +94,11 @@ def item_registeration():
         return "ok"
     return render_template("item_registeration.html")
 
-
-
-
+@app.route("/item_add",methods=["GET","POST"])
+def item_add():
+    if request.method=="POST":
+        return "ok"
+    return render_template("item_add.html")
 
 
 @app.route("/dashboard")

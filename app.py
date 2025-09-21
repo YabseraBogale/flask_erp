@@ -47,7 +47,23 @@ def employee_registeration():
 
 
     
-    
+@app.route("/item_regsisteration.html",methods=["GET","POST"])
+def item_registeration():
+    if request.method=="POST":
+        item_name=request.form["item_name"]
+        item_price=request.form["item_price"]
+        unit=request.form["unit"]
+        created_by_employee_id=request.form["created_by_employee_id"]
+        location=request.form["location"]
+        item_category=request.form["item_category"]
+        item_subcategory=request.form["item_subcategory"]
+        item_quantity=request.form["item_quantity"]
+        item_description=request.form["item_description"]
+        item_name=request.form["item_name"]
+
+        return "ok"
+    return render_template("item_registeration.html")
+
 
 
 

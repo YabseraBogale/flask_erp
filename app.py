@@ -82,6 +82,15 @@ def item_registeration():
         item_description=request.form["item_description"]
         item_name=request.form["item_name"]
 
+        item=Item(item_name=item_name,item_price=item_price,
+                  item_quantity=item_quantity,unit=unit,category=item_category,
+                  location=location,subcategory=item_subcategory,
+                  created_by_employee_id=created_by_employee_id,item_description=item_description
+                )
+        
+        db.session.add(item)
+        db.session.commit()
+
         return "ok"
     return render_template("item_registeration.html")
 

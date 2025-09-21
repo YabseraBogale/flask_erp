@@ -15,7 +15,33 @@ with app.app_context():
 
 @app.route("/employee_registeration",methods=["GET","POST"])
 def employee_registeration():
+    
     if request.method=="POST":
+        emergency_contact_fyida_id=request.form["emergency_contact_fyida_id"]
+        emergency_contact_firstname=request.form["emergency_contact_firstname"]
+        emergency_contact_lastname=request.form["emergency_contact_lastname"]
+        emergency_contact_middlename=request.form["emergency_contact_middlename"]
+        emergency_contact_gender=request.form["emergency_contact_gender"].value
+        emergency_contact_phonenumber=request.form["emergency_contact_phonenumber"]
+        emergency_contact_email=request.form["emergency_contact_email"]
+        emergency_contact_location=request.form["emergency_contact_location"]
+
+        firstname=request.form["firstname"]
+        lastname=request.form["lastname"]
+        middlename=request.form["middlename"]
+        gender=request.form["gender"]
+        phonenumber=request.form["phonenumber"]
+        email=request.form["phonenumber"]
+        date_of_employement=request.form["date_of_employement"]
+        fyida_id=request.form["fyida_id"]
+        position=request.form["position"]
+        location=request.form["location"]
+        department=request.form["department"]
+        job_description=request.form["job_description"]
+        tin_number=request.form["tin_number"]
+        bank_account_number=request.form["bank_account_number"]
+        salary=request.form["salary"]
+
         return "ok"
     return render_template("employee_registeration.html")
 

@@ -55,7 +55,7 @@ class Item(db.Model):
     created_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
     created_by_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
-    updated_by_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    
 
 class TransactionType(db.Model):
 
@@ -71,7 +71,7 @@ class ItemLog(db.Model):
 
     log_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
-    transaction_type_id=db.Column(db.Integer,db.ForeignKey("TransactionType.transaction_type_id"))
+    transaction_type_name=db.Column(db.String,db.ForeignKey("TransactionType.type_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     quantity_changed=db.Column(db.Integer,nullable=False)
     transaction_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
@@ -84,6 +84,18 @@ class Checkout(db.Model):
     checkout_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    revice_employee=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
-    return_date=db.Column(db.DateTime(timezone=True))
+    notes=db.Column(db.String)
+
+
+class CheckIn(db.Model):
+
+    __tablename__="Checkout"
+
+    checkin_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
+    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    returning_employee=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     notes=db.Column(db.String)

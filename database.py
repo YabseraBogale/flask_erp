@@ -106,7 +106,7 @@ class Item(db.Model):
 class TransactionType(db.Model):
 
     __tablename__="TransactionType"
-
+    # type "add","remove","checkout","checkin"
     transaction_type_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     type_name=db.Column(db.String,nullable=False,unique=True)
 
@@ -121,7 +121,7 @@ class ItemLog(db.Model):
     __tablename__="ItemLog"
 
     log_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_name=db.Column(db.Integer,db.ForeignKey("Item.item_name"))
+    item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
     transaction_type_name=db.Column(db.String,db.ForeignKey("TransactionType.type_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     quantity_changed=db.Column(db.Integer,nullable=False)
@@ -132,8 +132,8 @@ class ItemLog(db.Model):
     def to_dict(self):
         return {
             "log_id":self.log_id,
-            "item_name":self.item_name,
-            "":self.transaction_type_name,
+            "item_id":self.item_id,
+            "transaction_type_name":self.transaction_type_name,
             "employee_id":self.employee_id,
             "quantity_changed":self.quantity_changed,
             "description":self.description,

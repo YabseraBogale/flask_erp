@@ -100,10 +100,34 @@ def item_add():
         item_price=request.form["item_price"]
         quantity_changed=request.form["item_quantity"]
         transaction_type_name="add"
+        transaction_date=datetime.today()
+        description=request.form["description"]
 
+        itemlog=ItemLog(
+            item_id=item_id,
+            item_price=item_price,
+            quantity_changed=quantity_changed,
+            transaction_type_name=transaction_type_name,
+            transaction_date=transaction_date,
+            description=description
+        )
+
+        # in item
+        # update item price with change only.
+        # item qunquantity with the pervious plus the add quantity
+        # update the description
 
         return "ok"
     return render_template("item_add.html")
+
+
+@app.route("/item_checkout",methods=["GET","POST"])
+def item_checkout():
+    pass
+
+@app.route("/item_checkin",methods=["GET","POST"])
+def item_checkin():
+    pass
 
 
 

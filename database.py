@@ -74,6 +74,7 @@ class ItemLog(db.Model):
     transaction_type_name=db.Column(db.String,db.ForeignKey("TransactionType.type_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     quantity_changed=db.Column(db.Integer,nullable=False)
+    item_price=db.Column(db.Float,nullable=False)
     transaction_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     description=db.Column(db.String,nullable=False)
 

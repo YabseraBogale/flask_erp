@@ -74,6 +74,17 @@ input[type="reset"]:hover {
   background: var(--ms-blue);
   color: var(--ms-white);
 }
+/* Remove arrows from number input fields (Chrome, Safari, Edge, Opera) */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Remove arrows from number input fields (Firefox and standard) */
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
 @media (max-width: 600px) {
   form {
     padding: 1rem 0.5rem;

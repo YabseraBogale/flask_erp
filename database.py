@@ -16,6 +16,17 @@ class EmergencyContact(db.Model):
     email=db.Column(db.String,nullable=False)
     location=db.Column(db.String,nullable=False)
     
+    def to_dict(self):
+        return {
+            "fyida_id":self.fyida_id,
+            "firstname":self.firstname,
+            "middlename":self.middlename,
+            "lastname":self.lastname,
+            "gender":self.gender,
+            "phonenumber":self.phonenumber,
+            "email":self.email,
+            "location":self.location
+        }
 
 
 class Employee(db.Model):
@@ -39,6 +50,26 @@ class Employee(db.Model):
     bank_account_number=db.Column(db.Integer,nullable=False)
     salary=db.Column(db.Float,nullable=False)
 
+    def to_dict(self):
+        return {
+            "fyida_id":self.fyida_id,
+            "firstname":self.firstname,
+            "middlename":self.middlename,
+            "lastname":self.lastname,
+            "gender":self.gender,
+            "phonenumber":self.phonenumber,
+            "email":self.email,
+            "location":self.location,
+            "date_of_employement":self.date_of_employement,
+            "emergency_contact_fyida_id":self.emergency_contact_fyida_id,
+            "position":self.position,
+            "department":self.department,
+            "job_description":self.job_description,
+            "tin_number":self.tin_number,
+            "bank_account_number":self.bank_account_number,
+            "salary":self.salary
+        }
+
 class Item(db.Model):
 
     __tablename__="Item"
@@ -56,6 +87,21 @@ class Item(db.Model):
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
     created_by_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     
+    def to_dict(self):
+        return {
+            "item_id":self.item_id,
+            "item_name":self.item_name,
+            "item_description":self.item_description,
+            "category":self.category,
+            "subcategory":self.subcategory,
+            "item_price":self.item_price,
+            "item_quantity":self.item_quantity,
+            "location":self.location,
+            "created_by_employee_id":self.created_by_employee_id,
+            "created_at":self.created_at,
+            "updated_at":self.updated_at,
+            "unit":self.unit
+        }
 
 class TransactionType(db.Model):
 
@@ -64,6 +110,11 @@ class TransactionType(db.Model):
     transaction_type_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     type_name=db.Column(db.String,nullable=False,unique=True)
 
+    def to_dict(self):
+        return {
+            "transaction_type_id":self.transaction_type_id,
+            "type_name":self.type_name
+        }
 
 class ItemLog(db.Model):
 
@@ -78,6 +129,17 @@ class ItemLog(db.Model):
     transaction_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     description=db.Column(db.String,nullable=False)
 
+    def to_dict(self):
+        return {
+            "log_id":self.log_id,
+            "item_name":self.item_name,
+            "":self.transaction_type_name,
+            "employee_id":self.employee_id,
+            "quantity_changed":self.quantity_changed,
+            "description":self.description,
+            "item_price":self.item_price,
+        }
+
 class Checkout(db.Model):
 
     __tablename__="Checkout"
@@ -89,6 +151,15 @@ class Checkout(db.Model):
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     notes=db.Column(db.String)
 
+    def to_dict(self):
+        return {
+            "checkout_id":self.checkout_id,
+            "item_id":self.item_id,
+            "employee_id":self.employee_id,
+            "revice_employee_name":self.revice_employee_name,
+            "checkout_date":self.checkout_date,
+            "notes":self.notes
+        }
 
 class CheckIn(db.Model):
 
@@ -100,3 +171,13 @@ class CheckIn(db.Model):
     returning_employee_name=db.Column(db.String)
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     notes=db.Column(db.String)
+
+    def to_dict(self):
+        return {
+            "checkin_id":self.checkin_id,
+            "item_id":self.item_id,
+            "employee_id":self.employee_id,
+            "returning_employee_name":self.returning_employee_name,
+            "checkin_date":self.checkin_date,
+            "notes":self.notes
+        }

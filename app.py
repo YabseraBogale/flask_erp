@@ -99,8 +99,9 @@ def item_add():
         item_id=request.form["item_id"]
         item_price=request.form["item_price"]
         quantity_changed=request.form["item_quantity"]
-
         transaction_type_name="add"
+
+
         return "ok"
     return render_template("item_add.html")
 

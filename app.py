@@ -22,7 +22,7 @@ def employee_registeration():
         emergency_contact_lastname=request.form["emergency_contact_lastname"]
         emergency_contact_middlename=request.form["emergency_contact_middlename"]
         emergency_contact_gender=request.form["emergency_contact_gender"]
-        emergency_contact_phonenumber=request.form["emergency_contact_phonenumber"]
+        emergency_contact_phonenumber="+251 "+request.form["emergency_contact_phonenumber"]
         emergency_contact_email=request.form["emergency_contact_email"]
         emergency_contact_location=request.form["emergency_contact_location"]
 
@@ -40,7 +40,7 @@ def employee_registeration():
         lastname=request.form["lastname"]
         middlename=request.form["middlename"]
         gender=request.form["gender"]
-        phonenumber=request.form["phonenumber"]
+        phonenumber="+251 "+request.form["phonenumber"]
         email=request.form["phonenumber"]
         date_of_employement=request.form["date_of_employement"]
         date_of_employement = datetime.strptime(date_of_employement, "%Y-%m-%d").date()
@@ -68,13 +68,12 @@ def employee_registeration():
 
 
     
-@app.route("/item_regsisteration.html",methods=["GET","POST"])
+@app.route("/item_regsisteration",methods=["GET","POST"])
 def item_registeration():
     if request.method=="POST":
         item_name=request.form["item_name"]
         item_price=request.form["item_price"]
         unit=request.form["unit"]
-        created_by_employee_id=request.form["created_by_employee_id"]
         location=request.form["location"]
         item_category=request.form["item_category"]
         item_subcategory=request.form["item_subcategory"]
@@ -85,20 +84,21 @@ def item_registeration():
         item=Item(item_name=item_name,item_price=item_price,
                   item_quantity=item_quantity,unit=unit,category=item_category,
                   location=location,subcategory=item_subcategory,
-                  created_by_employee_id=created_by_employee_id,item_description=item_description
+                  created_by_employee_id=1,item_description=item_description
                 )
         
         db.session.add(item)
         db.session.commit()
 
         return "ok"
-    return render_template("item_registeration.html")
+    return render_template("item_regsisteration.html")
 
 @app.route("/item_add",methods=["GET","POST"])
 def item_add():
     if request.method=="POST":
         return "ok"
     return render_template("item_add.html")
+
 
 
 @app.route("/dashboard")

@@ -1,0 +1,94 @@
+:root {
+  --ms-blue: #0078d4;
+  --ms-light-blue: #e5f1fb;
+  --ms-gray: #f3f2f1;
+  --ms-dark: #323130;
+  --ms-white: #ffffff;
+  --ms-border: #c8c6c4;
+  --ms-accent: #2b88d8;
+}
+body {
+  background: var(--ms-gray);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+form {
+  background: var(--ms-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 2rem 2.5rem;
+  max-width: 400px;
+  width: 100%;
+}
+table {
+  width: 100%;
+}
+td {
+  padding: 0.5rem 0.3rem;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--ms-border);
+  border-radius: 6px;
+  background: var(--ms-light-blue);
+  color: var(--ms-dark);
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+input[type="text"]:focus {
+  border: 1.5px solid var(--ms-blue);
+  outline: none;
+  background: var(--ms-white);
+}
+input[type="submit"] {
+  background: var(--ms-blue);
+  color: var(--ms-white);
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+input[type="submit"]:hover {
+  background: var(--ms-accent);
+}
+input[type="reset"] {
+  background: var(--ms-gray);
+  color: var(--ms-dark);
+  border: 1px solid var(--ms-border);
+  border-radius: 6px;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+input[type="reset"]:hover {
+  background: var(--ms-blue);
+  color: var(--ms-white);
+}
+@media (max-width: 600px) {
+  form {
+    padding: 1rem 0.5rem;
+    max-width: 98vw;
+  }
+  td {
+    display: block;
+    width: 100%;
+  }
+  table,
+  tr {
+    display: block;
+    width: 100%;
+  }
+  tr {
+    margin-bottom: 1rem;
+  }
+}

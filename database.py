@@ -70,7 +70,7 @@ class ItemLog(db.Model):
     __tablename__="ItemLog"
 
     log_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
+    item_name=db.Column(db.Integer,db.ForeignKey("Item.item_name"))
     transaction_type_name=db.Column(db.String,db.ForeignKey("TransactionType.type_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     quantity_changed=db.Column(db.Integer,nullable=False)

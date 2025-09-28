@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>checkout</title>
-    <link rel="stylesheet" href="static/css/checkin.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/checkout.css')}}" />
 </head>
 <body>
-    <nav>
+   <nav>
         <a href="/item_registeration">item registeration</a>
         <a href="/employee_registeration">employee registeration</a>
-        <a href="/checkin">checkin</a>
-        <a href="/checkout">checkout</a>
+        <a href="/item_checkin">checkin</a>
+        <a href="/item_checkout">checkout</a>
     </nav>
     <form action="" method="post">
         <p>Check Out Employee Id <input type="number" name="CheckOutEmployeeId" id=""></p>   

@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/checkin.css">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/checkin.css')}}" />
     <title>checkin</title>
 </head>
 <body>
     <nav>
         <a href="/item_registeration">item registeration</a>
         <a href="/employee_registeration">employee registeration</a>
-        <a href="/checkin">checkin</a>
-        <a href="/checkout">checkout</a>
+        <a href="/item_checkin">checkin</a>
+        <a href="/item_checkout">checkout</a>
     </nav>
     <form action="" method="post">
         <p>Check In Employee Id <input type="number" name="CheckInEmployeeId" id=""></p>   

@@ -91,7 +91,7 @@ def item_registeration():
         db.session.commit()
 
         return "ok"
-    return render_template("item_regsisteration.html")
+    return render_template("item_registeration.html")
 
 
 

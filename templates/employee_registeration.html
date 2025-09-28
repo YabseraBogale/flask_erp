@@ -1,229 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/employee_registeration.css')}}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="static/css/employee_registeration.css"
+    />
     <title>Employee Registeration</title>
-</head>
-<body>
+  </head>
+  <body>
+    <nav>
+        <a href="/item_registeration">item registeration</a>
+        <a href="/employee_registeration">employee registeration</a>
+        <a href="/checkin">checkin</a>
+        <a href="/checkout">checkout</a>
+    </nav>
     <form action="/employee_registeration" method="POST">
-        <table>
-            <tr>
-                <td>
-                    firstname
-                </td>
-                <td>
-                    <input type="text" name="firstname" id="" placeholder="firstname">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    lastname
-                </td>
-                <td>
-                    <input type="text" name="lastname" id="" placeholder="lastname">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    middlename
-                </td>
-                <td>
-                    <input type="text" name="middlename" id="" placeholder="middlename">
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    gender
-                </td>
-                <td>
-                    <input type="radio" name="gender" id="" value="male"> male
-                    <input type="radio" name="gender" id="" value="female"> female
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    phonenumber
-                </td>
-                <td>
-                    <input type="number" name="phonenumber" id="" placeholder="+2519">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    email
-                </td>
-                <td>
-                    <input type="email" name="email" id="" placeholder="email">
-                </td>
-            </tr>
+      firstname
 
-            <tr>
-                <td>
-                    date of employement
-                </td>
-                <td>
-                    <input type="date" name="date_of_employement" id="" >
-                </td>
-            </tr>
+      <input type="text" name="firstname" id="" placeholder="firstname" />
 
-            <tr>
-                <td>
-                    location
-                </td>
-                <td>
-                    <input type="text" name="location" id="" placeholder="location">
-                </td>
-            </tr>
+      lastname
 
-            <tr>
-                <td>
-                    fyida id
-                </td>
-                <td>
-                    <input type="text" name="fyida_id" id="" placeholder="fyida_id">
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    position
-                </td>
-                <td>
-                    <input type="text" name="position" id="" placeholder="position">
-                </td>
-            </tr>
+      <input type="text" name="lastname" id="" placeholder="lastname" />
 
-            <tr>
-                <td>
-                    department
-                </td>
-                <td>
-                    <input type="text" name="department" id="" placeholder="department">
-                </td>
-            </tr>
+      middlename
 
-            <tr>
-                <td>
-                    job description
-                </td>
-                <td>
-                    <input type="text" name="job_description" id="" placeholder="job description">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    tin number
-                </td>
-                <td>
-                    <input type="number" name="tin_number" id="" placeholder="tin number">
-                </td>
-            </tr>
+      <input type="text" name="middlename" id="" placeholder="middlename" />
 
-            <tr>
-                <td>
-                    bank account number
-                </td>
-                <td>
-                    <input type="text" name="bank_account_number" id="" placeholder="bank account number">
-                </td>
-            </tr>
+      gender
 
-            <tr>
-                <td>
-                    salary
-                </td>
-                <td>
-                    <input type="number" name="salary" id="" placeholder="salary" >
-                </td>
-            </tr>
-        </table>
+      <select name="gender" id="">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
 
-        <h2>
-            Emergency Contact
-        </h2>
-        <table>
+      phonenumber
 
-             <tr>
-                <td>
-                    firstname
-                </td>
-                <td>
-                    <input type="text" name="emergency_contact_firstname" id="" placeholder="firstname">
-                </td>
-            </tr>
+      <input type="number" name="phonenumber" id="" placeholder="+2519" />
 
-            <tr>
-                <td>
-                    lastname
-                </td>
-                <td>
-                    <input type="text" name="emergency_contact_lastname" id="" placeholder="lastname">
-                </td>
-            </tr>
+      email
 
-            <tr>
-                <td>
-                    middlename
-                </td>
-                <td>
-                    <input type="text" name="emergency_contact_middlename" id="" placeholder="middlename">
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    gender
-                </td>
-                <td>
-                    <input type="radio" name="emergency_contact_gender" id="" value="male"> male
-                    <input type="radio" name="emergency_contact_gender" id="" value="female"> female
-                    
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    phonenumber
-                </td>
-                <td>
-                    <input type="number" name="emergency_contact_phonenumber" id="" placeholder="+2519">
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    email
-                </td>
-                <td>
-                    <input type="email" name="emergency_contact_email" id="" placeholder="email">
-                </td>
-            </tr>
+      <input type="email" name="email" id="" placeholder="email" />
 
-            <tr>
-                <td>
-                    location
-                </td>
-                <td>
-                    <input type="text" name="emergency_contact_location" id="" placeholder="location">
-                </td>
-            </tr>
+      date of employement
 
-            <tr>
-                <td>
-                    fyida id
-                </td>
-                <td>
-                    <input type="text" name="emergency_contact_fyida_id" id="" placeholder="fyida_id">
-                </td>
-            </tr>
+      <input type="date" name="date_of_employement" id="" />
 
-        </table>
-        <input type="submit" value="enter">
-        <input type="reset" value="reset">
+      location
+
+      <select name="location" id="">
+        <option value="Addis Ababa">Addis Ababa</option>
+        <option value="Adama">Adama</option>
+        <option value="Dire Dawa">Dire Dawa</option>
+        <option value="Mekelle">Mekelle</option>
+        <option value="Gondar">Gondar</option>
+        <option value="Bahir Dar">Bahir Dar</option>
+        <option value="Hawassa">Hawassa</option>
+        <option value="Jimma">Jimma</option>
+        <option value="Harar">Harar</option>
+        <option value="Dessie">Dessie</option>
+        <option value="Shashamane">Shashamane</option>
+        <option value="Asella">Asella</option>
+        <option value="Debre Markos">Debre Markos</option>
+        <option value="Gambela">Gambela</option>
+        <option value="Jijiga">Jijiga</option>
+        <option value="Arba Minch">Arba Minch</option>
+        <option value="Dilla">Dilla</option>
+      </select>
+
+      fyida id
+
+      <input type="text" name="fyida_id" id="" placeholder="fyida id" />
+
+      position
+
+      <input type="text" name="position" id="" placeholder="position" />
+
+      department
+
+      <select name="department" id="">
+        <option value="Human Resources">Human Resources</option>
+        <option value="Finance">Finance</option>
+        <option value="Sales">Sales</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Customer Service">Customer Service / Support</option>
+        <option value="Operations">Operations</option>
+        <option value="Procurement">Procurement / Purchasing</option>
+        <option value="IT">IT / Information Technology</option>
+        <option value="Research & Development">Research & Development</option>
+        <option value="Administration">Administration</option>
+        <option value="Logistics & Supply Chain">Logistics & Supply Chain</option>
+        <option value="Manufacturing">Production / Manufacturing</option>
+        <option value="Quality Assurance">Quality Assurance</option>
+        <option value="Legal">Legal</option>
+        <option value="Public Relations">Public Relations</option>
+      </select>
+
+      job description
+
+      <textarea name="job_description" id="" placeholder="job description"></textarea>
+
+      tin number
+
+      <input type="number" name="tin_number" id="" placeholder="tin number" />
+
+      bank account number
+
+      <input
+        type="text"
+        name="bank_account_number"
+        id=""
+        placeholder="bank account number"
+      />
+
+      salary
+
+      <input type="number" name="salary" id="" placeholder="salary" />
+
+    
+
+      <h2>Emergency Contact</h2>
+
+      firstname
+
+      <input
+        type="text"
+        name="emergency_contact_firstname"
+        id=""
+        placeholder="firstname"
+      />
+
+      lastname
+
+      <input
+        type="text"
+        name="emergency_contact_lastname"
+        id=""
+        placeholder="lastname"
+      />
+
+      middlename
+
+      <input
+        type="text"
+        name="emergency_contact_middlename"
+        id=""
+        placeholder="middlename"
+      />
+
+      gender
+      
+      <select name="emergency_contact_gender" id="">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+
+
+      <input
+        type="number"
+        name="emergency_contact_phonenumber"
+        id=""
+        placeholder="+2519"
+      />
+
+      email
+
+      <input
+        type="email"
+        name="emergency_contact_email"
+        id=""
+        placeholder="email"
+      />
+
+      location
+
+      <select name="emergency_contact_location" id="">
+        <option value="Addis Ababa">Addis Ababa</option>
+        <option value="Adama">Adama</option>
+        <option value="Dire Dawa">Dire Dawa</option>
+        <option value="Mekelle">Mekelle</option>
+        <option value="Gondar">Gondar</option>
+        <option value="Bahir Dar">Bahir Dar</option>
+        <option value="Hawassa">Hawassa</option>
+        <option value="Jimma">Jimma</option>
+        <option value="Harar">Harar</option>
+        <option value="Dessie">Dessie</option>
+        <option value="Shashamane">Shashamane</option>
+        <option value="Asella">Asella</option>
+        <option value="Debre Markos">Debre Markos</option>
+        <option value="Gambela">Gambela</option>
+        <option value="Jijiga">Jijiga</option>
+        <option value="Arba Minch">Arba Minch</option>
+        <option value="Dilla">Dilla</option>
+      </select>
+
+      fyida id
+
+      <input
+        type="text"
+        name="emergency_contact_fyida_id"
+        id=""
+        placeholder="fyida id"
+      />
+
+      <input type="submit" value="enter" />
+      <input type="reset" value="reset" />
     </form>
-</body>
+  </body>
 </html>

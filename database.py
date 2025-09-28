@@ -49,7 +49,7 @@ class Employee(db.Model):
     tin_number=db.Column(db.Integer,nullable=False)
     bank_account_number=db.Column(db.Integer,nullable=False)
     salary=db.Column(db.Float,nullable=False)
-
+    password=db.Column(db.String,nullable=False)
     def to_dict(self):
         return {
             "fyida_id":self.fyida_id,
@@ -67,7 +67,8 @@ class Employee(db.Model):
             "job_description":self.job_description,
             "tin_number":self.tin_number,
             "bank_account_number":self.bank_account_number,
-            "salary":self.salary
+            "salary":self.salary,
+            "password":self.password
         }
 
 class Item(db.Model):
@@ -101,43 +102,6 @@ class Item(db.Model):
             "created_at":self.created_at,
             "updated_at":self.updated_at,
             "unit":self.unit
-        }
-
-class TransactionType(db.Model):
-
-    __tablename__="TransactionType"
-    # type "add","remove","checkout","checkin"
-    transaction_type_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    type_name=db.Column(db.String,nullable=False,unique=True)
-
-    def to_dict(self):
-        return {
-            "transaction_type_id":self.transaction_type_id,
-            "type_name":self.type_name
-        }
-
-class ItemLog(db.Model):
-
-    __tablename__="ItemLog"
-
-    log_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
-    transaction_type_name=db.Column(db.String,db.ForeignKey("TransactionType.type_name"))
-    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
-    quantity_changed=db.Column(db.Integer,nullable=False)
-    item_price=db.Column(db.Float,nullable=False)
-    transaction_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
-    description=db.Column(db.String,nullable=False)
-
-    def to_dict(self):
-        return {
-            "log_id":self.log_id,
-            "item_id":self.item_id,
-            "transaction_type_name":self.transaction_type_name,
-            "employee_id":self.employee_id,
-            "quantity_changed":self.quantity_changed,
-            "description":self.description,
-            "item_price":self.item_price,
         }
 
 class Checkout(db.Model):

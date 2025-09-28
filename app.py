@@ -1,6 +1,6 @@
 from flask import Flask,url_for,render_template,redirect,request,session
 from datetime import datetime
-from database import db,EmergencyContact,Employee,Item,ItemLog,TransactionType,Checkout
+from database import db,EmergencyContact,Employee,Item,Checkout,CheckIn
 
 
 app=Flask(__name__)
@@ -57,7 +57,7 @@ def employee_registeration():
                         firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
                         gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
                         position=position,location=location,department=department,job_description=job_description,
-                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary
+                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,password=""
                         )
         
         db.session.add(employee)
@@ -93,41 +93,16 @@ def item_registeration():
         return "ok"
     return render_template("item_regsisteration.html")
 
-@app.route("/item_add",methods=["GET","POST"])
-def item_add():
-    if request.method=="POST":
-        item_id=request.form["item_id"]
-        item_price=request.form["item_price"]
-        quantity_changed=request.form["item_quantity"]
-        transaction_type_name="add"
-        transaction_date=datetime.today()
-        description=request.form["description"]
 
-        itemlog=ItemLog(
-            item_id=item_id,
-            item_price=item_price,
-            quantity_changed=quantity_changed,
-            transaction_type_name=transaction_type_name,
-            transaction_date=transaction_date,
-            description=description
-        )
-
-        # in item
-        # update item price with change only.
-        # item qunquantity with the pervious plus the add quantity
-        # update the description
-
-        return "ok"
-    return render_template("item_add.html")
 
 
 @app.route("/item_checkout",methods=["GET","POST"])
 def item_checkout():
-    pass
+    return render_template("checkout.html")
 
 @app.route("/item_checkin",methods=["GET","POST"])
 def item_checkin():
-    pass
+    return render_template("checkin.html")
 
 
 

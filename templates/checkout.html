@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>checkout</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/checkout.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/checkin.css')}}" />
 </head>
 <body>
    <nav>
@@ -12,6 +12,7 @@
         <a href="/employee_registeration">employee registeration</a>
         <a href="/item_checkin">checkin</a>
         <a href="/item_checkout">checkout</a>
+        <a href="/dashboard">dashboard</a>
     </nav>
     <form action="item_checkout" method="post">
         <p>Check Out Employee Id <input type="number" name="CheckOutEmployeeId" id=""></p>   

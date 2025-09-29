@@ -49,6 +49,7 @@ class Employee(db.Model):
     tin_number=db.Column(db.Integer,nullable=False)
     bank_account_number=db.Column(db.Integer,nullable=False)
     salary=db.Column(db.Float,nullable=False)
+    pension_balance=db.Column(db.Float)
     password=db.Column(db.String,nullable=False)
     def to_dict(self):
         return {
@@ -68,7 +69,8 @@ class Employee(db.Model):
             "tin_number":self.tin_number,
             "bank_account_number":self.bank_account_number,
             "salary":self.salary,
-            "password":self.password
+            "password":self.password,
+            "pension_balance":self.pension_balance
         }
 
 class Item(db.Model):

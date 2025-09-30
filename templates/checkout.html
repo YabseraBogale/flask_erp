@@ -8,13 +8,13 @@
 </head>
 <body>
    <nav>
-        <a href="/item_registeration">item registeration</a>
+        <a href="/item_regsisteration">item registeration</a>
         <a href="/employee_registeration">employee registeration</a>
         <a href="/item_checkin">checkin</a>
         <a href="/item_checkout">checkout</a>
         <a href="/dashboard">dashboard</a>
     </nav>
-    <form action="item_checkout" method="post">
+    <form action="/item_checkout" method="post">
         <p>Check Out Employee Id <input type="number" name="CheckOutEmployeeId" id=""></p>   
 	    <p> 
             Item Name
@@ -29,7 +29,15 @@
             <select name="department" id="">
                 <option value=""></option>
             </select>
-        </p>                 
+        </p> 
+
+        <p>
+            Location
+            <select name="location" id="">
+                <option value=""></option>
+            </select>
+        </p> 
+        
         <p>Item Description<textarea name="Notes" id=""></textarea></p>
         <input type="submit" value="enter">
         <input type="reset" value="reset">

@@ -1,9 +1,18 @@
 from flask import Flask,url_for,render_template,redirect,request,session
 from datetime import datetime
 from database import db,EmergencyContact,Employee,Item,Checkout,CheckIn
+from email.message import EmailMessage
+import smtplib
+import os
+import string
+import random
 
 
 app=Flask(__name__)
+
+company_email=os.getenv("company_email")
+company_email_password=os.getenv("company_email_password")
+
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 db.init_app(app)
@@ -52,12 +61,16 @@ def employee_registeration():
         tin_number=request.form["tin_number"]
         bank_account_number=request.form["bank_account_number"]
         salary=request.form["salary"]
+        characters = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(random.choice(characters) for i in range(15))
+        subject="Well Come to Comapny Name"
+        body=f"This sent by bot for Comapny Name password. Your password is {password}"
 
         employee=Employee(emergency_contact_fyida_id=emergency_contact_fyida_id,
                         firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
                         gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
                         position=position,location=location,department=department,job_description=job_description,
-                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,password=""
+                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,password=password
                         )
         
         db.session.add(employee)

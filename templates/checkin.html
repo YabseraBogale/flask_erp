@@ -15,11 +15,15 @@
     </nav>
     <form action="item_checkin" method="post">
         <p>Check In Employee Id <input type="number" name="CheckInEmployeeId" id=""></p>   
-	    <p>Check Item Id <input type="number" name="ItemId" id=""></p>   
+	    <p>
+            <select name="ItemName" id="">
+                
+            </select>
+        </p>  
         <p>Item Price <input type="number" name="ItemPrice" id="" min="0"></p>           
 	    <p>Item Grr <input type="number" name="ItemGrr" id="" min="0"></p>     
         <p>Item Quantity <input type="number" name="ItemQuantity" id="" min="0"></p>                    
-        <p>Note <textarea name="Notes" id=""></textarea>  </p>
+        <p>Item Description<textarea name="Notes" id=""></textarea>  </p>
         <input type="submit" value="enter">
         <input type="reset" value="reset">
     </form>

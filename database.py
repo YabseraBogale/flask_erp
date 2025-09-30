@@ -111,9 +111,10 @@ class Checkout(db.Model):
     __tablename__="Checkout"
 
     checkout_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     revice_employee_name=db.Column(db.String)
+    department=db.Column(db.String)
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     notes=db.Column(db.String)
 
@@ -124,7 +125,8 @@ class Checkout(db.Model):
             "employee_id":self.employee_id,
             "revice_employee_name":self.revice_employee_name,
             "checkout_date":self.checkout_date,
-            "notes":self.notes
+            "notes":self.notes,
+            "department":self.department
         }
 
 class CheckIn(db.Model):
@@ -132,7 +134,7 @@ class CheckIn(db.Model):
     __tablename__="CheckIn"
 
     checkin_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_id=db.Column(db.Integer,db.ForeignKey("Item.item_id"))
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     returning_employee_name=db.Column(db.String)
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
@@ -141,7 +143,7 @@ class CheckIn(db.Model):
     def to_dict(self):
         return {
             "checkin_id":self.checkin_id,
-            "item_id":self.item_id,
+            "item_name":self.item_name,
             "employee_id":self.employee_id,
             "returning_employee_name":self.returning_employee_name,
             "checkin_date":self.checkin_date,

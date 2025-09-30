@@ -16,10 +16,21 @@
     </nav>
     <form action="item_checkout" method="post">
         <p>Check Out Employee Id <input type="number" name="CheckOutEmployeeId" id=""></p>   
-	    <p>Item Id <input type="number" name="ItemId" id=""></p>
+	    <p> 
+            Item Name
+            <select name="ItemName" id="">
+                
+            </select>
+        </p>  
         <p>Item Siv <input type="number" name="ItemSiv" id="" min="0"></p>     
-        <p>Item Quantity <input type="number" name="ItemQuantity" id="" min="0"></p>                    
-        <p>Note <textarea name="Notes" id=""></textarea></p>
+        <p>Item Quantity <input type="number" name="ItemQuantity" id="" min="0"></p>   
+        <p>
+            Department
+            <select name="department" id="">
+                <option value=""></option>
+            </select>
+        </p>                 
+        <p>Item Description<textarea name="Notes" id=""></textarea></p>
         <input type="submit" value="enter">
         <input type="reset" value="reset">
     </form>

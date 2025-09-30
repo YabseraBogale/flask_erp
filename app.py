@@ -6,6 +6,7 @@ import smtplib
 import os
 import string
 import random
+import bcrypt
 
 
 app=Flask(__name__)
@@ -13,6 +14,7 @@ app=Flask(__name__)
 company_email=os.getenv("company_email")
 company_email_password=os.getenv("company_email_password")
 
+salt = bcrypt.gensalt()
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 db.init_app(app)
@@ -62,15 +64,34 @@ def employee_registeration():
         bank_account_number=request.form["bank_account_number"]
         salary=request.form["salary"]
         characters = string.ascii_letters + string.digits + string.punctuation
-        password = ''.join(random.choice(characters) for i in range(15))
+        password = (''.join(random.choice(characters) for i in range(15))).encode("utf-8")
+        
         subject="Well Come to Comapny Name"
         body=f"This sent by bot for Comapny Name password. Your password is {password}"
+        msg = EmailMessage()
+        msg['subject']=subject
+        msg['From']=company_email
+        msg['To'] = email
+        msg.set_content(body)
+
+        try:
+
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465
+                
+                smtp.login(company_email, company_email_password)
+                smtp.send_message(msg)
+                print("Email sent successfully!")
+
+        except Exception as e:
+                
+                print(f"Error sending email: {e}")
+
 
         employee=Employee(emergency_contact_fyida_id=emergency_contact_fyida_id,
                         firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
                         gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
                         position=position,location=location,department=department,job_description=job_description,
-                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,password=password
+                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,password=bcrypt.hashpw(password,salt)
                         )
         
         db.session.add(employee)

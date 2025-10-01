@@ -116,6 +116,7 @@ class Checkout(db.Model):
     revice_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     department=db.Column(db.String)
     location=db.Column(db.String)
+    unit=db.Column(db.String,nullable=False)
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     notes=db.Column(db.String)
 
@@ -128,7 +129,8 @@ class Checkout(db.Model):
             "checkout_date":self.checkout_date,
             "notes":self.notes,
             "department":self.department,
-            "location":self.location
+            "location":self.location,
+            "unit":self.unit
         }
 
 class CheckIn(db.Model):
@@ -138,6 +140,7 @@ class CheckIn(db.Model):
     checkin_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    unit=db.Column(db.String,nullable=False)
     returning_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     notes=db.Column(db.String)
@@ -149,5 +152,6 @@ class CheckIn(db.Model):
             "employee_id":self.employee_id,
             "returning_employee_id":self.returning_employee_id,
             "checkin_date":self.checkin_date,
+            "unit":self.unit,
             "notes":self.notes
         }

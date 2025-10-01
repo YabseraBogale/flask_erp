@@ -64,10 +64,24 @@ def employee_registeration():
         bank_account_number=request.form["bank_account_number"]
         salary=request.form["salary"]
         characters = string.ascii_letters + string.digits + string.punctuation
-        password = ''.join(random.choice(characters) for i in range(15))
+        password_to_send = ''.join(random.choice(characters) for i in range(15))
         
+        
+
+        password=(password_to_send).encode("utf-8")
+        employee=Employee(emergency_contact_fyida_id=emergency_contact_fyida_id,
+                        firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
+                        gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
+                        position=position,location=location,department=department,job_description=job_description,
+                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,password=bcrypt.hashpw(password,salt)
+                        )
+        
+        db.session.add(employee)
+        db.session.commit()
+
+        employee=db.session.query(Employee).filter(Employee.email==email).first()
         subject="Well Come to Comapny Name"
-        body=f"This sent by bot for Comapny Name password. Your password is {password}"
+        body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
         msg = EmailMessage()
         msg['subject']=subject
         msg['From']=company_email
@@ -85,17 +99,6 @@ def employee_registeration():
         except Exception as e:
                 
                 print(f"Error sending email: {e}")
-
-        password=(password).encode("utf-8")
-        employee=Employee(emergency_contact_fyida_id=emergency_contact_fyida_id,
-                        firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
-                        gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
-                        position=position,location=location,department=department,job_description=job_description,
-                        tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,password=bcrypt.hashpw(password,salt)
-                        )
-        
-        db.session.add(employee)
-        db.session.commit()
 
         return "ok"
     return render_template("employee_registeration.html")

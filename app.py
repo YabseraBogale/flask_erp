@@ -52,7 +52,7 @@ def employee_registeration():
         middlename=request.form["middlename"]
         gender=request.form["gender"]
         phonenumber="+251 "+request.form["phonenumber"]
-        email=request.form["phonenumber"]
+        email=request.form["email"]
         date_of_employement=request.form["date_of_employement"]
         date_of_employement = datetime.strptime(date_of_employement, "%Y-%m-%d").date()
         fyida_id=request.form["fyida_id"]

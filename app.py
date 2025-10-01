@@ -64,7 +64,7 @@ def employee_registeration():
         bank_account_number=request.form["bank_account_number"]
         salary=request.form["salary"]
         characters = string.ascii_letters + string.digits + string.punctuation
-        password = (''.join(random.choice(characters) for i in range(15))).encode("utf-8")
+        password = ''.join(random.choice(characters) for i in range(15))
         
         subject="Well Come to Comapny Name"
         body=f"This sent by bot for Comapny Name password. Your password is {password}"
@@ -86,7 +86,7 @@ def employee_registeration():
                 
                 print(f"Error sending email: {e}")
 
-
+        password=(password).encode("utf-8")
         employee=Employee(emergency_contact_fyida_id=emergency_contact_fyida_id,
                         firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
                         gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,

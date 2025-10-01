@@ -143,6 +143,11 @@ def item_checkin():
 
 @app.route("/login",methods=["GET","POST"])
 def login():
+    if request.method=="POST":
+        employee_id=request.form["employee_id"]
+        password=request.form["password"]
+        return redirect("/dashboard")
+
     return render_template("login.html")
 
 @app.route("/dashboard")

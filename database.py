@@ -40,7 +40,7 @@ class Employee(db.Model):
     gender=db.Column(db.String,nullable=False)
     phonenumber=db.Column(db.String,nullable=False)
     date_of_employement=db.Column(db.DateTime(timezone=True),nullable=False)
-    email=db.Column(db.String,nullable=False)
+    email=db.Column(db.String,nullable=False,unique=True)
     location=db.Column(db.String,nullable=False)
     fyida_id=db.Column(db.String,nullable=False)
     position=db.Column(db.String,nullable=False)

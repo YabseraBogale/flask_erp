@@ -138,7 +138,9 @@ def item_checkout():
 def item_checkin():
     return render_template("checkin.html")
 
-
+@app.route("/login",methods=["GET","POST"])
+def login():
+    return render_template("login.html")
 
 @app.route("/dashboard")
 def dashboard():

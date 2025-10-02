@@ -147,7 +147,8 @@ def login():
         employee_id=request.form["employee_id"]
         password=request.form["password"]
         emoplyee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
-        print(emoplyee.password)
+        #bcrypt.checkpw(password.encode("utf-8"),)
+        print(type(emoplyee.password))
         return "ok"
 
     return render_template("login.html")

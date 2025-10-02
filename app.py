@@ -147,9 +147,10 @@ def login():
         employee_id=request.form["employee_id"]
         password=request.form["password"]
         emoplyee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
-        #bcrypt.checkpw(password.encode("utf-8"),)
-        print(type(emoplyee.password))
-        return "ok"
+        is_vaild=bcrypt.checkpw(password.encode("utf-8"),emoplyee.password)
+        if is_vaild==True:
+            return redirect("/dashboard")
+        return redirect("/login")
 
     return render_template("login.html")
 

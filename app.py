@@ -146,7 +146,9 @@ def login():
     if request.method=="POST":
         employee_id=request.form["employee_id"]
         password=request.form["password"]
-        return redirect("/dashboard")
+        emoplyee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
+        print(emoplyee.password)
+        return "ok"
 
     return render_template("login.html")
 

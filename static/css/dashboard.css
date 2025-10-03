@@ -1,0 +1,20 @@
+*{
+    color:aliceblue;
+    background-color: #282C34;
+}
+
+
+.body{
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar{
+    border: 2px solid aliceblue;
+    border-radius: 2px;
+}
+
+.main{
+    border: 2px solid aliceblue;
+    border-radius: 2px;
+}

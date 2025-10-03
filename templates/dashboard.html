@@ -7,11 +7,18 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/dashboard.css')}}">
 </head>
 <body>
-    <nav>
-        <a href="">item registeration</a>
-        <a href="">employee registeration</a>
-        <a href="">item checkin</a>
-        <a href="">item checkout</a>
-    </nav>
+    <div class="body">
+        {% block sidebar %}
+        <div class="sidebar">
+
+        </div>
+        {% endblock %}
+
+        {% block main %}
+        <div class="main">
+
+        </div>
+        {% endblock %}
+    </div>
 </body>
 </html>

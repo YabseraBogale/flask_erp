@@ -10,13 +10,19 @@
     <div class="body">
         {% block sidebar %}
         <div class="sidebar">
-
+            <img src="{{url_for('static',filename='image/logo.png')}}" alt="">
+            <a href="/logout">logout</a>
+            <a href="/logout">logout</a>
+            <a href="/logout">logout</a>
+            <a href="/logout">logout</a>
         </div>
         {% endblock %}
 
         {% block main %}
         <div class="main">
-
+            <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Optio, delectus? Impedit sit deleniti ipsa incidunt harum officia magni, quaerat velit totam, provident id, non et? Saepe dolore facere tempora in.
+            </p>
         </div>
         {% endblock %}
     </div>

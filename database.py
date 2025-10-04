@@ -13,7 +13,7 @@ class EmergencyContact(db.Model):
     lastname=db.Column(db.String,nullable=False)
     gender=db.Column(db.String,nullable=False)
     phonenumber=db.Column(db.String,nullable=False)
-    email=db.Column(db.String,nullable=False)
+    email=db.Column(db.String,nullable=False,unique=True)
     location=db.Column(db.String,nullable=False)
     
     def to_dict(self):

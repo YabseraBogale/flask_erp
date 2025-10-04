@@ -1,18 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/checkin.css')}}" />
-    <title>checkin</title>
-</head>
-<body>
-    <nav>
-        <a href="/item_regsisteration">item registeration</a>
-        <a href="/employee_registeration">employee registeration</a>
-        <a href="/item_checkin">checkin</a>
-        <a href="/item_checkout">checkout</a>
-    </nav>
+
     <form action="/item_checkin" method="post">
         <p>Check In Employee Id <input type="number" name="CheckInEmployeeId" id=""></p>   
 	    <p>
@@ -50,5 +36,3 @@
         <input type="submit" value="enter">
         <input type="reset" value="reset">
     </form>
-</body>
-</html>

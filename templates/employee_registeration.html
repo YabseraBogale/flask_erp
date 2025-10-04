@@ -4,6 +4,253 @@
   <title>employee registeration</title>
 {% endblock %}
 
+{% block nav %}
+  <li>
+    <a href="/logout"><i class="fa fa-sign-out">logout</i></a>
+  </li>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <form action="/employee_registeration" method="POST">
+
+          <h5 class="card-title">New Employee Registeration</h5>
+            <div class="card-body">
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="firstname">Firstname</label>
+                <div class="col-sm-10">
+                  <input type="text" name="firstname" placeholder="Firstname" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="lastname">Lastname</label>
+                <div class="col-sm-10">
+                  <input type="text" name="lastname" placeholder="Lastname" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="middlename">Middlename</label>
+                <div class="col-sm-10">
+                  <input type="text" name="middlename" placeholder="Middlename" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 col-md-4">
+                <label for="gender" class="form-label">Gender</label>
+                  <select name="gender" class="form-select" required>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                  </select>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="phonenumber">Phonenumber</label>
+                <div class="col-sm-10">
+                  <input type="text" name="phonenumber" placeholder="phonenumber" class="form-control" required>
+                </div>
+              </div>
+
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="email">Email</label>
+                <div class="col-sm-10">
+                  <input type="email" name="email" placeholder="email" class="form-control" required>
+                </div>
+              </div>
+              
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="date_of_employement">Date of Employement</label>
+                <div class="col-sm-10">
+                  <input type="date" name="date_of_employement" placeholder="Date of Employement" class="form-control" required>
+                </div>
+              </div>
+              
+               <div class="mb-3 col-md-4">
+                <label for="Location" class="form-label">Location</label>
+                  <select name="location" class="form-select" required>
+                      <option value="Addis Ababa">Addis Ababa</option>
+                      <option value="Adama">Adama</option>
+                      <option value="Dire Dawa">Dire Dawa</option>
+                      <option value="Mekelle">Mekelle</option>
+                      <option value="Gondar">Gondar</option>
+                      <option value="Bahir Dar">Bahir Dar</option>
+                      <option value="Hawassa">Hawassa</option>
+                      <option value="Jimma">Jimma</option>
+                      <option value="Harar">Harar</option>
+                      <option value="Dessie">Dessie</option>
+                      <option value="Shashamane">Shashamane</option>
+                      <option value="Asella">Asella</option>
+                      <option value="Debre Markos">Debre Markos</option>
+                      <option value="Gambela">Gambela</option>
+                      <option value="Jijiga">Jijiga</option>
+                      <option value="Arba Minch">Arba Minch</option>
+                      <option value="Dilla">Dilla</option>
+                  </select>
+              </div>
+              
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="fyida id">fyida id</label>
+                <div class="col-sm-10">
+                  <input type="number" name="fyida_id" placeholder="fyida id" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="Salary">Salary</label>
+                <div class="col-sm-10">
+                  <input type="number" name="salary" placeholder="Salary" class="form-control" required>
+                </div>
+              </div>
+
+               <div class="mb-3 col-md-4">
+                <label for="Department" class="form-label">Department</label>
+                  <select name="department" class="form-select" required>
+                      <option value="Human Resources">Human Resources</option>
+                      <option value="Finance">Finance</option>
+                      <option value="Sales">Sales</option>
+                      <option value="Marketing">Marketing</option>
+                      <option value="Customer Service">Customer Service / Support</option>
+                      <option value="Operations">Operations</option>
+                      <option value="Procurement">Procurement / Purchasing</option>
+                      <option value="IT">IT / Information Technology</option>
+                      <option value="Research & Development">Research & Development</option>
+                      <option value="Administration">Administration</option>
+                      <option value="Logistics & Supply Chain">Logistics & Supply Chain</option>
+                      <option value="Manufacturing">Production / Manufacturing</option>
+                      <option value="Quality Assurance">Quality Assurance</option>
+                      <option value="Legal">Legal</option>
+                      <option value="Public Relations">Public Relations</option>
+                      <option value="Store">Store</option>
+                  </select>
+              </div>
+              
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="position">Position</label>
+                <div class="col-sm-10">
+                  <input type="text" name="position" placeholder="Salary" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="job_description">Job Description</label>
+                <div class="col-sm-10">
+                  <textarea name="job_description" placeholder="Job Description" class="form-control" required></textarea>
+                </div>
+              </div>
+              
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="Tin Number">Tin Number</label>
+                <div class="col-sm-10">
+                  <input type="number" name="tin_number" placeholder="Tin Number" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="Bank Account Number">Bank Account Number</label>
+                <div class="col-sm-10">
+                  <input type="number" name="bank_account_number" placeholder="Bank Account Number" class="form-control" required>
+                </div>
+              </div>
+
+              
+
+                                
+            </div> 
+
+            <h5 class="card-title">Emergency Contact</h5>
+
+            <div class="card-body">
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="emergency_contact_firstname">Firstname</label>
+                <div class="col-sm-10">
+                  <input type="text" name="emergency_contact_firstname" placeholder="Firstname" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="emergency_contact_lastname">Lastname</label>
+                <div class="col-sm-10">
+                  <input type="text" name="emergency_contact_lastname" placeholder="Lastname" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="emergency_contact_middlename">Middlename</label>
+                <div class="col-sm-10">
+                  <input type="text" name="emergency_contact_middlename" placeholder="Middlename" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="mb-3 col-md-4">
+                <label for="emergency_contact_gender" class="form-label">Gender</label>
+                  <select name="emergency_contact_gender" class="form-select" required>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                  </select>
+              </div>
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="emergency_contact_phonenumber">Phonenumber</label>
+                <div class="col-sm-10">
+                  <input type="text" name="emergency_contact_phonenumber" placeholder="phonenumber" class="form-control" required>
+                </div>
+              </div>
+
+
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="emergency_contact_email">Email</label>
+                <div class="col-sm-10">
+                  <input type="emergency_contact_email" name="email" placeholder="email" class="form-control" required>
+                </div>
+              </div>
+              
+               <div class="mb-3 col-md-4">
+                <label for="Location" class="form-label">Location</label>
+                  <select name="emergency_contact_location" class="form-select" required>
+                      <option value="Addis Ababa">Addis Ababa</option>
+                      <option value="Adama">Adama</option>
+                      <option value="Dire Dawa">Dire Dawa</option>
+                      <option value="Mekelle">Mekelle</option>
+                      <option value="Gondar">Gondar</option>
+                      <option value="Bahir Dar">Bahir Dar</option>
+                      <option value="Hawassa">Hawassa</option>
+                      <option value="Jimma">Jimma</option>
+                      <option value="Harar">Harar</option>
+                      <option value="Dessie">Dessie</option>
+                      <option value="Shashamane">Shashamane</option>
+                      <option value="Asella">Asella</option>
+                      <option value="Debre Markos">Debre Markos</option>
+                      <option value="Gambela">Gambela</option>
+                      <option value="Jijiga">Jijiga</option>
+                      <option value="Arba Minch">Arba Minch</option>
+                      <option value="Dilla">Dilla</option>
+                  </select>
+              </div>
+              
+              <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="emergency_contact_fyida id">fyida id</label>
+                <div class="col-sm-10">
+                  <input type="number" name="emergency_contact_fyida_id" placeholder="fyida id" class="form-control" required>
+                </div>
+              </div>
+                                
+            </div> 
+            <div class="mb-3 row">
+                <div class="col-sm-10 offset-sm-2">
+                    <input type="submit" class="btn btn-primary">
+                    <input type="reset" class="btn btn-primary">
+                </div>
+            </div>                                            
+      </form>
+  </div>
+      
+{% endblock %}
+
  <!-- <form action="/employee_registeration" method="POST">
       Firstname
 

@@ -50,7 +50,19 @@
             <!-- end of navbar navigation -->
             <div class="content">
                {% block content %}
-                
+                <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" name="email" placeholder="Email Address" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" name="password" placeholder="Password" class="form-control" required>
+            </div>
+          <div class="col-sm-4 offset-sm-2">
+              <button type="submit" class="btn btn-secondary mb-2"><i class="fas fa-times"></i> Cancel</button>
+              <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-save"></i> Save</button>
+          </div>
+        </div>       
                {% endblock %}
             </div>
         </div>
@@ -58,7 +70,7 @@
         </div>
     </div>
     <script src="{{url_for('static',filename='js/jquery.min.js')}}"></script>
-    <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{url_for('static',filename='js/dashboard.js')}}"></script>
 </body>
 

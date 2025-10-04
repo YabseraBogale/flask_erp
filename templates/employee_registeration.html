@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{{url_for('static',filename='css/employee_registeration.css')}}" />
-    <title>Employee Registeration</title>
-  </head>
-  <body>
-    <nav>
-        <a href="/item_regsisteration">item registeration</a>
-        <a href="/employee_registeration">employee registeration</a>
-        <a href="/item_checkin">checkin</a>
-        <a href="/item_checkout">checkout</a>
-    </nav>
-    <form action="/employee_registeration" method="POST">
+{% extends "base.html" %}
+
+{% block title %}
+  <title>employee registeration</title>
+{% endblock %}
+
+ <!-- <form action="/employee_registeration" method="POST">
       Firstname
 
       <input type="text" name="firstname" id="" placeholder="firstname" />
@@ -205,6 +196,4 @@
 
       <input type="submit" value="enter" />
       <input type="reset" value="reset" />
-    </form>
-  </body>
-</html>
+    </form> -->

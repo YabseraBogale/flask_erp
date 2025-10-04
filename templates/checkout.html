@@ -1,67 +1,138 @@
+{% extends "base.html" %}
 
-    <form action="/item_checkout" method="post">
-        <p>Check Out Employee Id <input type="number" name="CheckOutEmployeeId" id=""></p>   
-	    <p> 
-            Item Name
-            <select name="ItemName" id="">
-                
-            </select>
-        </p>  
-        <p>Item Siv <input type="number" name="ItemSiv" id="" min="0"></p>     
-        <p>Item Quantity <input type="number" name="ItemQuantity" id="" min="0"></p>   
-        <p>
-            Department
-            <select name="department" id="">
-                <option value=""></option>
-            </select>
-        </p> 
-        <p>
-            Unit Of Measurment
+{% block title %}
+  <title>Item Check Out</title>
+{% endblock %}
 
-            <select name="unit" id="">
-                <option value="Piece">Piece</option>
-                <option value="Dozen">Dozen</option>
-                <option value="Package">Package</option>
-                <option value="Gram">Gram</option>
-                <option value="Kilogram">Kilogram</option>
-                <option value="Ton">Ton</option>
-                <option value="Milliliter">Milliliter</option>
-                <option value="Liter">Liter</option>
-                <option value="Gallon">Gallon</option>
-                <option value="Barrel">Barrel</option>
-                <option value="Millimeter">Millimeter</option>
-                <option value="Centimeter">Centimeter</option>
-                <option value="Meter">Meter</option>
-                <option value="Roll">Roll</option>
-                <option value="Sheet">Sheet</option>
-                <option value="Bottle">Bottle</option>
-                <option value="Can">Can</option>
-            </select>
-        </p>           
-        <p>
-            Location
-            <select name="location" id="">
-                <option value="Addis Ababa">Addis Ababa</option>
-                <option value="Adama">Adama</option>
-                <option value="Dire Dawa">Dire Dawa</option>
-                <option value="Mekelle">Mekelle</option>
-                <option value="Gondar">Gondar</option>
-                <option value="Bahir Dar">Bahir Dar</option>
-                <option value="Hawassa">Hawassa</option>
-                <option value="Jimma">Jimma</option>
-                <option value="Harar">Harar</option>
-                <option value="Dessie">Dessie</option>
-                <option value="Shashamane">Shashamane</option>
-                <option value="Asella">Asella</option>
-                <option value="Debre Markos">Debre Markos</option>
-                <option value="Gambela">Gambela</option>
-                <option value="Jijiga">Jijiga</option>
-                <option value="Arba Minch">Arba Minch</option>
-                <option value="Dilla">Dilla</option>
-            </select>
-        </p> 
-        
-        <p>Item Description<textarea name="Notes" id=""></textarea></p>
-        <input type="submit" value="enter">
-        <input type="reset" value="reset">
-    </form>
+{% block nav %}
+  <li>
+    <a href="/logout"><i class="fa fa-sign-out">logout</i></a>
+  </li>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <form action="/item_checkout" method="post">
+            <h5 class="card-title">New Item Registeration</h5>
+
+            <div class="card-body">
+                <div class="mb-3 row">
+                        <label class="col-sm-2 form-label" for="Revicing Employee Id">Revicing Employee Id</label>
+                        <div class="col-sm-10">
+                            <input type="number" name="revice_employee_id" placeholder="Revicing Employee Id" class="form-control" required>
+                        </div>
+                </div>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="department" class="form-label">Department</label>
+                <select name="department" class="form-select" required>
+              
+                </select>
+            </div>
+
+            
+            
+            <div class="mb-3 col-md-4">
+                <label for="Item Name" class="form-label">Item Name</label>
+                <select name="item_name" class="form-select" required>
+              
+                </select>
+            </div>
+
+
+
+            <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="Checkout Date">Checkout Date</label>
+                <div class="col-sm-10">
+                  <input type="date" name="checkout_date" placeholder="Checkout Date" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3 row">
+                        <label class="col-sm-2 form-label" for="Item Quantity">Item Quantity</label>
+                        <div class="col-sm-10">
+                            <input type="number" name="item_quantity" placeholder="Item Quantity" class="form-control" required>
+                        </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3 row">
+                    <label class="col-sm-2 form-label" for="Item Siv">Item Siv</label>
+                    <div class="col-sm-10">
+                        <input type="number" name="item_siv" placeholder="Item Siv" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <div class="card-body">
+                <div class="mb-3 row">
+                    <label class="col-sm-2 form-label" for="Item Description">Item Description</label>
+                    <div class="col-sm-10">
+                        <textarea name="item_description" placeholder="Item Description" class="form-control" required></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="unit" class="form-label">Unit Of Measurment</label>
+                    <select name="unit" class="form-select" required>
+                        <option value="Piece">Piece</option>
+                        <option value="Dozen">Dozen</option>
+                        <option value="Package">Package</option>
+                        <option value="Gram">Gram</option>
+                        <option value="Kilogram">Kilogram</option>
+                        <option value="Ton">Ton</option>
+                        <option value="Milliliter">Milliliter</option>
+                        <option value="Liter">Liter</option>
+                        <option value="Gallon">Gallon</option>
+                        <option value="Barrel">Barrel</option>
+                        <option value="Millimeter">Millimeter</option>
+                        <option value="Centimeter">Centimeter</option>
+                        <option value="Meter">Meter</option>
+                        <option value="Roll">Roll</option>
+                        <option value="Sheet">Sheet</option>
+                        <option value="Bottle">Bottle</option>
+                        <option value="Can">Can</option>
+                    </select>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="Location" class="form-label">Item Location</label>
+                <select name="location" class="form-select" required>
+                    <option value="Addis Ababa">Addis Ababa</option>
+                    <option value="Adama">Adama</option>
+                    <option value="Dire Dawa">Dire Dawa</option>
+                    <option value="Mekelle">Mekelle</option>
+                    <option value="Gondar">Gondar</option>
+                    <option value="Bahir Dar">Bahir Dar</option>
+                    <option value="Hawassa">Hawassa</option>
+                    <option value="Jimma">Jimma</option>
+                    <option value="Harar">Harar</option>
+                    <option value="Dessie">Dessie</option>
+                    <option value="Shashamane">Shashamane</option>
+                    <option value="Asella">Asella</option>
+                    <option value="Debre Markos">Debre Markos</option>
+                    <option value="Gambela">Gambela</option>
+                    <option value="Jijiga">Jijiga</option>
+                    <option value="Arba Minch">Arba Minch</option>
+                    <option value="Dilla">Dilla</option>
+                </select>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-10 offset-sm-2">
+                    <input type="submit" class="btn btn-primary">
+                    <input type="reset" class="btn btn-primary">
+                </div>
+            </div>  
+        </form>
+    </div>
+    
+
+{% endblock %}

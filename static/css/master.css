@@ -5,8 +5,8 @@
 * Website: https://github.com/pro-dev-ph/bootstrap-simple-admin-template
 -------------------------------------------------------------------*/
 
-@import "../components/navbar/navbar-dropdowns.css";
-@import "../components/sidebar/sidebar-default.css";
+@import "./navbar-dropdowns.css";
+@import "./sidebar-default.css";
 
 /*------------------------------------------------------------------
 # [Color codes]

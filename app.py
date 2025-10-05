@@ -5,6 +5,7 @@ import random
 import bcrypt
 from flask import Flask,url_for,render_template,redirect,request,session
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError, OperationalError
 from database import db,EmergencyContact,Employee,Item,Checkout,CheckIn
 from email.message import EmailMessage
 from flask_limiter import Limiter
@@ -110,9 +111,8 @@ def employee_registeration():
                 smtp.send_message(msg)
                 print("Email sent successfully!")
 
-        except Exception as e:
-                
-                print(f"Error sending email: {e}")
+        except Exception as e:    
+            print(f"Error sending email: {e}")
 
         return "ok"
     return render_template("employee_registeration.html")
@@ -138,10 +138,12 @@ def item_registeration():
                   created_by_employee_id=1,item_description=item_description
                 )
         
-        db.session.add(item)
-        db.session.commit()
-
-        return redirect("/dashboard")
+        try:
+            db.session.add(item)
+            db.session.commit()
+            return redirect("/dashboard")
+        except IntegrityError as e:
+            return render_template("item_registeration.html",msg="Item is already regisitered")
     return render_template("item_registeration.html")
 
 
@@ -182,7 +184,7 @@ def logout():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    return render_template("hr_dashboard.html")
 
 if __name__=="__main__":
     app.run(debug=True)

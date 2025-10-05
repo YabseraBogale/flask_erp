@@ -1,22 +1,36 @@
-from flask import Flask,url_for,render_template,redirect,request,session
-from datetime import datetime
-from database import db,EmergencyContact,Employee,Item,Checkout,CheckIn
-from email.message import EmailMessage
 import smtplib
 import os
 import string
 import random
 import bcrypt
+from flask import Flask,url_for,render_template,redirect,request,session
+from datetime import datetime
+from database import db,EmergencyContact,Employee,Item,Checkout,CheckIn
+from email.message import EmailMessage
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 
 
 app=Flask(__name__)
 
+
 company_email=os.getenv("company_email")
 company_email_password=os.getenv("company_email_password")
+
+
 
 salt = bcrypt.gensalt()
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config['SECRET_KEY']=os.getenv("SECRET_KEY")
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    storage_uri="memory://sqlite:///database.db",
+)
+
 db.init_app(app)
 
 with app.app_context():
@@ -142,17 +156,29 @@ def item_checkin():
     return render_template("checkin.html")
 
 @app.route("/login",methods=["GET","POST"])
+@limiter.limiter("5/minute")
 def login():
     if request.method=="POST":
         employee_id=request.form["employee_id"]
         password=request.form["password"]
-        emoplyee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
-        is_vaild=bcrypt.checkpw(password.encode("utf-8"),emoplyee.password)
+        employee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
+        is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
         if is_vaild==True:
+            session["employee_id"]=employee.employee_id
+            session["logged_in"]=True
+            session["department"]=employee.department
             return redirect("/dashboard")
         return redirect("/login")
 
     return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    session.pop("employee_id",None)
+    session.pop("logged_in",None)
+    session.pop("department",None)
+    return redirect("/login")
 
 @app.route("/dashboard")
 def dashboard():

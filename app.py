@@ -156,7 +156,7 @@ def item_checkin():
     return render_template("checkin.html")
 
 @app.route("/login",methods=["GET","POST"])
-@limiter.limiter("5/minute")
+@limiter.limit("5 per minute")
 def login():
     if request.method=="POST":
         employee_id=request.form["employee_id"]

@@ -78,7 +78,7 @@ class Item(db.Model):
     __tablename__="Item"
 
     item_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_name=db.Column(db.String,nullable=False)
+    item_name=db.Column(db.String,nullable=False,unique=True)
     item_description=db.Column(db.String,nullable=False)
     item_price=db.Column(db.Float,nullable=False)
     item_quantity=db.Column(db.Integer,nullable=False)

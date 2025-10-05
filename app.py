@@ -141,7 +141,7 @@ def item_registeration():
         db.session.add(item)
         db.session.commit()
 
-        return "ok"
+        return redirect("/dashboard")
     return render_template("item_registeration.html")
 
 

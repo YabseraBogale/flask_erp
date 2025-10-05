@@ -58,9 +58,17 @@ def employee_registeration():
                                            fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
                                            email=emergency_contact_email
                                            )
+        try:
+            db.session.add(emergency_contact)
+            db.session.commit()
+        except IntegrityError as e:
+            if "emergency_contact_email" in str(e) and "fyida_id" in str(e):
+                return render_template("employee_registeration.html",emergency_email=True,emergency_id=True)
+            elif "emergency_contact_email" in str(e):
+                return render_template("employee_registeration.html",emergency_email=True)
+            elif "fyida_id" in str(e):
+                return render_template("employee_registeration.html",emergency_id=True)
         
-        db.session.add(emergency_contact)
-        db.session.commit()
 
         firstname=request.form["firstname"]
         lastname=request.form["lastname"]
@@ -116,6 +124,7 @@ def employee_registeration():
 
         return "ok"
     return render_template("employee_registeration.html")
+
 
 
     

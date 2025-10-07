@@ -6,7 +6,7 @@ import bcrypt
 from flask import Flask,url_for,render_template,redirect,request,session
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError, OperationalError
-from database import db,EmergencyContact,Employee,Item,Checkout,CheckIn
+from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -59,9 +59,12 @@ def employee_registeration():
                                            email=emergency_contact_email
                                            )
         try:
+
             db.session.add(emergency_contact)
             db.session.commit()
+
         except IntegrityError as e:
+            
             if "emergency_contact_email" in str(e) and "fyida_id" in str(e):
                 return render_template("employee_registeration.html",emergency_email=True,emergency_id=True)
             elif "emergency_contact_email" in str(e):
@@ -99,30 +102,35 @@ def employee_registeration():
                         tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,password=bcrypt.hashpw(password,salt)
                         )
         
-        db.session.add(employee)
-        db.session.commit()
-
-        employee=db.session.query(Employee).filter(Employee.email==email).first()
-        subject="Well Come to Comapny Name"
-        body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
-        msg = EmailMessage()
-        msg['subject']=subject
-        msg['From']=company_email
-        msg['To'] = email
-        msg.set_content(body)
-
         try:
+            db.session.add(employee)
+            db.session.commit()
 
-            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465
-                
-                smtp.login(company_email, company_email_password)
-                smtp.send_message(msg)
-                print("Email sent successfully!")
+            employee=db.session.query(Employee).filter(Employee.email==email).first()
+            subject="Well Come to Comapny Name"
+            body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
+            msg = EmailMessage()
+            msg['subject']=subject
+            msg['From']=company_email
+            msg['To'] = email
+            msg.set_content(body)
 
-        except Exception as e:    
-            print(f"Error sending email: {e}")
+            try:
 
-        return "ok"
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465
+                    
+                    smtp.login(company_email, company_email_password)
+                    smtp.send_message(msg)
+                    return render_template("employee_registeration.html")
+
+            except Exception as e:    
+                return render_template("employee_registeration.html")
+
+            return redirect("/dashboard")
+        
+        except IntegrityError as e:
+            return render_template("employee_registeration.html")
+        
     return render_template("employee_registeration.html")
 
 
@@ -141,13 +149,14 @@ def item_registeration():
         item_description=request.form["item_description"]
         item_name=request.form["item_name"]
         item_shelf_life=request.form["item_shelf_life"]
-
-        item=Item(item_name=item_name,item_price=item_price,
-                  item_quantity=item_quantity,unit=unit,category=item_category,
-                  location=location,subcategory=item_subcategory,
-                  created_by_employee_id=1,item_description=item_description,item_shelf_life=item_shelf_life
-                )
+        item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
+        item=Item(
+            item_name=item_name,item_price=item_price,
+            item_quantity=item_quantity,unit=unit,category=item_category,
+            location=location,subcategory=item_subcategory,
+            created_by_employee_id=1,item_description=item_description,item_shelf_life=item_shelf_life)
         
+
         try:
             db.session.add(item)
             db.session.commit()
@@ -161,11 +170,65 @@ def item_registeration():
 
 @app.route("/item_checkout",methods=["GET","POST"])
 def item_checkout():
+    if request.method=="POST":
+        item_name=request.form["item_name"]
+        return_employee_id=request.form["return_employee_id"]
+        checkout_date=request.form["checkout_date"]
+        item_price=request.form["item_price"]
+        item_quantity=request.form["item_quantity"]
+        item_siv=request.form["item_siv"]
+        department=request.form["department"]
+        location=request.form["location"]
+        item_description=request.form["item_description"]
+        unit=request.form["unit"]
+        checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
+        checkout_item=CheckOut(
+            item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
+            item_price=item_price,item_quantity=item_quantity,item_siv=item_siv,department=department,
+            location=location,item_description=item_description,unit=unit
+        )
+
+        try:
+            db.session.add(checkout_item)
+            db.session.commit()
+        
+        except IntegrityError as e:
+            return render_template("checkout.html")        
+
     return render_template("checkout.html")
+
+
 
 @app.route("/item_checkin",methods=["GET","POST"])
 def item_checkin():
+    if request.method=="POST":
+        item_name=request.form["item_name"]
+        reciving_employee_id=request.form["reciving_employee_id"]
+        checkin_date=request.form["checkin_date"]
+        checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d").date()
+        item_price=request.form["item_price"]
+        item_quantity=request.form["item_quantity"]
+        item_grr=request.form["item_grr"]
+        item_description=request.form["item_description"]
+        unit=request.form["unit"]
+
+        checkin_item=CheckIn(
+            item_name=item_name,reciving_employee_id=reciving_employee_id,
+            employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
+            item_grr=item_grr,item_description=item_description,unit=unit,checkin_date=checkin_date
+        )
+
+        try:
+            db.session.add(checkin_item)
+            db.session.commit()
+            return render_template("checkin.html")
+        
+        except IntegrityError as e:
+            return render_template("checkin.html")
+        
     return render_template("checkin.html")
+
+
 
 @app.route("/login",methods=["GET","POST"])
 @limiter.limit("5 per minute")

@@ -107,28 +107,31 @@ class Item(db.Model):
             "unit":self.unit
         }
 
-class Checkout(db.Model):
+class CheckOut(db.Model):
 
-    __tablename__="Checkout"
+    __tablename__="CheckOut"
 
     checkout_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
-    revice_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    return_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    item_quantity=db.Column(db.Integer,nullable=False)
+    item_siv=db.Column(db.Integer,nullable=False)
     department=db.Column(db.String)
     location=db.Column(db.String)
     unit=db.Column(db.String,nullable=False)
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
-    notes=db.Column(db.String)
+    item_description=db.Column(db.String)
 
     def to_dict(self):
         return {
             "checkout_id":self.checkout_id,
             "item_id":self.item_id,
             "employee_id":self.employee_id,
-            "revice_employee_id":self.revice_employee_id,
+            "return_employee_id":self.return_employee_id,
             "checkout_date":self.checkout_date,
-            "notes":self.notes,
+            "item_description":self.item_description,
+            "item_siv":self.item_siv,
             "department":self.department,
             "location":self.location,
             "unit":self.unit
@@ -142,17 +145,23 @@ class CheckIn(db.Model):
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"))
     employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     unit=db.Column(db.String,nullable=False)
-    returning_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    item_price=db.Column(db.Float,nullable=False)
+    item_quantity=db.Column(db.Integer,nullable=False)
+    item_grr=db.Column(db.Integer,nullable=False)
+    reciving_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
-    notes=db.Column(db.String)
+    item_description=db.Column(db.String)
 
     def to_dict(self):
         return {
             "checkin_id":self.checkin_id,
             "item_name":self.item_name,
             "employee_id":self.employee_id,
-            "returning_employee_id":self.returning_employee_id,
+            "reciving_employee_id":self.reciving_employee_id,
             "checkin_date":self.checkin_date,
             "unit":self.unit,
-            "notes":self.notes
+            "item_grr":self.item_grr,
+            "item_quantity":self.item_quantity,
+            "item_price":self.item_price,
+            "item_description":self.item_description
         }

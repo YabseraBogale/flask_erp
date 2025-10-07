@@ -140,11 +140,12 @@ def item_registeration():
         item_quantity=request.form["item_quantity"]
         item_description=request.form["item_description"]
         item_name=request.form["item_name"]
+        item_shelf_life=request.form["item_shelf_life"]
 
         item=Item(item_name=item_name,item_price=item_price,
                   item_quantity=item_quantity,unit=unit,category=item_category,
                   location=location,subcategory=item_subcategory,
-                  created_by_employee_id=1,item_description=item_description
+                  created_by_employee_id=1,item_description=item_description,item_shelf_life=item_shelf_life
                 )
         
         try:

@@ -86,6 +86,7 @@ class Item(db.Model):
     subcategory=db.Column(db.String,nullable=False)
     unit=db.Column(db.String,nullable=False)
     location=db.Column(db.String,nullable=False)
+    item_shelf_life=db.Column(db.DateTime(timezone=True))
     created_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
     created_by_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))

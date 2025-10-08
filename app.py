@@ -154,7 +154,7 @@ def item_registeration():
             item_name=item_name,item_price=item_price,
             item_quantity=item_quantity,unit=unit,category=item_category,
             location=location,subcategory=item_subcategory,
-            created_by_employee_id=1,item_description=item_description,item_shelf_life=item_shelf_life)
+            created_by_employee_id=session["employee_id"],item_description=item_description,item_shelf_life=item_shelf_life)
         
 
         try:
@@ -185,7 +185,7 @@ def item_checkout():
         checkout_item=CheckOut(
             item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
             item_price=item_price,item_quantity=item_quantity,item_siv=item_siv,department=department,
-            location=location,item_description=item_description,unit=unit
+            location=location,item_description=item_description,unit=unit,employee_id=session["employee_id"]
         )
 
         try:

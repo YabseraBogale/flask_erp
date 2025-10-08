@@ -167,7 +167,7 @@ class Item(db.Model):
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     category_name=db.Column(db.String,db.ForeignKey("Category.category"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
-    subcategory_name=db.Column(db.String,db.ForeignKey("Subcategory.category"),nullable=False)
+    subcategory_name=db.Column(db.String,db.ForeignKey("Subcategory.subcategory"),nullable=False)
     
     unit=db.relationship("Unit")
     location=db.relationship("Location")
@@ -198,13 +198,14 @@ class CheckOut(db.Model):
     __tablename__="CheckOut"
 
     checkout_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
-    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
-    return_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
+    
     item_quantity=db.Column(db.Integer,nullable=False)
     item_siv=db.Column(db.Integer,nullable=False)
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
+    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
+    return_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     department_name=db.Column(db.String,db.ForeignKey("Department.department"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)

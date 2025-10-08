@@ -87,6 +87,7 @@ def employee_registeration():
         job_description=request.form["job_description"]
         tin_number=request.form["tin_number"]
         bank_account_number=request.form["bank_account_number"]
+        currency=request.form["currency"]
         salary=request.form["salary"]
         characters = string.ascii_letters + string.digits + string.punctuation
         password_to_send = ''.join(random.choice(characters) for i in range(15))
@@ -97,7 +98,8 @@ def employee_registeration():
                 emergency_contact_fyida_id=emergency_contact_fyida_id,
                 firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
                 gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
-                position=position,location=location,department=department,job_description=job_description,
+                currency_name=currency,position=position,location_nama=location,
+                department_name=department,job_description=job_description,
                 tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
                 password=bcrypt.hashpw(password,salt))
         
@@ -137,20 +139,22 @@ def item_registeration():
         item_name=request.form["item_name"]
         item_price=request.form["item_price"]
         unit=request.form["unit"]
-        location=request.form["location"]
+        location_name=request.form["location"]
         item_category=request.form["item_category"]
         item_subcategory=request.form["item_subcategory"]
         item_quantity=request.form["item_quantity"]
         item_description=request.form["item_description"]
         item_name=request.form["item_name"]
         item_shelf_life=request.form["item_shelf_life"]
+        currency=request.form["currency"]
         item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
 
         try:
             item=Item(
                 item_name=item_name,item_price=item_price,
-                item_quantity=item_quantity,unit=unit,category=item_category,
-                location=location,subcategory=item_subcategory,
+                currency_name=currency,item_quantity=item_quantity,
+                unit_name=unit,category_name=item_category,
+                location_name=location_name,subcategory_name=item_subcategory,
                 created_by_employee_id=session["employee_id"],
                 item_description=item_description,
                 item_shelf_life=item_shelf_life)
@@ -168,19 +172,18 @@ def item_checkout():
         item_name=request.form["item_name"]
         return_employee_id=request.form["return_employee_id"]
         checkout_date=request.form["checkout_date"]
-        item_price=request.form["item_price"]
         item_quantity=request.form["item_quantity"]
         item_siv=request.form["item_siv"]
         department=request.form["department"]
-        location=request.form["location"]
+        location_name=request.form["location"]
         item_description=request.form["item_description"]
-        unit=request.form["unit"]
+        unit_name=request.form["unit"]
         checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
         try:
             checkout_item=CheckOut(
                 item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
-                item_price=item_price,item_quantity=item_quantity,item_siv=item_siv,department=department,
-                location=location,item_description=item_description,unit=unit,employee_id=session["employee_id"])
+                item_quantity=item_quantity,item_siv=item_siv,department=department,
+                location_name=location_name,item_description=item_description,unit_name=unit_name,employee_id=session["employee_id"])
             
             db.session.add(checkout_item)
             db.session.commit()

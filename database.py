@@ -33,7 +33,7 @@ class Employee(db.Model):
 
     __tablename__="Employee"
     employee_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    emergency_contact_fyida_id=db.Column(db.Integer,db.ForeignKey("EmergencyContact.fyida_id")) 
+    emergency_contact_fyida_id=db.Column(db.Integer,db.ForeignKey("EmergencyContact.fyida_id"),nullable=False) 
     firstname=db.Column(db.String,nullable=False)
     middlename=db.Column(db.String,nullable=False)
     lastname=db.Column(db.String,nullable=False)
@@ -51,6 +51,9 @@ class Employee(db.Model):
     salary=db.Column(db.Float,nullable=False)
     pension_balance=db.Column(db.Float)
     password=db.Column(db.String,nullable=False)
+
+    emergencycontact=db.relationship("EmergencyContact")
+
     def to_dict(self):
         return {
             "fyida_id":self.fyida_id,
@@ -89,8 +92,10 @@ class Item(db.Model):
     item_shelf_life=db.Column(db.DateTime(timezone=True))
     created_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
-    created_by_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    created_by_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
     
+    employee=db.relationship("Employee")
+
     def to_dict(self):
         return {
             "item_id":self.item_id,
@@ -112,9 +117,9 @@ class CheckOut(db.Model):
     __tablename__="CheckOut"
 
     checkout_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"))
-    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
-    return_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
+    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
+    return_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
     item_quantity=db.Column(db.Integer,nullable=False)
     item_siv=db.Column(db.Integer,nullable=False)
     department=db.Column(db.String)
@@ -123,10 +128,13 @@ class CheckOut(db.Model):
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
 
+    employee=db.relationship("Employee")
+    item=db.relationship("Item")
+
     def to_dict(self):
         return {
             "checkout_id":self.checkout_id,
-            "item_id":self.item_id,
+            "item_name":self.item_name,
             "employee_id":self.employee_id,
             "return_employee_id":self.return_employee_id,
             "checkout_date":self.checkout_date,
@@ -142,16 +150,18 @@ class CheckIn(db.Model):
     __tablename__="CheckIn"
 
     checkin_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
-    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"))
-    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
+    employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
     unit=db.Column(db.String,nullable=False)
     item_price=db.Column(db.Float,nullable=False)
     item_quantity=db.Column(db.Integer,nullable=False)
     item_grr=db.Column(db.Integer,nullable=False)
-    reciving_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"))
+    reciving_employee_id=db.Column(db.Integer,db.ForeignKey("Employee.employee_id"),nullable=False)
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
-
+    
+    employee=db.relationship("Employee")
+    item=db.relationship("Item")
     def to_dict(self):
         return {
             "checkin_id":self.checkin_id,

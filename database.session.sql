@@ -1,9 +1,9 @@
-Delete From Category;
-Delete From SubCategory;
-Delete From Department;
-Delete From Location;
-Delete From Currency;
-Delete From Unit;
+-- Delete From Category;
+-- Delete From SubCategory;
+-- Delete From Department;
+-- Delete From Location;
+-- Delete From Currency;
+-- Delete From Unit;
 
 
 INSERT INTO Category(category) 
@@ -47,25 +47,25 @@ INSERT INTO Unit(unit)
             ("Meter"),("Roll"),("Sheet"),("Bottle"),("Can");
 
 
-SELECT * FROM Category;
+-- SELECT * FROM Category;
 
-SELECT * FROM CheckIn;
+-- SELECT * FROM CheckIn;
 
-SELECT * FROM CheckOut;
+-- SELECT * FROM CheckOut;
 
-SELECT * FROM Currency;
+-- SELECT * FROM Currency;
 
-SELECT * FROM Department;
+-- SELECT * FROM Department;
 
-SELECT * FROM EmergencyContact;
+-- SELECT * FROM EmergencyContact;
 
-SELECT * FROM Employee;
+-- SELECT * FROM Employee;
 
-SELECT * FROM Item;
+-- SELECT * FROM Item;
 
-SELECT * FROM Location;
+-- SELECT * FROM Location;
 
-SELECT * FROM Unit;
+-- SELECT * FROM Unit;
 
-SELECT * FROM Subcategory;
+-- SELECT * FROM Subcategory;
 

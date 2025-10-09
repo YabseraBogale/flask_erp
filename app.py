@@ -5,6 +5,7 @@ import random
 import bcrypt
 from flask import Flask,url_for,render_template,redirect,request,session
 from datetime import datetime
+from sqlalchemy import event
 from sqlalchemy.exc import IntegrityError, OperationalError
 from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn
 from email.message import EmailMessage
@@ -25,6 +26,15 @@ salt = bcrypt.gensalt()
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config['SECRET_KEY']=os.getenv("SECRET_KEY")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False 
+
+# CRITICAL: Use SQLALCHEMY_ENGINE_OPTIONS to define a connection listener
+app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+    # Recommended for SQLite with Flask's multi-threaded server
+    "connect_args": {"check_same_thread": False}
+    
+}
+
 
 limiter = Limiter(
     get_remote_address,
@@ -35,9 +45,18 @@ limiter = Limiter(
 db.init_app(app)
 
 with app.app_context():
-    db.create_all()
-    
-    
+
+    @event.listens_for(db.engine, "connect")
+    def set_sqlite_pragma(dbapi_connection, connection_record):
+        if app.config["SQLALCHEMY_DATABASE_URI"].startswith("sqlite"):
+            # Execute the necessary SQL command to enable foreign key enforcement
+            cursor = dbapi_connection.cursor()
+            cursor.execute("PRAGMA foreign_keys=ON")
+            cursor.close()
+    try:    
+        db.create_all()
+    except OperationalError as e:
+        print("OperationalError:", e)
 
 @app.route("/employee_registeration",methods=["GET","POST"])
 def employee_registeration():

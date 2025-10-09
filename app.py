@@ -74,21 +74,17 @@ def employee_registeration():
             emergency_contact=EmergencyContact(
                 firstname=emergency_contact_firstname,
                 lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
-                phonenumber=emergency_contact_phonenumber,location=emergency_contact_location,
+                phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
                 fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
                 email=emergency_contact_email)
-            
+            print(emergency_contact.to_dict())
             db.session.add(emergency_contact)
             db.session.commit()
 
         except IntegrityError as e:
             
-            if "emergency_contact_email" in str(e) and "fyida_id" in str(e):
-                return render_template("employee_registeration.html",emergency_email=True,emergency_id=True)
-            elif "emergency_contact_email" in str(e):
-                return render_template("employee_registeration.html",emergency_email=True)
-            elif "fyida_id" in str(e):
-                return render_template("employee_registeration.html",emergency_id=True)
+            print(e)
+            return redirect("/employee_registeration")
         
 
         firstname=request.form["firstname"]
@@ -117,7 +113,7 @@ def employee_registeration():
                 emergency_contact_fyida_id=emergency_contact_fyida_id,
                 firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
                 gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
-                currency_name=currency,position=position,location_nama=location,
+                currency_name=currency,position=position,location_name=location,
                 department_name=department,job_description=job_description,
                 tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
                 password=bcrypt.hashpw(password,salt))

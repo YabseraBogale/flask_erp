@@ -1,5 +1,7 @@
+import uuid
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from sqlalchemy.dialects.postgresql import UUID
 
 db=SQLAlchemy()
 
@@ -81,7 +83,7 @@ class EmergencyContact(db.Model):
     email=db.Column(db.String,nullable=False,unique=True)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     
-    location=db.relationship("Location")
+    location=db.relationship("Location",foreign_keys=[location_name])
 
     def to_dict(self):
         return {
@@ -100,7 +102,7 @@ class Employee(db.Model):
 
     __tablename__="Employee"
 
-    employee_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    employee_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     firstname=db.Column(db.String,nullable=False)
     middlename=db.Column(db.String,nullable=False)
     lastname=db.Column(db.String,nullable=False)
@@ -121,10 +123,10 @@ class Employee(db.Model):
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
 
-    emergencycontact=db.relationship("EmergencyContact")
-    location=db.relationship("Location")
-    currency=db.relationship("Currency")
-    department=db.relationship("Department")
+    emergencycontact=db.relationship("EmergencyContact",foreign_keys=[emergency_contact_fyida_id])
+    location=db.relationship("Location",foreign_keys=[location_name])
+    currency=db.relationship("Currency",foreign_keys=[currency_name])
+    department=db.relationship("Department",foreign_keys=[department_name])
 
     def to_dict(self):
         return {
@@ -153,7 +155,7 @@ class Item(db.Model):
 
     __tablename__="Item"
 
-    item_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    item_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     item_name=db.Column(db.String,nullable=False,unique=True)
     item_description=db.Column(db.String,nullable=False)
     item_price=db.Column(db.Float,nullable=False)
@@ -169,12 +171,12 @@ class Item(db.Model):
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     subcategory_name=db.Column(db.String,db.ForeignKey("Subcategory.subcategory"),nullable=False)
     
-    unit=db.relationship("Unit")
-    location=db.relationship("Location")
-    currency=db.relationship("Currency")
-    employee=db.relationship("Employee")
-    category=db.relationship("Category")
-    subcategory=db.relationship("Subcategory")
+    unit=db.relationship("Unit",foreign_keys=[unit_name])
+    location=db.relationship("Location",foreign_keys=[location_name])
+    currency=db.relationship("Currency",foreign_keys=[currency_name])
+    employee=db.relationship("Employee",foreign_keys=[created_by_employee_id])
+    category=db.relationship("Category",foreign_keys=[category_name])
+    subcategory=db.relationship("Subcategory",foreign_keys=[subcategory_name])
 
     def to_dict(self):
         return {
@@ -197,7 +199,7 @@ class CheckOut(db.Model):
 
     __tablename__="CheckOut"
 
-    checkout_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    checkout_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     
     item_quantity=db.Column(db.Integer,nullable=False)
     item_siv=db.Column(db.Integer,nullable=False)
@@ -209,14 +211,14 @@ class CheckOut(db.Model):
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     department_name=db.Column(db.String,db.ForeignKey("Department.department"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
-    department_name=db.Column(db.String,db.ForeignKey("Department.department"),nullable=False)
     
 
-    department=db.relationship("Department")
-    location=db.relationship("Location")
-    employee=db.relationship("Employee")
-    item=db.relationship("Item")
-    unit=db.relationship("Unit")
+    department=db.relationship("Department",foreign_keys=[department_name])
+    location=db.relationship("Location",foreign_keys=[location_name])
+    employee=db.relationship("Employee",foreign_keys=[employee_id])
+    return_employee=db.relationship("Employee",foreign_keys=[return_employee_id])
+    item=db.relationship("Item",foreign_keys=[item_name])
+    unit=db.relationship("Unit",foreign_keys=[unit_name])
     
     def to_dict(self):
         return {
@@ -236,7 +238,7 @@ class CheckIn(db.Model):
 
     __tablename__="CheckIn"
 
-    checkin_id=db.Column(db.Integer,primary_key=True,autoincrement=True)
+    checkin_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_price=db.Column(db.Float,nullable=False)
     item_quantity=db.Column(db.Integer,nullable=False)
@@ -248,10 +250,11 @@ class CheckIn(db.Model):
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
     
-    currency=db.relationship("Currency")
-    employee=db.relationship("Employee")
-    item=db.relationship("Item")
-    unit=db.relationship("Unit")
+    currency=db.relationship("Currency",foreign_keys=[currency_name])
+    employee=db.relationship("Employee",foreign_keys=[employee_id])
+    reciving_employee=db.relationship("Employee",foreign_keys=[reciving_employee_id])
+    item=db.relationship("Item",foreign_keys=[item_name])
+    unit=db.relationship("Unit",foreign_keys=[unit_name])
 
     def to_dict(self):
         return {

@@ -3,7 +3,10 @@ import os
 import string
 import random
 import bcrypt
-from flask import Flask,url_for,render_template,redirect,request,session
+import uuid
+import logging
+from logging.handlers import RotatingFileHandler
+from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
 from sqlalchemy.exc import IntegrityError, OperationalError
@@ -35,6 +38,16 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     
 }
 
+handler = RotatingFileHandler("error.log", maxBytes=100000, backupCount=3)
+handler.setLevel(logging.ERROR)
+
+formatter = logging.Formatter(
+    "%(asctime)s [%(levelname)s] in %(module)s: %(message)s"
+)
+handler.setFormatter(formatter)
+
+# Attach the handler to Flask's logger
+app.logger.addHandler(handler)
 
 limiter = Limiter(
     get_remote_address,
@@ -53,10 +66,18 @@ with app.app_context():
             cursor = dbapi_connection.cursor()
             cursor.execute("PRAGMA foreign_keys=ON")
             cursor.close()
-    try:    
-        db.create_all()
-    except OperationalError as e:
-        print("OperationalError:", e)
+        
+    db.create_all()
+    
+@app.errorhandler(Exception)
+def handle_exception(e):
+    # Log the full traceback to file
+    app.logger.error(
+        f"Unhandled Exception: {type(e).__name__} - {e}",
+        exc_info=True
+    )
+    return jsonify({"error": "Internal Server Error"}), 500
+
 
 @app.route("/employee_registeration",methods=["GET","POST"])
 def employee_registeration():
@@ -70,22 +91,16 @@ def employee_registeration():
         emergency_contact_phonenumber="+251 "+request.form["emergency_contact_phonenumber"]
         emergency_contact_email=request.form["emergency_contact_email"]
         emergency_contact_location=request.form["emergency_contact_location"]
-        try:
-            emergency_contact=EmergencyContact(
-                firstname=emergency_contact_firstname,
-                lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
-                phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
-                fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
-                email=emergency_contact_email)
-            print(emergency_contact.to_dict())
-            db.session.add(emergency_contact)
-            db.session.commit()
-
-        except IntegrityError as e:
-            
-            print(e)
-            return redirect("/employee_registeration")
         
+        emergency_contact=EmergencyContact(
+            firstname=emergency_contact_firstname,
+            lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
+            phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
+            fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
+            email=emergency_contact_email)
+        db.session.add(emergency_contact)
+        db.session.commit()
+
 
         firstname=request.form["firstname"]
         lastname=request.form["lastname"]
@@ -108,44 +123,37 @@ def employee_registeration():
         password_to_send = ''.join(random.choice(characters) for i in range(15))
         
         password=(password_to_send).encode("utf-8")
-        try:
-            employee=Employee(
-                emergency_contact_fyida_id=emergency_contact_fyida_id,
-                firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
-                gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
-                currency_name=currency,position=position,location_name=location,
-                department_name=department,job_description=job_description,
-                tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
-                password=bcrypt.hashpw(password,salt))
+        employee=Employee(
+            emergency_contact_fyida_id=emergency_contact_fyida_id,
+            firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
+            gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
+            currency_name=currency,position=position,location_name=location,
+            department_name=department,job_description=job_description,
+            tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
+            password=bcrypt.hashpw(password,salt))
         
-            db.session.add(employee)
-            db.session.commit()
+        db.session.add(employee)
+        db.session.commit()
 
-            employee=db.session.query(Employee).filter(Employee.email==email).first()
-            subject="Well Come to Comapny Name"
-            body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
-            msg = EmailMessage()
-            msg['subject']=subject
-            msg['From']=company_email
-            msg['To'] = email
-            msg.set_content(body)
+        employee=db.session.query(Employee).filter(Employee.email==email).first()
+        subject="Well Come to Comapny Name"
+        body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
+        msg = EmailMessage()
+        msg['subject']=subject
+        msg['From']=company_email
+        msg['To'] = email
+        msg.set_content(body)
+        try:
 
-            try:
-
-                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465
-                    
-                    smtp.login(company_email, company_email_password)
-                    smtp.send_message(msg)
-                    return render_template("employee_registeration.html")
-
-            except Exception as e:    
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465    
+                smtp.login(company_email, company_email_password)
+                smtp.send_message(msg)
                 return render_template("employee_registeration.html")
 
-            return redirect("/dashboard")
-        
-        except IntegrityError as e:
+        except Exception as e:    
             return render_template("employee_registeration.html")
-        
+
+        return redirect("/dashboard")
     return render_template("employee_registeration.html")
     
 @app.route("/item_regsisteration",methods=["GET","POST"])
@@ -164,21 +172,18 @@ def item_registeration():
         currency=request.form["currency"]
         item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
 
-        try:
-            item=Item(
-                item_name=item_name,item_price=item_price,
-                currency_name=currency,item_quantity=item_quantity,
-                unit_name=unit,category_name=item_category,
-                location_name=location_name,subcategory_name=item_subcategory,
-                created_by_employee_id=session["employee_id"],
-                item_description=item_description,
-                item_shelf_life=item_shelf_life)
+        item=Item(
+            item_name=item_name,item_price=item_price,
+            currency_name=currency,item_quantity=item_quantity,
+            unit_name=unit,category_name=item_category,
+            location_name=location_name,subcategory_name=item_subcategory,
+            created_by_employee_id=session["employee_id"],
+            item_description=item_description,
+            item_shelf_life=item_shelf_life)
         
-            db.session.add(item)
-            db.session.commit()
-            return redirect("/dashboard")
-        except IntegrityError as e:
-            return render_template("item_registeration.html",msg="Item is already regisitered")
+        db.session.add(item)
+        db.session.commit()
+        return redirect("/dashboard")
     return render_template("item_registeration.html")
 
 @app.route("/item_checkout",methods=["GET","POST"])
@@ -194,18 +199,13 @@ def item_checkout():
         item_description=request.form["item_description"]
         unit_name=request.form["unit"]
         checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
-        try:
-            checkout_item=CheckOut(
-                item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
-                item_quantity=item_quantity,item_siv=item_siv,department=department,
-                location_name=location_name,item_description=item_description,unit_name=unit_name,employee_id=session["employee_id"])
-            
-            db.session.add(checkout_item)
-            db.session.commit()
+        checkout_item=CheckOut(
+            item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
+            item_quantity=item_quantity,item_siv=item_siv,department=department,
+            location_name=location_name,item_description=item_description,unit_name=unit_name,employee_id=session["employee_id"])
+        db.session.add(checkout_item)
+        db.session.commit()
         
-        except IntegrityError as e:
-            return render_template("checkout.html")        
-
     return render_template("checkout.html")
 
 
@@ -222,18 +222,15 @@ def item_checkin():
         item_grr=request.form["item_grr"]
         item_description=request.form["item_description"]
         unit=request.form["unit"]
-        try:
-            checkin_item=CheckIn(
+        checkin_item=CheckIn(
                 item_name=item_name,reciving_employee_id=reciving_employee_id,
                 employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
                 item_grr=item_grr,item_description=item_description,unit=unit,checkin_date=checkin_date)
 
-            db.session.add(checkin_item)
-            db.session.commit()
-            return render_template("checkin.html")
+        db.session.add(checkin_item)
+        db.session.commit()
+        return render_template("checkin.html")
         
-        except IntegrityError as e:
-            return render_template("checkin.html")
         
     return render_template("checkin.html")
 
@@ -245,17 +242,14 @@ def login():
     if request.method=="POST":
         employee_id=request.form["employee_id"]
         password=request.form["password"]
-        try:
-            employee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
-            is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
-            if is_vaild==True and employee.employment_status=="Active":
-                session["employee_id"]=employee.employee_id
-                session["logged_in"]=True
-                session["department"]=employee.department
-                return redirect("/dashboard")
-            return redirect("/login")
-        except Exception as e:
-            return redirect("/login")
+        employee=db.session.query(Employee).filter(Employee.employee_id==uuid.UUID(employee_id)).first()
+        is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
+        if is_vaild==True and employee.employment_status=="Active":
+            session["employee_id"]=employee.employee_id
+            session["logged_in"]=True
+            session["department"]=employee.department_name
+            return redirect("/dashboard")
+        return redirect("/login")
     return render_template("login.html")
 
 

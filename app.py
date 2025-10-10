@@ -247,7 +247,7 @@ def login():
         password=request.form["password"]
         employee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
         is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
-        if is_vaild==True:
+        if is_vaild==True and employee.employment_status=="Active":
             session["employee_id"]=employee.employee_id
             session["logged_in"]=True
             session["department"]=employee.department

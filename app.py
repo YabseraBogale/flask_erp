@@ -245,15 +245,17 @@ def login():
     if request.method=="POST":
         employee_id=request.form["employee_id"]
         password=request.form["password"]
-        employee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
-        is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
-        if is_vaild==True and employee.employment_status=="Active":
-            session["employee_id"]=employee.employee_id
-            session["logged_in"]=True
-            session["department"]=employee.department
-            return redirect("/dashboard")
-        return redirect("/login")
-
+        try:
+            employee=db.session.query(Employee).filter(Employee.employee_id==employee_id).first()
+            is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
+            if is_vaild==True and employee.employment_status=="Active":
+                session["employee_id"]=employee.employee_id
+                session["logged_in"]=True
+                session["department"]=employee.department
+                return redirect("/dashboard")
+            return redirect("/login")
+        except Exception as e:
+            return redirect("/login")
     return render_template("login.html")
 
 

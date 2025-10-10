@@ -1,6 +1,7 @@
 import uuid
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+from sqlalchemy import Enum
 from sqlalchemy.dialects.postgresql import UUID
 
 db=SQLAlchemy()
@@ -118,6 +119,12 @@ class Employee(db.Model):
     salary=db.Column(db.Float,nullable=False)
     pension_balance=db.Column(db.Float)
     password=db.Column(db.String,nullable=False)
+    employment_status = db.Column(Enum(
+                "Active", "Resigned", "Terminated",
+                "Deceased", "Retired", name="employment_status_enum"),
+                default="Active",nullable=False)
+    termination_reason = db.Column(db.String)
+    termination_date = db.Column(db.DateTime(timezone=True))
     emergency_contact_fyida_id=db.Column(db.String,db.ForeignKey("EmergencyContact.fyida_id"),nullable=False) 
     department_name=db.Column(db.String,db.ForeignKey("Department.department"),nullable=False)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
@@ -147,6 +154,9 @@ class Employee(db.Model):
             "bank_account_number":self.bank_account_number,
             "salary":self.salary,
             "password":self.password,
+            "employment_status":self.employment_status,
+            "termination_date":self.termination_date,
+            "termination_reason":self.termination_reason,
             "pension_balance":self.pension_balance,
             "currency_name":self.currency_name
         }

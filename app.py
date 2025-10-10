@@ -4,8 +4,6 @@ import string
 import random
 import bcrypt
 import uuid
-import logging
-from logging.handlers import RotatingFileHandler
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
@@ -38,16 +36,7 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     
 }
 
-handler = RotatingFileHandler("error.log", maxBytes=100000, backupCount=3)
-handler.setLevel(logging.ERROR)
 
-formatter = logging.Formatter(
-    "%(asctime)s [%(levelname)s] in %(module)s: %(message)s"
-)
-handler.setFormatter(formatter)
-
-# Attach the handler to Flask's logger
-app.logger.addHandler(handler)
 
 limiter = Limiter(
     get_remote_address,
@@ -69,14 +58,6 @@ with app.app_context():
         
     db.create_all()
     
-@app.errorhandler(Exception)
-def handle_exception(e):
-    # Log the full traceback to file
-    app.logger.error(
-        f"Unhandled Exception: {type(e).__name__} - {e}",
-        exc_info=True
-    )
-    return jsonify({"error": "Internal Server Error"}), 500
 
 
 @app.route("/employee_registeration",methods=["GET","POST"])
@@ -252,6 +233,11 @@ def login():
         return redirect("/login")
     return render_template("login.html")
 
+
+
+@app.route("/employee_termination",methods=["GET","POST"])
+def employee_termination():
+    return render_template("employee_termination.html")
 
 @app.route("/logout")
 def logout():

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Employee Termination</title>
+{% endblock %}
+
+{% block nav %}
+  <li>
+    <a href="/logout"><i class="fa fa-sign-out">logout</i></a>
+  </li>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <form action="/employee_termination" method="POST">
+        <h5 class="card-title">Employee Termination</h5>
+        <div class="card-body">
+            <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="firstname">Employee Id</label>
+                <div class="col-sm-10">
+                  <input type="text" name="employee_id" placeholder="Employee Id" class="form-control" required>
+                </div>
+              </div>
+            
+        </div>
+    </form>
+    </div>
+{% endblock %}

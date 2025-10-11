@@ -4,6 +4,7 @@ import string
 import random
 import bcrypt
 import uuid
+from sqlalchemy import update
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
@@ -243,22 +244,22 @@ def employee_termination():
         termination_reason=request.form["termination_reason"]
         employment_status=request.form["employment_status"]
         employee_id=request.form["employee_id"]
-
-        employee=Employee.query.get(employee_id)
-        
-        if employee:
-            employee.termination_reason=termination_reason
-            employee.employment_status=employment_status
-            employee.termination_date=termination_date
+        stmt=(
+            update(Employee)
+            .where(Employee.employee_id==uuid.UUID(employee_id))
+            .values(termination_date=termination_date,
+                    termination_reason=termination_reason,
+                    employment_status=employment_status)
+        )
+        db.session.execute(stmt)
+        db.session.commit()
             
 
     return render_template("employee_termination.html")
 
 @app.route("/logout")
 def logout():
-    session.pop("employee_id",None)
-    session.pop("logged_in",None)
-    session.pop("department",None)
+    session.clear()
     return redirect("/login")
 
 @app.route("/dashboard")

@@ -5,6 +5,7 @@ import random
 import bcrypt
 import uuid
 from sqlalchemy import update
+from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
@@ -46,6 +47,9 @@ limiter = Limiter(
 )
 
 db.init_app(app)
+login_manager=LoginManager(app)
+login_manager.login_view = "login"
+
 
 with app.app_context():
 
@@ -58,10 +62,25 @@ with app.app_context():
             cursor.close()
         
     db.create_all()
-    
 
+
+
+@login_manager.user_loader
+def load_user(employee_id):
+    return Employee.query.get(uuid.UUID(employee_id)) 
+
+
+@app.before_request
+def logout_if_not_active():
+    if current_user.is_authenticated:
+        employee=db.session.query(Employee).filter(current_user.employee_id).first()
+        if not employee or employee.employment_status!="Active":
+            logout_user()
+            session.clear()
+            return redirect(url_for('login'))
 
 @app.route("/employee_registeration",methods=["GET","POST"])
+@login_required
 def employee_registeration():
     
     if request.method=="POST":
@@ -139,6 +158,7 @@ def employee_registeration():
     return render_template("employee_registeration.html")
     
 @app.route("/item_regsisteration",methods=["GET","POST"])
+@login_required
 def item_registeration():
     if request.method=="POST":
         item_name=request.form["item_name"]
@@ -169,6 +189,7 @@ def item_registeration():
     return render_template("item_registeration.html")
 
 @app.route("/item_checkout",methods=["GET","POST"])
+@login_required
 def item_checkout():
     if request.method=="POST":
         item_name=request.form["item_name"]
@@ -193,6 +214,7 @@ def item_checkout():
 
 
 @app.route("/item_checkin",methods=["GET","POST"])
+@login_required
 def item_checkin():
     if request.method=="POST":
         item_name=request.form["item_name"]
@@ -227,6 +249,7 @@ def login():
         employee=db.session.query(Employee).filter(Employee.employee_id==uuid.UUID(employee_id)).first()
         is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
         if is_vaild==True and employee.employment_status=="Active":
+            login_user(employee)
             session["employee_id"]=employee.employee_id
             session["logged_in"]=True
             session["department"]=employee.department_name
@@ -237,6 +260,7 @@ def login():
 
 
 @app.route("/employee_termination",methods=["GET","POST"])
+@login_required
 def employee_termination():
     if request.method=="POST":
         termination_date=request.form["termination_date"]
@@ -259,6 +283,7 @@ def employee_termination():
 
 @app.route("/logout")
 def logout():
+    logout_user()
     session.clear()
     return redirect("/login")
 

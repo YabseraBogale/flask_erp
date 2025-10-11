@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy import Enum
 from sqlalchemy.dialects.postgresql import UUID
+from flask_login import UserMixin
+
 
 db=SQLAlchemy()
 
@@ -99,7 +101,7 @@ class EmergencyContact(db.Model):
         }
 
 
-class Employee(db.Model):
+class Employee(db.Model,UserMixin):
 
     __tablename__="Employee"
 

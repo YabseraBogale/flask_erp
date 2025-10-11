@@ -143,84 +143,119 @@ def employee_registeration():
 
         return redirect("/dashboard")
     return render_template("employee_registeration.html")
+
+@app.route("/employee_termination",methods=["GET","POST"])
+@login_required
+def employee_termination():
+    if session["department_name"]=="Human Resources":
+        if request.method=="POST":
+            termination_date=request.form["termination_date"]
+            termination_date=datetime.strptime(termination_date, "%Y-%m-%d").date()
+            termination_reason=request.form["termination_reason"]
+            employment_status=request.form["employment_status"]
+            employee_id=request.form["employee_id"]
+            stmt=(
+                update(Employee)
+                .where(Employee.employee_id==uuid.UUID(employee_id))
+                .values(termination_date=termination_date,
+                        termination_reason=termination_reason,
+                        employment_status=employment_status)
+            )
+            db.session.execute(stmt)
+            db.session.commit()        
+        return render_template("employee_termination.html")
+    else:
+        return render_template("404.html")
+
     
 @app.route("/item_regsisteration",methods=["GET","POST"])
 @login_required
 def item_registeration():
-    if request.method=="POST":
-        item_name=request.form["item_name"]
-        item_price=request.form["item_price"]
-        unit=request.form["unit"]
-        location_name=request.form["location"]
-        item_category=request.form["item_category"]
-        item_subcategory=request.form["item_subcategory"]
-        item_quantity=request.form["item_quantity"]
-        item_description=request.form["item_description"]
-        item_name=request.form["item_name"]
-        item_shelf_life=request.form["item_shelf_life"]
-        currency=request.form["currency"]
-        item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
+    if session["department_name"]=="Store":
+        if request.method=="POST":
+            item_name=request.form["item_name"]
+            item_price=request.form["item_price"]
+            unit=request.form["unit"]
+            location_name=request.form["location"]
+            item_category=request.form["item_category"]
+            item_subcategory=request.form["item_subcategory"]
+            item_quantity=request.form["item_quantity"]
+            item_description=request.form["item_description"]
+            item_name=request.form["item_name"]
+            item_shelf_life=request.form["item_shelf_life"]
+            currency=request.form["currency"]
+            item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
 
-        item=Item(
-            item_name=item_name,item_price=item_price,
-            currency_name=currency,item_quantity=item_quantity,
-            unit_name=unit,category_name=item_category,
-            location_name=location_name,subcategory_name=item_subcategory,
-            created_by_employee_id=session["employee_id"],
-            item_description=item_description,
-            item_shelf_life=item_shelf_life)
-        
-        db.session.add(item)
-        db.session.commit()
-        return redirect("/dashboard")
-    return render_template("item_registeration.html")
+            item=Item(
+                item_name=item_name,item_price=item_price,
+                currency_name=currency,item_quantity=item_quantity,
+                unit_name=unit,category_name=item_category,
+                location_name=location_name,subcategory_name=item_subcategory,
+                created_by_employee_id=session["employee_id"],
+                item_description=item_description,
+                item_shelf_life=item_shelf_life)
+            
+            db.session.add(item)
+            db.session.commit()
+            return redirect("/dashboard")
+        return render_template("item_registeration.html")
+    else:
+        return render_template("404.html")
 
 @app.route("/item_checkout",methods=["GET","POST"])
 @login_required
 def item_checkout():
-    if request.method=="POST":
-        item_name=request.form["item_name"]
-        return_employee_id=request.form["return_employee_id"]
-        checkout_date=request.form["checkout_date"]
-        item_quantity=request.form["item_quantity"]
-        item_siv=request.form["item_siv"]
-        department=request.form["department"]
-        location_name=request.form["location"]
-        item_description=request.form["item_description"]
-        unit_name=request.form["unit"]
-        checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
-        checkout_item=CheckOut(
-            item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
-            item_quantity=item_quantity,item_siv=item_siv,department=department,
-            location_name=location_name,item_description=item_description,unit_name=unit_name,employee_id=session["employee_id"])
-        db.session.add(checkout_item)
-        db.session.commit()
-        
-    return render_template("checkout.html")
+    if session["department_name"]=="Store":
+        if request.method=="POST":
+            item_name=request.form["item_name"]
+            return_employee_id=request.form["return_employee_id"]
+            checkout_date=request.form["checkout_date"]
+            item_quantity=request.form["item_quantity"]
+            item_siv=request.form["item_siv"]
+            department=request.form["department"]
+            location_name=request.form["location"]
+            item_description=request.form["item_description"]
+            unit_name=request.form["unit"]
+            checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
+            checkout_item=CheckOut(
+                item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
+                item_quantity=item_quantity,item_siv=item_siv,department=department,
+                location_name=location_name,item_description=item_description,unit_name=unit_name,employee_id=session["employee_id"])
+            db.session.add(checkout_item)
+            db.session.commit()
+            
+        return render_template("checkout.html")
+    else:
+        return render_template("404.html")
+
 
 @app.route("/item_checkin",methods=["GET","POST"])
 @login_required
 def item_checkin():
-    if request.method=="POST":
-        item_name=request.form["item_name"]
-        reciving_employee_id=request.form["reciving_employee_id"]
-        checkin_date=request.form["checkin_date"]
-        checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d").date()
-        item_price=request.form["item_price"]
-        item_quantity=request.form["item_quantity"]
-        item_grr=request.form["item_grr"]
-        item_description=request.form["item_description"]
-        unit=request.form["unit"]
-        checkin_item=CheckIn(
-                item_name=item_name,reciving_employee_id=reciving_employee_id,
-                employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
-                item_grr=item_grr,item_description=item_description,unit=unit,checkin_date=checkin_date)
+    if session["department_name"]=="Store":
+        if request.method=="POST":
+            item_name=request.form["item_name"]
+            reciving_employee_id=request.form["reciving_employee_id"]
+            checkin_date=request.form["checkin_date"]
+            checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d").date()
+            item_price=request.form["item_price"]
+            item_quantity=request.form["item_quantity"]
+            item_grr=request.form["item_grr"]
+            item_description=request.form["item_description"]
+            unit=request.form["unit"]
+            checkin_item=CheckIn(
+                    item_name=item_name,reciving_employee_id=reciving_employee_id,
+                    employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
+                    item_grr=item_grr,item_description=item_description,unit=unit,checkin_date=checkin_date)
 
-        db.session.add(checkin_item)
-        db.session.commit()
+            db.session.add(checkin_item)
+            db.session.commit()
+            return render_template("checkin.html")
+                    
         return render_template("checkin.html")
-                
-    return render_template("checkin.html")
+    else:
+        return render_template("404.html")
+
 
 @app.route("/login",methods=["GET","POST"])
 @limiter.limit("5 per minute")
@@ -234,31 +269,12 @@ def login():
             login_user(employee)
             session["employee_id"]=employee.employee_id
             session["logged_in"]=True
-            session["department"]=employee.department_name
+            session["department_name"]=employee.department_name
             return redirect("/dashboard")
         return redirect("/login")
     return render_template("login.html")
 
-@app.route("/employee_termination",methods=["GET","POST"])
-@login_required
-def employee_termination():
-    if request.method=="POST":
-        termination_date=request.form["termination_date"]
-        termination_date=datetime.strptime(termination_date, "%Y-%m-%d").date()
-        termination_reason=request.form["termination_reason"]
-        employment_status=request.form["employment_status"]
-        employee_id=request.form["employee_id"]
-        stmt=(
-            update(Employee)
-            .where(Employee.employee_id==uuid.UUID(employee_id))
-            .values(termination_date=termination_date,
-                    termination_reason=termination_reason,
-                    employment_status=employment_status)
-        )
-        db.session.execute(stmt)
-        db.session.commit()
-            
-    return render_template("employee_termination.html")
+
 
 @app.route("/logout")
 def logout():

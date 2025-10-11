@@ -237,6 +237,12 @@ def login():
 
 @app.route("/employee_termination",methods=["GET","POST"])
 def employee_termination():
+    if request.method=="POST":
+        termination_date=request.form["termination_date"]
+        termination_reason=request.form["termination_reason"]
+        employment_status=request.form["employment_status"]
+        employee_id=request.form["employee_id"]
+        
     return render_template("employee_termination.html")
 
 @app.route("/logout")

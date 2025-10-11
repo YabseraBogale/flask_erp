@@ -163,6 +163,10 @@ class Employee(db.Model,UserMixin):
             "currency_name":self.currency_name
         }
 
+    def get_id(self):
+        return str(self.employee_id)
+    
+    
 class Item(db.Model):
 
     __tablename__="Item"

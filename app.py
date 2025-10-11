@@ -73,7 +73,7 @@ def load_user(employee_id):
 @app.before_request
 def logout_if_not_active():
     if current_user.is_authenticated:
-        employee=db.session.query(Employee).filter(current_user.employee_id).first()
+        employee=Employee.query.get(current_user.employee_id)
         if not employee or employee.employment_status!="Active":
             logout_user()
             session.clear()

@@ -15,15 +15,10 @@ from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-
-
 app=Flask(__name__)
-
 
 company_email=os.getenv("company_email")
 company_email_password=os.getenv("company_email_password")
-
-
 
 salt = bcrypt.gensalt()
 
@@ -34,11 +29,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # CRITICAL: Use SQLALCHEMY_ENGINE_OPTIONS to define a connection listener
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     # Recommended for SQLite with Flask's multi-threaded server
-    "connect_args": {"check_same_thread": False}
-    
+    "connect_args": {"check_same_thread": False}    
 }
-
-
 
 limiter = Limiter(
     get_remote_address,
@@ -49,7 +41,6 @@ limiter = Limiter(
 db.init_app(app)
 login_manager=LoginManager(app)
 login_manager.login_view = "login"
-
 
 with app.app_context():
 
@@ -63,12 +54,9 @@ with app.app_context():
         
     db.create_all()
 
-
-
 @login_manager.user_loader
 def load_user(employee_id):
     return Employee.query.get(uuid.UUID(employee_id)) 
-
 
 @app.before_request
 def logout_if_not_active():
@@ -101,7 +89,6 @@ def employee_registeration():
             email=emergency_contact_email)
         db.session.add(emergency_contact)
         db.session.commit()
-
 
         firstname=request.form["firstname"]
         lastname=request.form["lastname"]
@@ -211,8 +198,6 @@ def item_checkout():
         
     return render_template("checkout.html")
 
-
-
 @app.route("/item_checkin",methods=["GET","POST"])
 @login_required
 def item_checkin():
@@ -234,11 +219,8 @@ def item_checkin():
         db.session.add(checkin_item)
         db.session.commit()
         return render_template("checkin.html")
-        
-        
+                
     return render_template("checkin.html")
-
-
 
 @app.route("/login",methods=["GET","POST"])
 @limiter.limit("5 per minute")
@@ -256,8 +238,6 @@ def login():
             return redirect("/dashboard")
         return redirect("/login")
     return render_template("login.html")
-
-
 
 @app.route("/employee_termination",methods=["GET","POST"])
 @login_required
@@ -278,7 +258,6 @@ def employee_termination():
         db.session.execute(stmt)
         db.session.commit()
             
-
     return render_template("employee_termination.html")
 
 @app.route("/logout")

@@ -239,10 +239,19 @@ def login():
 def employee_termination():
     if request.method=="POST":
         termination_date=request.form["termination_date"]
+        termination_date=datetime.strptime(termination_date, "%Y-%m-%d").date()
         termination_reason=request.form["termination_reason"]
         employment_status=request.form["employment_status"]
         employee_id=request.form["employee_id"]
+
+        employee=Employee.query.get(employee_id)
         
+        if employee:
+            employee.termination_reason=termination_reason
+            employee.employment_status=employment_status
+            employee.termination_date=termination_date
+            
+
     return render_template("employee_termination.html")
 
 @app.route("/logout")

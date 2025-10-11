@@ -260,7 +260,9 @@ def item_checkin():
 @app.route("/login",methods=["GET","POST"])
 @limiter.limit("5 per minute")
 def login():
-    if request.method=="POST":
+    if "logged_in" in session and session["logged_in"]==True:
+        return redirect("/dashboard")
+    elif request.method=="POST":
         employee_id=request.form["employee_id"]
         password=request.form["password"]
         employee=db.session.query(Employee).filter(Employee.employee_id==uuid.UUID(employee_id)).first()

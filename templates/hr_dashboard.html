@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Dashboard</title>
+{% endblock %}
+
+{% block nav %}
+
+    <li>
+    <a href="/logout"><i class="fa fa-sign-out">logout</i></a>
+  </li>
+
+  <li>
+    <a href="/employee_registeration"><i class="fa fa-sign-out">employee registeration</i></a>
+  </li>
+
+  <li>
+    <a href="/employee_termination"><i class="fa fa-sign-out">employee termination</i></a>
+  </li>
+
+{% endblock %}
+
+{% block content %}
+   <div class="container">
+        <div class="row">
+            <div class="col-md-12 page-header">
+                <div class="page-pretitle">Overview</div>
+                <h2 class="page-title">Dashboard</h2>
+        </div>
+        <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="content">
+                                            <div class="head">
+                                                <h5 class="mb-0">Traffic Overview</h5>
+                                                <p class="text-muted">Current year website visitor data</p>
+                                            </div>
+                                            <div class="canvas-wrapper">
+                                                <canvas class="chart" id="trafficflow"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="content">
+                                            <div class="head">
+                                                <h5 class="mb-0">Sales Overview</h5>
+                                                <p class="text-muted">Current year sales data</p>
+                                            </div>
+                                            <div class="canvas-wrapper">
+                                                <canvas class="chart" id="sales"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="head">
+                                        <h5 class="mb-0">Top Visitors by Country</h5>
+                                        <p class="text-muted">Current year website visitor data</p>
+                                    </div>
+                                    <div class="canvas-wrapper">
+                                        <table class="table table-striped">
+                                            <thead class="success">
+                                                <tr>
+                                                    <th>Country</th>
+                                                    <th class="text-end">Unique Visitors</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><i class="flag-icon flag-icon-us"></i> United States</td>
+                                                    <td class="text-end">27,340</td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="content">
+                                    <div class="head">
+                                        <h5 class="mb-0">Most Visited Pages</h5>
+                                        <p class="text-muted">Current year website visitor data</p>
+                                    </div>
+                                    <div class="canvas-wrapper">
+                                        <table class="table table-striped">
+                                            <thead class="success">
+                                                <tr>
+                                                    <th>Page Name</th>
+                                                    <th class="text-end">Visitors</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>/about.html <a href="#"><i class="fas fa-link blue"></i></a></td>
+                                                    <td class="text-end">8,340</td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    </div>
+    <script src="{{url_for('static',filename='js/chartsjs/Chart.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/hr_dashboard.js')}}"></script>
+ {% endblock %}

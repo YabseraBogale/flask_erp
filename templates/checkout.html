@@ -24,7 +24,9 @@
     <div class="container">
         <form action="/item_checkout" method="post">
             <h5 class="card-title">Item Checkout</h5>
-
+            {% if negative %}
+            <h4 class="card-title">Not Enough Item Quantity In Inventory</h4>
+            {% endif %}
             <div class="card-body">
                 <div class="mb-3 row">
                         <label class="col-sm-2 form-label" for="Returning Employee Id">Returning Employee Id</label>

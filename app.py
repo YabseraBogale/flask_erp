@@ -218,6 +218,11 @@ def item_checkout():
             checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
 
             item=db.session.query(Item).filter(Item.item_name==item_name).first()
+
+            if item.item_quantity-int(item_quantity)<=0:
+                return render_template("checkout.html",negative=True)
+
+
             checkout_item=CheckOut(
                 item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
                 item_quantity=item_quantity,item_siv=item_siv,department=department,

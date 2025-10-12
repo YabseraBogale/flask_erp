@@ -245,6 +245,16 @@ def item_checkin():
             item_grr=request.form["item_grr"]
             item_description=request.form["item_description"]
             unit=request.form["unit"]
+
+            stmt=(
+                update(Item.item_name==item_name)
+                .where(Item)
+                .values(item_quantity=Item.item_quantity+int(item_quantity))
+            )
+            
+            db.session.add(stmt)
+            db.session.commit()
+            
             checkin_item=CheckIn(
                     item_name=item_name,reciving_employee_id=reciving_employee_id,
                     employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
@@ -252,9 +262,9 @@ def item_checkin():
 
             db.session.add(checkin_item)
             db.session.commit()
-            return render_template("checkin.html",item_name_list=item_name_list)
+            return render_template("checkin.html")
                     
-        return render_template("checkin.html")
+        return render_template("checkin.html",item_name_list=item_name_list)
     else:
         return render_template("404.html")
 

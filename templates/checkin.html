@@ -28,7 +28,9 @@
         <div class="mb-3 col-md-4">
           <label for="Item Name" class="form-label">Item Name</label>
             <select name="item_name" class="form-select" required>
-              
+                {% for i in item_name_list %}
+                  <option value="{{i[0]}}">{{i[0]}}</option>
+                {% endfor %}
             </select>
         </div>
 

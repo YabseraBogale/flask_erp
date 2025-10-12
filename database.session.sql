@@ -38,13 +38,12 @@ INSERT INTO Currency(currency)
             ("HKD"),("ETH");
 
 
-
-
 INSERT INTO Unit(unit)
     Values ("Piece"),("Dozen"),("Package"),("Gram"),
             ("Kilogram"),("Ton"),("Milliliter"),("Liter"),
             ("Gallon"),("Barrel"),("Millimeter"),("Centimeter"),
             ("Meter"),("Roll"),("Sheet"),("Bottle"),("Can");
+
 
 
 -- SELECT * FROM Category;

@@ -68,7 +68,6 @@ def logout_if_not_active():
             return redirect(url_for('login'))
 
 @app.route("/employee_registeration",methods=["GET","POST"])
-@login_required
 def employee_registeration():
     
     if request.method=="POST":
@@ -185,13 +184,12 @@ def item_registeration():
             item_shelf_life=request.form["item_shelf_life"]
             currency=request.form["currency"]
             item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
-            print(session["employee_id"])
             item=Item(
                 item_name=item_name,item_price=item_price,
                 currency_name=currency,item_quantity=item_quantity,
                 unit_name=unit,category_name=item_category,
                 location_name=location_name,subcategory_name=item_subcategory,
-                created_by_employee_id=uuid.UUID(session["employee_id"]),
+                created_by_employee_id=session["employee_id"],
                 item_description=item_description,
                 item_shelf_life=item_shelf_life)
             
@@ -206,6 +204,7 @@ def item_registeration():
 @login_required
 def item_checkout():
     if session["department_name"]=="Store":
+        item_name_list=db.session.query(Item.item_name).all()
         if request.method=="POST":
             item_name=request.form["item_name"]
             return_employee_id=request.form["return_employee_id"]
@@ -219,9 +218,6 @@ def item_checkout():
             checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
 
             item=db.session.query(Item).filter(Item.item_name==item_name).first()
-
-            print(item)
-
             checkout_item=CheckOut(
                 item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
                 item_quantity=item_quantity,item_siv=item_siv,department=department,
@@ -229,7 +225,7 @@ def item_checkout():
             db.session.add(checkout_item)
             db.session.commit()
             
-        return render_template("checkout.html")
+        return render_template("checkout.html",item_name_list=item_name_list)
     else:
         return render_template("404.html")
 
@@ -238,6 +234,7 @@ def item_checkout():
 @login_required
 def item_checkin():
     if session["department_name"]=="Store":
+        item_name_list=db.session.query(Item.item_name).all()
         if request.method=="POST":
             item_name=request.form["item_name"]
             reciving_employee_id=request.form["reciving_employee_id"]
@@ -255,7 +252,7 @@ def item_checkin():
 
             db.session.add(checkin_item)
             db.session.commit()
-            return render_template("checkin.html")
+            return render_template("checkin.html",item_name_list=item_name_list)
                     
         return render_template("checkin.html")
     else:

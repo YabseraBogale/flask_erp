@@ -23,7 +23,7 @@
 
     <div class="container">
         <form action="/item_checkout" method="post">
-            <h5 class="card-title">New Item Registeration</h5>
+            <h5 class="card-title">Item Checkout</h5>
 
             <div class="card-body">
                 <div class="mb-3 row">
@@ -61,7 +61,9 @@
             <div class="mb-3 col-md-4">
                 <label for="Item Name" class="form-label">Item Name</label>
                 <select name="item_name" class="form-select" required>
-              
+                    {% for i in item_name_list %}
+                        <option value="{{i[0]}}">{{i[0]}}</option>
+                    {% endfor %}
                 </select>
             </div>
 

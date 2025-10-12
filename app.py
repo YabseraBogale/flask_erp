@@ -185,13 +185,13 @@ def item_registeration():
             item_shelf_life=request.form["item_shelf_life"]
             currency=request.form["currency"]
             item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
-
+            print(session["employee_id"])
             item=Item(
                 item_name=item_name,item_price=item_price,
                 currency_name=currency,item_quantity=item_quantity,
                 unit_name=unit,category_name=item_category,
                 location_name=location_name,subcategory_name=item_subcategory,
-                created_by_employee_id=session["employee_id"],
+                created_by_employee_id=uuid.UUID(session["employee_id"]),
                 item_description=item_description,
                 item_shelf_life=item_shelf_life)
             
@@ -217,6 +217,11 @@ def item_checkout():
             item_description=request.form["item_description"]
             unit_name=request.form["unit"]
             checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
+
+            item=db.session.query(Item).filter(Item.item_name==item_name).first()
+
+            print(item)
+
             checkout_item=CheckOut(
                 item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
                 item_quantity=item_quantity,item_siv=item_siv,department=department,

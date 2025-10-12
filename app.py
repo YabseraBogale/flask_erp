@@ -219,10 +219,19 @@ def item_checkout():
 
             item=db.session.query(Item).filter(Item.item_name==item_name).first()
 
-            if item.item_quantity-int(item_quantity)<=0:
+            if item.item_quantity-int(item_quantity)<0:
                 return render_template("checkout.html",negative=True)
 
+            stmt=(
+                update(
+                    Item
+                ).where(Item.item_name==item_name)
+                .values(item_quantity=Item.item_quantity-int(item_quantity))
+            )
 
+            db.session.add(stmt)
+            db.session.commit()
+            
             checkout_item=CheckOut(
                 item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
                 item_quantity=item_quantity,item_siv=item_siv,department=department,

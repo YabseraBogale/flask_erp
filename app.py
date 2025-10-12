@@ -225,17 +225,18 @@ def item_checkout():
             stmt=(
                 update(
                     Item
-                ).where(Item.item_name==item_name)
+                ).where(Item.item_name==uuid.UUID(item_name))
                 .values(item_quantity=Item.item_quantity-int(item_quantity))
             )
 
-            db.session.add(stmt)
+            db.session.execute(stmt)
             db.session.commit()
-            
+
             checkout_item=CheckOut(
-                item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
+                item_name=item_name,return_employee_id=uuid.UUID(return_employee_id),checkout_date=checkout_date,
                 item_quantity=item_quantity,item_siv=item_siv,department=department,
-                location_name=location_name,item_description=item_description,unit_name=unit_name,employee_id=session["employee_id"])
+                location_name=location_name,item_description=item_description,
+                unit_name=unit_name,employee_id=session["employee_id"])
             db.session.add(checkout_item)
             db.session.commit()
             
@@ -259,21 +260,24 @@ def item_checkin():
             item_grr=request.form["item_grr"]
             item_description=request.form["item_description"]
             unit=request.form["unit"]
+            currency=request.form["currency"]
 
             stmt=(
-                update(Item.item_name==item_name)
-                .where(Item)
+                update(Item)
+                .where(Item.item_name==item_name)
                 .values(item_quantity=Item.item_quantity+int(item_quantity))
             )
             
-            db.session.add(stmt)
+            db.session.execute(stmt)
             db.session.commit()
             
             checkin_item=CheckIn(
-                    item_name=item_name,reciving_employee_id=reciving_employee_id,
+                    item_name=item_name,reciving_employee_id=uuid.UUID(reciving_employee_id),
                     employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
-                    item_grr=item_grr,item_description=item_description,unit=unit,checkin_date=checkin_date)
+                    item_grr=item_grr,item_description=item_description,unit_name=unit,
+                    checkin_date=checkin_date,currency_name=currency)
 
+            print(checkin_item.to_dict())
             db.session.add(checkin_item)
             db.session.commit()
             return render_template("checkin.html")

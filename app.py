@@ -5,7 +5,6 @@ import random
 import bcrypt
 import uuid
 import logging
-from logging.handlers import RotatingFileHandler
 from sqlalchemy import update
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
@@ -15,6 +14,13 @@ from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+
+logging.basicConfig(
+    filename='application.log', 
+    level=logging.ERROR, 
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
 
 app=Flask(__name__)
 
@@ -32,31 +38,6 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     # Recommended for SQLite with Flask's multi-threaded server
     "connect_args": {"check_same_thread": False}    
 }
-
-if not app.debug:
-    # 1. Create a File Handler
-    # RotatingFileHandler is better for production, as it manages file size/rotation.
-    file_handler = RotatingFileHandler(
-        'application.log', 
-        maxBytes=1024 * 1024 * 10, # Max size of the log file (e.g., 10 MB)
-        backupCount=5 # Keep 5 backup log files
-    )
-    
-    # 2. Set the Log Level
-    # This ensures ERROR messages (and higher: CRITICAL) are recorded.
-    file_handler.setLevel(logging.ERROR)
-    
-    # 3. Define the Log Format (What information to include)
-    formatter = logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
-    )
-    file_handler.setFormatter(formatter)
-    
-    # 4. Add the handler to the Flask application logger
-    app.logger.addHandler(file_handler)
-    
-    # Set the overall logger level for the app to allow all error messages through
-    app.logger.setLevel(logging.INFO)
 
 limiter = Limiter(
     get_remote_address,
@@ -172,7 +153,7 @@ def employee_registeration():
     
         return render_template("employee_registeration.html")
     except Exception as e:
-        app.logger.error(str(e),request.url,exc_info=True)
+        logging.exception
         db.session.rollback()
         return render_template("404.html")
     

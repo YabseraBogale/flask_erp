@@ -11,7 +11,6 @@ from flask_login import LoginManager, login_user, login_required, current_user, 
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
-from sqlalchemy.exc import IntegrityError, OperationalError
 from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn
 from email.message import EmailMessage
 from flask_limiter import Limiter
@@ -388,4 +387,4 @@ def dashboard():
     
 
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run()

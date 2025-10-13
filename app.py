@@ -4,6 +4,8 @@ import string
 import random
 import bcrypt
 import uuid
+import logging
+from logging.handlers import RotatingFileHandler
 from sqlalchemy import update
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
@@ -31,6 +33,31 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     # Recommended for SQLite with Flask's multi-threaded server
     "connect_args": {"check_same_thread": False}    
 }
+
+if not app.debug:
+    # 1. Create a File Handler
+    # RotatingFileHandler is better for production, as it manages file size/rotation.
+    file_handler = RotatingFileHandler(
+        'application.log', 
+        maxBytes=1024 * 1024 * 10, # Max size of the log file (e.g., 10 MB)
+        backupCount=5 # Keep 5 backup log files
+    )
+    
+    # 2. Set the Log Level
+    # This ensures ERROR messages (and higher: CRITICAL) are recorded.
+    file_handler.setLevel(logging.ERROR)
+    
+    # 3. Define the Log Format (What information to include)
+    formatter = logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    )
+    file_handler.setFormatter(formatter)
+    
+    # 4. Add the handler to the Flask application logger
+    app.logger.addHandler(file_handler)
+    
+    # Set the overall logger level for the app to allow all error messages through
+    app.logger.setLevel(logging.INFO)
 
 limiter = Limiter(
     get_remote_address,
@@ -67,256 +94,298 @@ def logout_if_not_active():
             session.clear()
             return redirect(url_for('login'))
 
+
 @app.route("/employee_registeration",methods=["GET","POST"])
 def employee_registeration():
+    try:
+        if request.method=="POST":
+            emergency_contact_fyida_id=request.form["emergency_contact_fyida_id"]
+            emergency_contact_firstname=request.form["emergency_contact_firstname"]
+            emergency_contact_lastname=request.form["emergency_contact_lastname"]
+            emergency_contact_middlename=request.form["emergency_contact_middlename"]
+            emergency_contact_gender=request.form["emergency_contact_gender"]
+            emergency_contact_phonenumber="+251 "+request.form["emergency_contact_phonenumber"]
+            emergency_contact_email=request.form["emergency_contact_email"]
+            emergency_contact_location=request.form["emergency_contact_location"]
+            
+            emergency_contact=EmergencyContact(
+                firstname=emergency_contact_firstname,
+                lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
+                phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
+                fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
+                email=emergency_contact_email)
+            db.session.add(emergency_contact)
+            db.session.commit()
+
+            firstname=request.form["firstname"]
+            lastname=request.form["lastname"]
+            middlename=request.form["middlename"]
+            gender=request.form["gender"]
+            phonenumber="+251 "+request.form["phonenumber"]
+            email=request.form["email"]
+            date_of_employement=request.form["date_of_employement"]
+            date_of_employement = datetime.strptime(date_of_employement, "%Y-%m-%d").date()
+            fyida_id=request.form["fyida_id"]
+            position=request.form["position"]
+            location=request.form["location"]
+            department=request.form["department"]
+            job_description=request.form["job_description"]
+            tin_number=request.form["tin_number"]
+            bank_account_number=request.form["bank_account_number"]
+            currency=request.form["currency"]
+            salary=request.form["salary"]
+            characters = string.ascii_letters + string.digits + string.punctuation
+            password_to_send = ''.join(random.choice(characters) for i in range(15))
+            
+            password=(password_to_send).encode("utf-8")
+            employee=Employee(
+                emergency_contact_fyida_id=emergency_contact_fyida_id,
+                firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
+                gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
+                currency_name=currency,position=position,location_name=location,
+                department_name=department,job_description=job_description,
+                tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
+                password=bcrypt.hashpw(password,salt))
+            
+            db.session.add(employee)
+            db.session.commit()
+
+            employee=db.session.query(Employee).filter(Employee.email==email).first()
+            subject="Well Come to Comapny Name"
+            body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
+            msg = EmailMessage()
+            msg['subject']=subject
+            msg['From']=company_email
+            msg['To'] = email
+            msg.set_content(body)
+            try:
+
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465    
+                    smtp.login(company_email, company_email_password)
+                    smtp.send_message(msg)
+                    return render_template("employee_registeration.html")
+
+            except Exception as e:    
+                db.session.rollback()
+                return render_template("404.html")
+
+            return redirect("/dashboard")
     
-    if request.method=="POST":
-        emergency_contact_fyida_id=request.form["emergency_contact_fyida_id"]
-        emergency_contact_firstname=request.form["emergency_contact_firstname"]
-        emergency_contact_lastname=request.form["emergency_contact_lastname"]
-        emergency_contact_middlename=request.form["emergency_contact_middlename"]
-        emergency_contact_gender=request.form["emergency_contact_gender"]
-        emergency_contact_phonenumber="+251 "+request.form["emergency_contact_phonenumber"]
-        emergency_contact_email=request.form["emergency_contact_email"]
-        emergency_contact_location=request.form["emergency_contact_location"]
-        
-        emergency_contact=EmergencyContact(
-            firstname=emergency_contact_firstname,
-            lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
-            phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
-            fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
-            email=emergency_contact_email)
-        db.session.add(emergency_contact)
-        db.session.commit()
-
-        firstname=request.form["firstname"]
-        lastname=request.form["lastname"]
-        middlename=request.form["middlename"]
-        gender=request.form["gender"]
-        phonenumber="+251 "+request.form["phonenumber"]
-        email=request.form["email"]
-        date_of_employement=request.form["date_of_employement"]
-        date_of_employement = datetime.strptime(date_of_employement, "%Y-%m-%d").date()
-        fyida_id=request.form["fyida_id"]
-        position=request.form["position"]
-        location=request.form["location"]
-        department=request.form["department"]
-        job_description=request.form["job_description"]
-        tin_number=request.form["tin_number"]
-        bank_account_number=request.form["bank_account_number"]
-        currency=request.form["currency"]
-        salary=request.form["salary"]
-        characters = string.ascii_letters + string.digits + string.punctuation
-        password_to_send = ''.join(random.choice(characters) for i in range(15))
-        
-        password=(password_to_send).encode("utf-8")
-        employee=Employee(
-            emergency_contact_fyida_id=emergency_contact_fyida_id,
-            firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
-            gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
-            currency_name=currency,position=position,location_name=location,
-            department_name=department,job_description=job_description,
-            tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
-            password=bcrypt.hashpw(password,salt))
-        
-        db.session.add(employee)
-        db.session.commit()
-
-        employee=db.session.query(Employee).filter(Employee.email==email).first()
-        subject="Well Come to Comapny Name"
-        body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
-        msg = EmailMessage()
-        msg['subject']=subject
-        msg['From']=company_email
-        msg['To'] = email
-        msg.set_content(body)
-        try:
-
-            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465    
-                smtp.login(company_email, company_email_password)
-                smtp.send_message(msg)
-                return render_template("employee_registeration.html")
-
-        except Exception as e:    
-            return render_template("employee_registeration.html")
-
-        return redirect("/dashboard")
-    return render_template("employee_registeration.html")
-
+        return render_template("employee_registeration.html")
+    except Exception as e:
+        app.logger.error(str(e),request.url,exc_info=True)
+        db.session.rollback()
+        return render_template("404.html")
+    
 @app.route("/employee_termination",methods=["GET","POST"])
 @login_required
 def employee_termination():
-    if session["department_name"]=="Human Resources":
-        if request.method=="POST":
-            termination_date=request.form["termination_date"]
-            termination_date=datetime.strptime(termination_date, "%Y-%m-%d").date()
-            termination_reason=request.form["termination_reason"]
-            employment_status=request.form["employment_status"]
-            employee_id=request.form["employee_id"]
-            stmt=(
-                update(Employee)
-                .where(Employee.employee_id==uuid.UUID(employee_id))
-                .values(termination_date=termination_date,
-                        termination_reason=termination_reason,
-                        employment_status=employment_status)
-            )
-            db.session.execute(stmt)
-            db.session.commit()        
-        return render_template("employee_termination.html")
-    else:
+    try:
+        if session["department_name"]=="Human Resources":
+            if request.method=="POST":
+                termination_date=request.form["termination_date"]
+                termination_date=datetime.strptime(termination_date, "%Y-%m-%d").date()
+                termination_reason=request.form["termination_reason"]
+                employment_status=request.form["employment_status"]
+                employee_id=request.form["employee_id"]
+                stmt=(
+                    update(Employee)
+                    .where(Employee.employee_id==uuid.UUID(employee_id))
+                    .values(termination_date=termination_date,
+                            termination_reason=termination_reason,
+                            employment_status=employment_status)
+                )
+                db.session.execute(stmt)
+                db.session.commit()        
+            return render_template("employee_termination.html")
+        else:
+            return render_template("404.html")
+    except Exception as e:
+        app.logger.error(str(e),request.url,exc_info=True)
+        db.session.rollback()
         return render_template("404.html")
 
     
 @app.route("/item_regsisteration",methods=["GET","POST"])
 @login_required
 def item_registeration():
-    if session["department_name"]=="Store":
-        if request.method=="POST":
-            item_name=request.form["item_name"]
-            item_price=request.form["item_price"]
-            unit=request.form["unit"]
-            location_name=request.form["location"]
-            item_category=request.form["item_category"]
-            item_subcategory=request.form["item_subcategory"]
-            item_quantity=request.form["item_quantity"]
-            item_description=request.form["item_description"]
-            item_name=request.form["item_name"]
-            item_shelf_life=request.form["item_shelf_life"]
-            currency=request.form["currency"]
-            item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
-            item=Item(
-                item_name=item_name,item_price=item_price,
-                currency_name=currency,item_quantity=item_quantity,
-                unit_name=unit,category_name=item_category,
-                location_name=location_name,subcategory_name=item_subcategory,
-                created_by_employee_id=session["employee_id"],
-                item_description=item_description,
-                item_shelf_life=item_shelf_life)
-            
-            db.session.add(item)
-            db.session.commit()
-            return redirect("/dashboard")
-        return render_template("item_registeration.html")
-    else:
+    try:
+        if session["department_name"]=="Store":
+            if request.method=="POST":
+                item_name=request.form["item_name"]
+                item_price=request.form["item_price"]
+                unit=request.form["unit"]
+                location_name=request.form["location"]
+                item_category=request.form["item_category"]
+                item_subcategory=request.form["item_subcategory"]
+                item_quantity=request.form["item_quantity"]
+                item_description=request.form["item_description"]
+                item_name=request.form["item_name"]
+                item_shelf_life=request.form["item_shelf_life"]
+                currency=request.form["currency"]
+                item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
+                item=Item(
+                    item_name=item_name,item_price=item_price,
+                    currency_name=currency,item_quantity=item_quantity,
+                    unit_name=unit,category_name=item_category,
+                    location_name=location_name,subcategory_name=item_subcategory,
+                    created_by_employee_id=session["employee_id"],
+                    item_description=item_description,
+                    item_shelf_life=item_shelf_life)
+                
+                db.session.add(item)
+                db.session.commit()
+                return redirect("/dashboard")
+            return render_template("item_registeration.html")
+        else:
+            return render_template("404.html")
+    except Exception as e:
+        app.logger.error(str(e),request.url,exc_info=True)
+        db.session.rollback()
         return render_template("404.html")
+
 
 @app.route("/item_checkout",methods=["GET","POST"])
 @login_required
 def item_checkout():
-    if session["department_name"]=="Store":
-        item_name_list=db.session.query(Item.item_name).all()
-        if request.method=="POST":
-            item_name=request.form["item_name"]
-            return_employee_id=request.form["return_employee_id"]
-            checkout_date=request.form["checkout_date"]
-            item_quantity=request.form["item_quantity"]
-            item_siv=request.form["item_siv"]
-            department=request.form["department"]
-            location_name=request.form["location"]
-            item_description=request.form["item_description"]
-            unit_name=request.form["unit"]
-            checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
+    try:
+        if session["department_name"]=="Store":
+            item_name_list=db.session.query(Item.item_name).all()
+            if request.method=="POST":
+                item_name=request.form["item_name"]
+                return_employee_id=request.form["return_employee_id"]
+                checkout_date=request.form["checkout_date"]
+                item_quantity=request.form["item_quantity"]
+                item_siv=request.form["item_siv"]
+                department=request.form["department"]
+                location_name=request.form["location"]
+                item_description=request.form["item_description"]
+                unit_name=request.form["unit"]
+                checkout_date = datetime.strptime(checkout_date, "%Y-%m-%d").date()
 
-            item=db.session.query(Item).filter(Item.item_name==item_name).first()
+                item=db.session.query(Item).filter(Item.item_name==item_name).first()
 
-            if item.item_quantity-int(item_quantity)<0:
-                return render_template("checkout.html",negative=True)
+                if item.item_quantity-int(item_quantity)<0:
+                    return render_template("checkout.html",negative=True)
 
-            stmt=(
-                update(
-                    Item
-                ).where(Item.item_name==uuid.UUID(item_name))
-                .values(item_quantity=Item.item_quantity-int(item_quantity))
-            )
+                stmt=(
+                    update(
+                        Item
+                    ).where(Item.item_name==uuid.UUID(item_name))
+                    .values(item_quantity=Item.item_quantity-int(item_quantity))
+                )
 
-            db.session.execute(stmt)
-            db.session.commit()
+                db.session.execute(stmt)
+                db.session.commit()
 
-            checkout_item=CheckOut(
-                item_name=item_name,return_employee_id=uuid.UUID(return_employee_id),checkout_date=checkout_date,
-                item_quantity=item_quantity,item_siv=item_siv,department=department,
-                location_name=location_name,item_description=item_description,
-                unit_name=unit_name,employee_id=session["employee_id"])
-            db.session.add(checkout_item)
-            db.session.commit()
-            
-        return render_template("checkout.html",item_name_list=item_name_list)
-    else:
+                checkout_item=CheckOut(
+                    item_name=item_name,return_employee_id=uuid.UUID(return_employee_id),checkout_date=checkout_date,
+                    item_quantity=item_quantity,item_siv=item_siv,department=department,
+                    location_name=location_name,item_description=item_description,
+                    unit_name=unit_name,employee_id=session["employee_id"])
+                db.session.add(checkout_item)
+                db.session.commit()
+                
+            return render_template("checkout.html",item_name_list=item_name_list)
+        else:
+            return render_template("404.html")
+    except Exception as e:
+        app.logger.error(str(e),request.url,exc_info=True)
+        db.session.rollback()
         return render_template("404.html")
 
 
 @app.route("/item_checkin",methods=["GET","POST"])
 @login_required
 def item_checkin():
-    if session["department_name"]=="Store":
-        item_name_list=db.session.query(Item.item_name).all()
-        if request.method=="POST":
-            item_name=request.form["item_name"]
-            reciving_employee_id=request.form["reciving_employee_id"]
-            checkin_date=request.form["checkin_date"]
-            checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d").date()
-            item_price=request.form["item_price"]
-            item_quantity=request.form["item_quantity"]
-            item_grr=request.form["item_grr"]
-            item_description=request.form["item_description"]
-            unit=request.form["unit"]
-            currency=request.form["currency"]
+    try:
+        if session["department_name"]=="Store":
+            item_name_list=db.session.query(Item.item_name).all()
+            if request.method=="POST":
+                item_name=request.form["item_name"]
+                reciving_employee_id=request.form["reciving_employee_id"]
+                checkin_date=request.form["checkin_date"]
+                checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d").date()
+                item_price=request.form["item_price"]
+                item_quantity=request.form["item_quantity"]
+                item_grr=request.form["item_grr"]
+                item_description=request.form["item_description"]
+                unit=request.form["unit"]
+                currency=request.form["currency"]
 
-            stmt=(
-                update(Item)
-                .where(Item.item_name==item_name)
-                .values(item_quantity=Item.item_quantity+int(item_quantity))
-            )
-            
-            db.session.execute(stmt)
-            db.session.commit()
-            
-            checkin_item=CheckIn(
-                    item_name=item_name,reciving_employee_id=uuid.UUID(reciving_employee_id),
-                    employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
-                    item_grr=item_grr,item_description=item_description,unit_name=unit,
-                    checkin_date=checkin_date,currency_name=currency)
+                stmt=(
+                    update(Item)
+                    .where(Item.item_name==item_name)
+                    .values(item_quantity=Item.item_quantity+int(item_quantity))
+                )
+                
+                db.session.execute(stmt)
+                db.session.commit()
+                
+                checkin_item=CheckIn(
+                        item_name=item_name,reciving_employee_id=uuid.UUID(reciving_employee_id),
+                        employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
+                        item_grr=item_grr,item_description=item_description,unit_name=unit,
+                        checkin_date=checkin_date,currency_name=currency)
 
-            print(checkin_item.to_dict())
-            db.session.add(checkin_item)
-            db.session.commit()
-            return render_template("checkin.html")
-                    
-        return render_template("checkin.html",item_name_list=item_name_list)
-    else:
+                print(checkin_item.to_dict())
+                db.session.add(checkin_item)
+                db.session.commit()
+                return render_template("checkin.html")
+                        
+            return render_template("checkin.html",item_name_list=item_name_list)
+        else:
+            return render_template("404.html")
+    except Exception as e:
+        app.logger.error(str(e),request.url,exc_info=True)
+        db.session.rollback()
         return render_template("404.html")
 
 
 @app.route("/login",methods=["GET","POST"])
 @limiter.limit("5 per minute")
 def login():
-    if "logged_in" in session and session["logged_in"]==True:
-        return redirect("/dashboard")
-    elif request.method=="POST":
-        employee_id=request.form["employee_id"]
-        password=request.form["password"]
-        employee=db.session.query(Employee).filter(Employee.employee_id==uuid.UUID(employee_id)).first()
-        is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
-        if is_vaild==True and employee.employment_status=="Active":
-            login_user(employee)
-            session["employee_id"]=employee.employee_id
-            session["logged_in"]=True
-            session["department_name"]=employee.department_name
+    try:
+        if "logged_in" in session and session["logged_in"]==True:
             return redirect("/dashboard")
-        return redirect("/login")
-    return render_template("login.html")
-
+        elif request.method=="POST":
+            employee_id=request.form["employee_id"]
+            password=request.form["password"]
+            employee=db.session.query(Employee).filter(Employee.employee_id==uuid.UUID(employee_id)).first()
+            is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
+            if is_vaild==True and employee.employment_status=="Active":
+                login_user(employee)
+                session["employee_id"]=employee.employee_id
+                session["logged_in"]=True
+                session["department_name"]=employee.department_name
+                return redirect("/dashboard")
+            return redirect("/login")
+        return render_template("login.html")
+    except Exception as e:
+        app.logger.error(str(e),request.url,exc_info=True)
+        db.session.rollback()
+        return render_template("404.html")
 
 
 @app.route("/logout")
 def logout():
-    logout_user()
-    session.clear()
-    return redirect("/login")
+    try:
+        logout_user()
+        session.clear()
+        return redirect("/login")
+    except Exception as e:
+        app.logger.error(str(e),request.url,exc_info=True)
+        return render_template("404.html")
+
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("hr_dashboard.html")
+    try:
+        return render_template("hr_dashboard.html")
+    except Exception as e:
+        app.logger.error(str(e),request.url,exc_info=True)
+        return render_template("404.html")
+    
 
 if __name__=="__main__":
     app.run(debug=True)

@@ -153,7 +153,7 @@ def employee_registeration():
     
         return render_template("employee_registeration.html")
     except Exception as e:
-        logging.exception
+        logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
     
@@ -181,7 +181,7 @@ def employee_termination():
         else:
             return render_template("404.html")
     except Exception as e:
-        app.logger.error(str(e),request.url,exc_info=True)
+        logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
 
@@ -220,7 +220,7 @@ def item_registeration():
         else:
             return render_template("404.html")
     except Exception as e:
-        app.logger.error(str(e),request.url,exc_info=True)
+        logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
 
@@ -270,7 +270,7 @@ def item_checkout():
         else:
             return render_template("404.html")
     except Exception as e:
-        app.logger.error(str(e),request.url,exc_info=True)
+        logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
 
@@ -317,7 +317,7 @@ def item_checkin():
         else:
             return render_template("404.html")
     except Exception as e:
-        app.logger.error(str(e),request.url,exc_info=True)
+        logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
 
@@ -342,7 +342,7 @@ def login():
             return redirect("/login")
         return render_template("login.html")
     except Exception as e:
-        app.logger.error(str(e),request.url,exc_info=True)
+        logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
 
@@ -354,7 +354,7 @@ def logout():
         session.clear()
         return redirect("/login")
     except Exception as e:
-        app.logger.error(str(e),request.url,exc_info=True)
+        logging.exception(str(e))
         return render_template("404.html")
 
 
@@ -363,7 +363,7 @@ def dashboard():
     try:
         return render_template("hr_dashboard.html")
     except Exception as e:
-        app.logger.error(str(e),request.url,exc_info=True)
+        logging.exception(str(e))
         return render_template("404.html")
     
 

@@ -251,7 +251,7 @@ def item_checkout():
                 stmt=(
                     update(
                         Item
-                    ).where(Item.item_name==uuid.UUID(item_name))
+                    ).where(Item.item_name==item_name)
                     .values(item_quantity=Item.item_quantity-int(item_quantity))
                 )
 

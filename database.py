@@ -299,7 +299,7 @@ class Customer(db.Model):
     customer_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     customer_tin=db.Column(db.Integer,nullable=False)
     employee_regsistered_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
-
+    customer_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     location=db.relationship("Location",foreign_keys=[customer_location])
     employee=db.relationship("Employee",foreign_keys=[employee_regsistered_id])
 

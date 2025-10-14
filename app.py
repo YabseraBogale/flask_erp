@@ -78,80 +78,81 @@ def logout_if_not_active():
 @app.route("/employee_registeration",methods=["GET","POST"])
 def employee_registeration():
     try:
-        if request.method=="POST":
-            emergency_contact_fyida_id=request.form["emergency_contact_fyida_id"]
-            emergency_contact_firstname=request.form["emergency_contact_firstname"]
-            emergency_contact_lastname=request.form["emergency_contact_lastname"]
-            emergency_contact_middlename=request.form["emergency_contact_middlename"]
-            emergency_contact_gender=request.form["emergency_contact_gender"]
-            emergency_contact_phonenumber="+251 "+request.form["emergency_contact_phonenumber"]
-            emergency_contact_email=request.form["emergency_contact_email"]
-            emergency_contact_location=request.form["emergency_contact_location"]
-            
-            emergency_contact=EmergencyContact(
-                firstname=emergency_contact_firstname,
-                lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
-                phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
-                fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
-                email=emergency_contact_email)
-            db.session.add(emergency_contact)
-            db.session.commit()
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            if request.method=="POST":
+                emergency_contact_fyida_id=request.form["emergency_contact_fyida_id"]
+                emergency_contact_firstname=request.form["emergency_contact_firstname"]
+                emergency_contact_lastname=request.form["emergency_contact_lastname"]
+                emergency_contact_middlename=request.form["emergency_contact_middlename"]
+                emergency_contact_gender=request.form["emergency_contact_gender"]
+                emergency_contact_phonenumber="+251 "+request.form["emergency_contact_phonenumber"]
+                emergency_contact_email=request.form["emergency_contact_email"]
+                emergency_contact_location=request.form["emergency_contact_location"]
+                
+                emergency_contact=EmergencyContact(
+                    firstname=emergency_contact_firstname,
+                    lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
+                    phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
+                    fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
+                    email=emergency_contact_email)
+                db.session.add(emergency_contact)
+                db.session.commit()
 
-            firstname=request.form["firstname"]
-            lastname=request.form["lastname"]
-            middlename=request.form["middlename"]
-            gender=request.form["gender"]
-            phonenumber="+251 "+request.form["phonenumber"]
-            email=request.form["email"]
-            date_of_employement=request.form["date_of_employement"]
-            date_of_employement = datetime.strptime(date_of_employement, "%Y-%m-%d").date()
-            fyida_id=request.form["fyida_id"]
-            position=request.form["position"]
-            location=request.form["location"]
-            department=request.form["department"]
-            job_description=request.form["job_description"]
-            tin_number=request.form["tin_number"]
-            bank_account_number=request.form["bank_account_number"]
-            currency=request.form["currency"]
-            salary=request.form["salary"]
-            characters = string.ascii_letters + string.digits + string.punctuation
-            password_to_send = ''.join(random.choice(characters) for i in range(15))
-            
-            password=(password_to_send).encode("utf-8")
-            employee=Employee(
-                emergency_contact_fyida_id=emergency_contact_fyida_id,
-                firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
-                gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
-                currency_name=currency,position=position,location_name=location,
-                department_name=department,job_description=job_description,
-                tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
-                password=bcrypt.hashpw(password,salt))
-            
-            db.session.add(employee)
-            db.session.commit()
+                firstname=request.form["firstname"]
+                lastname=request.form["lastname"]
+                middlename=request.form["middlename"]
+                gender=request.form["gender"]
+                phonenumber="+251 "+request.form["phonenumber"]
+                email=request.form["email"]
+                date_of_employement=request.form["date_of_employement"]
+                date_of_employement = datetime.strptime(date_of_employement, "%Y-%m-%d").date()
+                fyida_id=request.form["fyida_id"]
+                position=request.form["position"]
+                location=request.form["location"]
+                department=request.form["department"]
+                job_description=request.form["job_description"]
+                tin_number=request.form["tin_number"]
+                bank_account_number=request.form["bank_account_number"]
+                currency=request.form["currency"]
+                salary=request.form["salary"]
+                characters = string.ascii_letters + string.digits + string.punctuation
+                password_to_send = ''.join(random.choice(characters) for i in range(15))
+                
+                password=(password_to_send).encode("utf-8")
+                employee=Employee(
+                    emergency_contact_fyida_id=emergency_contact_fyida_id,
+                    firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
+                    gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
+                    currency_name=currency,position=position,location_name=location,
+                    department_name=department,job_description=job_description,
+                    tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
+                    password=bcrypt.hashpw(password,salt))
+                
+                db.session.add(employee)
+                db.session.commit()
 
-            employee=db.session.query(Employee).filter(Employee.email==email).first()
-            subject="Well Come to Comapny Name"
-            body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
-            msg = EmailMessage()
-            msg['subject']=subject
-            msg['From']=company_email
-            msg['To'] = email
-            msg.set_content(body)
-            try:
+                employee=db.session.query(Employee).filter(Employee.email==email).first()
+                subject="Well Come to Comapny Name"
+                body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
+                msg = EmailMessage()
+                msg['subject']=subject
+                msg['From']=company_email
+                msg['To'] = email
+                msg.set_content(body)
+                try:
 
-                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465    
-                    smtp.login(company_email, company_email_password)
-                    smtp.send_message(msg)
-                    return render_template("employee_registeration.html")
+                    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465    
+                        smtp.login(company_email, company_email_password)
+                        smtp.send_message(msg)
+                        return render_template("employee_registeration.html")
 
-            except Exception as e:    
-                db.session.rollback()
-                return render_template("404.html")
-
-            return redirect("/dashboard")
+                except Exception as e:    
+                    db.session.rollback()
+                    return render_template("404.html")
+                return redirect("/dashboard")
+            return render_template("employee_registeration.html")
+        return render_template("404.html")
     
-        return render_template("employee_registeration.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
@@ -161,7 +162,7 @@ def employee_registeration():
 @login_required
 def employee_termination():
     try:
-        if session["department_name"]=="Human Resources":
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
             if request.method=="POST":
                 termination_date=request.form["termination_date"]
                 termination_date=datetime.strptime(termination_date, "%Y-%m-%d").date()
@@ -190,7 +191,7 @@ def employee_termination():
 @login_required
 def item_registeration():
     try:
-        if session["department_name"]=="Store":
+        if session["department_name"]=="Store" or session["department_name"]=="Administration":
             if request.method=="POST":
                 item_name=request.form["item_name"]
                 item_price=request.form["item_price"]
@@ -229,7 +230,7 @@ def item_registeration():
 @login_required
 def item_checkout():
     try:
-        if session["department_name"]=="Store":
+        if session["department_name"]=="Store" or session["department_name"]=="Administration":
             item_name_list=db.session.query(Item.item_name).all()
             if request.method=="POST":
                 item_name=request.form["item_name"]
@@ -279,7 +280,7 @@ def item_checkout():
 @login_required
 def item_checkin():
     try:
-        if session["department_name"]=="Store":
+        if session["department_name"]=="Store" or session["department_name"]=="Administration":
             item_name_list=db.session.query(Item.item_name).all()
             if request.method=="POST":
                 item_name=request.form["item_name"]

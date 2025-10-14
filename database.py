@@ -293,7 +293,7 @@ class Customer(db.Model):
     __tablename__="Customer"
 
     customer_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
-    customer_name=db.Column(db.String,nullable=False)
+    customer_name=db.Column(db.String,nullable=False,unque=True)
     customer_email=db.Column(db.String,nullable=False,unique=True)
     customer_phonenumber=db.Column(db.String,nullable=False)
     customer_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
@@ -312,4 +312,37 @@ class Customer(db.Model):
             "customer_location":self.customer_location,
             "customer_tin":self.customer_tin,
             "employee_regsistered_id":self.employee_regsistered_id
+        }
+
+class Sales(db.Model):
+
+    __tablename__="Sales"
+
+    sales_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
+    sales_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
+    item_quantity=db.Column(db.Integer,nullable=False)
+    total_price=db.Column(db.Float,nullable=False)
+    employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+    customer_name=db.Column(db.String,db.ForeignKey("Customer.customer_name"),nullable=False)
+    currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
+    unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
+
+    currency=db.relationship("Currency",foreign_keys=[currency_name])
+    employee=db.relationship("Employee",foreign_keys=[employee_id])
+    customer=db.relationship("Customer",foreign_keys=[customer_id])
+    item=db.relationship("Item",foreign_keys=[item_name])
+    unit=db.relationship("Unit",foreign_keys=[unit_name])
+
+    def to_dict(self):
+        return {
+            "sales_id":self.sales_id,
+            "item_name":self.item_name,
+            "employee_id":self.employee_id,
+            "sales_date":self.sales_date,
+            "item_description":self.item_description,
+            "item_quantity":self.item_quantity,
+            "total_price":self.total_price,
+            "currency_name":self.currency_name,
+            "unit_name":self.unit_name
         }

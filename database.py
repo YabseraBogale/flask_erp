@@ -175,7 +175,7 @@ class Item(db.Model):
     item_name=db.Column(db.String,nullable=False,unique=True)
     item_description=db.Column(db.String,nullable=False)
     item_price=db.Column(db.Float,nullable=False)
-    item_quantity=db.Column(db.Integer,nullable=False)
+    item_quantity=db.Column(db.Float,nullable=False)
     item_shelf_life=db.Column(db.DateTime(timezone=True))
     created_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())

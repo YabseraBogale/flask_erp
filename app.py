@@ -62,13 +62,13 @@ with app.app_context():
     db.create_all()
 
 @login_manager.user_loader
-def load_user(employee_id):
-    return Employee.query.get(uuid.UUID(employee_id)) 
+def load_user(employee_tin_number):
+    return Employee.query.get(employee_tin_number) 
 
 @app.before_request
 def logout_if_not_active():
     if current_user.is_authenticated:
-        employee=Employee.query.get(current_user.employee_id)
+        employee=Employee.query.get(current_user.employee_tin_number)
         if not employee or employee.employment_status!="Active":
             logout_user()
             session.clear()
@@ -123,9 +123,10 @@ def employee_registeration():
                     emergency_contact_fyida_id=emergency_contact_fyida_id,
                     firstname=firstname,lastname=lastname,middlename=middlename,phonenumber=phonenumber,
                     gender=gender,email=email,date_of_employement=date_of_employement,fyida_id=fyida_id,
-                    currency_name=currency,position=position,location_name=location,
+                    employee_tin_number=tin_number,currency_name=currency,
+                    position=position,location_name=location,
                     department_name=department,job_description=job_description,
-                    tin_number=tin_number,bank_account_number=bank_account_number,salary=salary,
+                    bank_account_number=bank_account_number,salary=salary,
                     password=bcrypt.hashpw(password,salt))
                 
                 db.session.add(employee)
@@ -133,7 +134,7 @@ def employee_registeration():
 
                 employee=db.session.query(Employee).filter(Employee.email==email).first()
                 subject="Well Come to Comapny Name"
-                body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_id}  Your password: {password_to_send}"
+                body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_tin_number}  Your password: {password_to_send}"
                 msg = EmailMessage()
                 msg['subject']=subject
                 msg['From']=company_email
@@ -171,7 +172,7 @@ def employee_termination():
                 employee_id=request.form["employee_id"]
                 stmt=(
                     update(Employee)
-                    .where(Employee.employee_id==uuid.UUID(employee_id))
+                    .where(Employee.employee_tin_number==employee_id)
                     .values(termination_date=termination_date,
                             termination_reason=termination_reason,
                             employment_status=employment_status)
@@ -210,7 +211,7 @@ def item_registeration():
                     currency_name=currency,item_quantity=item_quantity,
                     unit_name=unit,category_name=item_category,
                     location_name=location_name,subcategory_name=item_subcategory,
-                    created_by_employee_id=session["employee_id"],
+                    created_by_employee_id=session["employee_tin_number"],
                     item_description=item_description,
                     item_shelf_life=item_shelf_life)
                 
@@ -260,10 +261,10 @@ def item_checkout():
                 db.session.commit()
 
                 checkout_item=CheckOut(
-                    item_name=item_name,return_employee_id=uuid.UUID(return_employee_id),checkout_date=checkout_date,
+                    item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
                     item_quantity=item_quantity,item_siv=item_siv,department=department,
                     location_name=location_name,item_description=item_description,
-                    unit_name=unit_name,employee_id=session["employee_id"])
+                    unit_name=unit_name,employee_id=session["employee_tin_number"])
                 db.session.add(checkout_item)
                 db.session.commit()
                 
@@ -304,9 +305,10 @@ def item_checkin():
                 db.session.commit()
                 
                 checkin_item=CheckIn(
-                        item_name=item_name,reciving_employee_id=uuid.UUID(reciving_employee_id),
-                        employee_id=session["employee_id"],item_price=item_price,item_quantity=item_quantity,
-                        item_grr=item_grr,item_description=item_description,unit_name=unit,
+                        item_name=item_name,reciving_employee_id=reciving_employee_id,
+                        employee_id=session["employee_tin_number"],item_price=item_price,
+                        item_quantity=item_quantity,item_grr=item_grr,
+                        item_description=item_description,unit_name=unit,
                         checkin_date=checkin_date,currency_name=currency)
 
                 print(checkin_item.to_dict())
@@ -336,7 +338,7 @@ def login():
             is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
             if is_vaild==True and employee.employment_status=="Active":
                 login_user(employee)
-                session["employee_id"]=employee.employee_id
+                session["employee_tin_number"]=employee.employee_tin_number
                 session["logged_in"]=True
                 session["department_name"]=employee.department_name
                 return redirect("/dashboard")

@@ -105,7 +105,7 @@ class Employee(db.Model,UserMixin):
 
     __tablename__="Employee"
 
-    employee_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
+    employee_tin_number=db.Column(db.Integer,nullable=False)
     firstname=db.Column(db.String,nullable=False)
     middlename=db.Column(db.String,nullable=False)
     lastname=db.Column(db.String,nullable=False)
@@ -116,7 +116,6 @@ class Employee(db.Model,UserMixin):
     fyida_id=db.Column(db.String,nullable=False)
     position=db.Column(db.String,nullable=False)
     job_description=db.Column(db.String,nullable=False)
-    tin_number=db.Column(db.Integer,nullable=False)
     bank_account_number=db.Column(db.Integer,nullable=False)
     salary=db.Column(db.Float,nullable=False)
     pension_balance=db.Column(db.Float)
@@ -152,7 +151,6 @@ class Employee(db.Model,UserMixin):
             "position":self.position,
             "department_name":self.department_name,
             "job_description":self.job_description,
-            "tin_number":self.tin_number,
             "bank_account_number":self.bank_account_number,
             "salary":self.salary,
             "password":self.password,
@@ -164,7 +162,7 @@ class Employee(db.Model,UserMixin):
         }
 
     def get_id(self):
-        return str(self.employee_id)
+        return str(self.employee_tin_number)
     
     
 class Item(db.Model):
@@ -181,7 +179,7 @@ class Item(db.Model):
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
-    created_by_employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+    created_by_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     category_name=db.Column(db.String,db.ForeignKey("Category.category"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
@@ -190,7 +188,7 @@ class Item(db.Model):
     unit=db.relationship("Unit",foreign_keys=[unit_name])
     location=db.relationship("Location",foreign_keys=[location_name])
     currency=db.relationship("Currency",foreign_keys=[currency_name])
-    employee=db.relationship("Employee",foreign_keys=[created_by_employee_id])
+    employee=db.relationship("Employee",foreign_keys=[created_by_employee_tin_number])
     category=db.relationship("Category",foreign_keys=[category_name])
     subcategory=db.relationship("Subcategory",foreign_keys=[subcategory_name])
 
@@ -204,7 +202,7 @@ class Item(db.Model):
             "item_price":self.item_price,
             "item_quantity":self.item_quantity,
             "location_name":self.location_name,
-            "created_by_employee_id":self.created_by_employee_id,
+            "created_by_employee_tin_number":self.created_by_employee_tin_number,
             "created_at":self.created_at,
             "updated_at":self.updated_at,
             "unit_name":self.unit_name,
@@ -222,8 +220,8 @@ class CheckOut(db.Model):
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
-    employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
-    return_employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+    employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    return_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     department_name=db.Column(db.String,db.ForeignKey("Department.department"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
@@ -231,8 +229,8 @@ class CheckOut(db.Model):
 
     department=db.relationship("Department",foreign_keys=[department_name])
     location=db.relationship("Location",foreign_keys=[location_name])
-    employee=db.relationship("Employee",foreign_keys=[employee_id])
-    return_employee=db.relationship("Employee",foreign_keys=[return_employee_id])
+    employee=db.relationship("Employee",foreign_keys=[employee_tin_number])
+    return_employee=db.relationship("Employee",foreign_keys=[return_employee_tin_number])
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])
     
@@ -240,8 +238,8 @@ class CheckOut(db.Model):
         return {
             "checkout_id":self.checkout_id,
             "item_name":self.item_name,
-            "employee_id":self.employee_id,
-            "return_employee_id":self.return_employee_id,
+            "employee_tin_number":self.employee_tin_number,
+            "return_employee_tin_number":self.return_employee_tin_number,
             "checkout_date":self.checkout_date,
             "item_description":self.item_description,
             "item_siv":self.item_siv,
@@ -261,14 +259,14 @@ class CheckIn(db.Model):
     item_grr=db.Column(db.Integer,nullable=False)
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
-    employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
-    reciving_employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+    employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    reciving_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
     
     currency=db.relationship("Currency",foreign_keys=[currency_name])
-    employee=db.relationship("Employee",foreign_keys=[employee_id])
-    reciving_employee=db.relationship("Employee",foreign_keys=[reciving_employee_id])
+    employee=db.relationship("Employee",foreign_keys=[employee_tin_number])
+    reciving_employee=db.relationship("Employee",foreign_keys=[reciving_employee_tin_number])
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])
 
@@ -276,8 +274,8 @@ class CheckIn(db.Model):
         return {
             "checkin_id":self.checkin_id,
             "item_name":self.item_name,
-            "employee_id":self.employee_id,
-            "reciving_employee_id":self.reciving_employee_id,
+            "employee_tin_number":self.employee_tin_number,
+            "reciving_employee_tin_number":self.reciving_employee_tin_number,
             "checkin_date":self.checkin_date,
             "unit_name":self.unit_name,
             "currency_name":self.currency_name,
@@ -297,10 +295,10 @@ class Customer(db.Model):
     customer_email=db.Column(db.String,nullable=False,unique=True)
     customer_phonenumber=db.Column(db.String,nullable=False)
     customer_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
-    employee_regsistered_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+    regsistered_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     customer_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     location=db.relationship("Location",foreign_keys=[customer_location])
-    employee=db.relationship("Employee",foreign_keys=[employee_regsistered_id])
+    employee=db.relationship("Employee",foreign_keys=[regsistered_employee_tin_number])
 
     def to_dict(self):
         return {
@@ -310,7 +308,7 @@ class Customer(db.Model):
             "customer_phonenumber":self.customer_phonenumber,
             "customer_location":self.customer_location,
             "customer_tin":self.customer_tin,
-            "employee_regsistered_id":self.employee_regsistered_id
+            "employee_regsistered_id":self.regsistered_employee_tin_number
         }
 
 class Sales(db.Model):
@@ -322,13 +320,13 @@ class Sales(db.Model):
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_quantity=db.Column(db.Integer,nullable=False)
     total_price=db.Column(db.Float,nullable=False)
-    employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+    employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     customer_tin=db.Column(db.String,db.ForeignKey("Customer.customer_tin"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
 
     currency=db.relationship("Currency",foreign_keys=[currency_name])
-    employee=db.relationship("Employee",foreign_keys=[employee_id])
+    employee=db.relationship("Employee",foreign_keys=[employee_tin_number])
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])
     customer=db.relationship("Customer",foreign_keys=[customer_tin])
@@ -337,9 +335,8 @@ class Sales(db.Model):
         return {
             "sales_id":self.sales_id,
             "item_name":self.item_name,
-            "employee_id":self.employee_id,
+            "employee_id":self.employee_tin_number,
             "sales_date":self.sales_date,
-            "item_description":self.item_description,
             "item_quantity":self.item_quantity,
             "total_price":self.total_price,
             "currency_name":self.currency_name,
@@ -358,15 +355,15 @@ class PurchaseOrder(db.Model):
     ordered_quantity=db.Column(db.Float,nullable=False)
     purchase_reason=db.Column(db.String,nullable=False)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
-    employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+    employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     
     item=db.relationship("Item",foreign_keys=[item_name])
-    employee=db.relationship("Employee",foreign_keys=[employee_id])
+    employee=db.relationship("Employee",foreign_keys=[employee_tin_number])
     
     def to_dict(self):
         return {
             "purchase_order_id":self.purchase_order_id,
-            "employee_id":self.employee_id,
+            "employee_tin_number":self.employee_tin_number,
             "item_name":self.item_name,
             "ordered_quantity":self.ordered_quantity,
             "ordered_quantity":self.purchase_reason,

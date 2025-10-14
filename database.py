@@ -260,7 +260,7 @@ class CheckIn(db.Model):
     item_grr=db.Column(db.Integer,nullable=False)
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
-    employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     reciving_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)

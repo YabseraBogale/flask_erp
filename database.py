@@ -217,7 +217,7 @@ class CheckOut(db.Model):
 
     checkout_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     
-    item_quantity=db.Column(db.Integer,nullable=False)
+    item_quantity=db.Column(db.Float,nullable=False)
     item_siv=db.Column(db.Integer,nullable=False)
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
@@ -257,7 +257,7 @@ class CheckIn(db.Model):
     checkin_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_price=db.Column(db.Float,nullable=False)
-    item_quantity=db.Column(db.Integer,nullable=False)
+    item_quantity=db.Column(db.Float,nullable=False)
     item_grr=db.Column(db.Integer,nullable=False)
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
@@ -292,12 +292,11 @@ class Customer(db.Model):
 
     __tablename__="Customer"
 
-    customer_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
+    customer_tin=db.Column(db.Integer,primary_key=True,nullable=False)
     customer_name=db.Column(db.String,nullable=False,unque=True)
     customer_email=db.Column(db.String,nullable=False,unique=True)
     customer_phonenumber=db.Column(db.String,nullable=False)
     customer_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
-    customer_tin=db.Column(db.Integer,nullable=False)
     employee_regsistered_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
     customer_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     location=db.relationship("Location",foreign_keys=[customer_location])
@@ -305,7 +304,7 @@ class Customer(db.Model):
 
     def to_dict(self):
         return {
-            "customer_id":self.customer_id,
+            
             "customer_name":self.customer_name,
             "customer_email":self.customer_email,
             "customer_phonenumber":self.customer_phonenumber,
@@ -324,7 +323,7 @@ class Sales(db.Model):
     item_quantity=db.Column(db.Integer,nullable=False)
     total_price=db.Column(db.Float,nullable=False)
     employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
-    customer_name=db.Column(db.String,db.ForeignKey("Customer.customer_name"),nullable=False)
+    customer_tin=db.Column(db.String,db.ForeignKey("Customer.customer_tin"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
 
@@ -332,6 +331,7 @@ class Sales(db.Model):
     employee=db.relationship("Employee",foreign_keys=[employee_id])
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])
+    customer=db.relationship("Customer",foreign_keys=[customer_tin])
 
     def to_dict(self):
         return {
@@ -344,4 +344,32 @@ class Sales(db.Model):
             "total_price":self.total_price,
             "currency_name":self.currency_name,
             "unit_name":self.unit_name
+        }
+
+class PurchaseOrder(db.Model):
+
+    __tablename__="PurchaseOrder"
+    
+    purchase_order_id=db.Column(db.Integer,primary_key=True,autoincrement=True,nullable=False)
+    order_date=db.Column(db.DateTime(timezone=True),server_default=func.now())
+    order_status=db.Column(Enum(
+                "Pending","Approved","Decline", name="order_status_enum"),
+                default="Active",nullable=False)
+    ordered_quantity=db.Column(db.Float,nullable=False)
+    purchase_reason=db.Column(db.String,nullable=False)
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
+    employee_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+    
+    item=db.relationship("Item",foreign_keys=[item_name])
+    employee=db.relationship("Employee",foreign_keys=[employee_id])
+    
+    def to_dict(self):
+        return {
+            "purchase_order_id":self.purchase_order_id,
+            "employee_id":self.employee_id,
+            "item_name":self.item_name,
+            "ordered_quantity":self.ordered_quantity,
+            "ordered_quantity":self.purchase_reason,
+            "order_status":self.order_status,
+            "order_date":self.order_date
         }

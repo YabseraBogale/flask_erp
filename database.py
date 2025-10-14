@@ -330,7 +330,6 @@ class Sales(db.Model):
 
     currency=db.relationship("Currency",foreign_keys=[currency_name])
     employee=db.relationship("Employee",foreign_keys=[employee_id])
-    customer=db.relationship("Customer",foreign_keys=[customer_id])
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])
 

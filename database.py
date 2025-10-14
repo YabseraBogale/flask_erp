@@ -180,7 +180,7 @@ class Item(db.Model):
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
-    created_by_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    created_by_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     category_name=db.Column(db.String,db.ForeignKey("Category.category"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)

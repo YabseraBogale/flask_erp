@@ -138,6 +138,7 @@ class Employee(db.Model,UserMixin):
 
     def to_dict(self):
         return {
+                          "employee_tin_number":self.employee_tin_number,
             "fyida_id":self.fyida_id,
             "firstname":self.firstname,
             "middlename":self.middlename,

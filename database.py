@@ -286,3 +286,30 @@ class CheckIn(db.Model):
             "item_price":self.item_price,
             "item_description":self.item_description
         }
+
+
+class Customer(db.Model):
+
+    __tablename__="Customer"
+
+    customer_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
+    customer_name=db.Column(db.String,nullable=False)
+    customer_email=db.Column(db.String,nullable=False,unique=True)
+    customer_phonenumber=db.Column(db.String,nullable=False)
+    customer_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
+    customer_tin=db.Column(db.Integer,nullable=False)
+    employee_regsistered_id=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_id"),nullable=False)
+
+    location=db.relationship("Location",foreign_keys=[customer_location])
+    employee=db.relationship("Employee",foreign_keys=[employee_regsistered_id])
+
+    def to_dict(self):
+        return {
+            "customer_id":self.customer_id,
+            "customer_name":self.customer_name,
+            "customer_email":self.customer_email,
+            "customer_phonenumber":self.customer_phonenumber,
+            "customer_location":self.customer_location,
+            "customer_tin":self.customer_tin,
+            "employee_regsistered_id":self.employee_regsistered_id
+        }

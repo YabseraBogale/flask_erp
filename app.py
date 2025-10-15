@@ -61,14 +61,15 @@ with app.app_context():
         
     db.create_all()
 
+
 @login_manager.user_loader
 def load_user(employee_tin_number):
-    return Employee.query.get(employee_tin_number) 
+    return db.session.get(Employee, employee_tin_number)
 
 @app.before_request
 def logout_if_not_active():
     if current_user.is_authenticated:
-        employee=Employee.query.get(current_user.employee_tin_number)
+        employee=db.session.get(Employee, current_user.employee_tin_number)
         if not employee or employee.employment_status!="Active":
             logout_user()
             session.clear()
@@ -332,9 +333,9 @@ def login():
         if "logged_in" in session and session["logged_in"]==True:
             return redirect("/dashboard")
         elif request.method=="POST":
-            employee_id=request.form["employee_id"]
+            employee_tin_number=request.form["employee_id"]
             password=request.form["password"]
-            employee=db.session.query(Employee).filter(Employee.employee_id==uuid.UUID(employee_id)).first()
+            employee=db.session.query(Employee).filter(Employee.employee_tin_number==employee_tin_number).first()
             is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
             if is_vaild==True and employee.employment_status=="Active":
                 login_user(employee)
@@ -371,4 +372,4 @@ def dashboard():
     
 
 if __name__=="__main__":
-    app.run()
+    app.run(debug=True)

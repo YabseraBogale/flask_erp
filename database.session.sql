@@ -4,6 +4,9 @@
 -- Delete From Location;
 -- Delete From Currency;
 -- Delete From Unit;
+-- Delete From EmergencyContact;
+-- Delete from Employee;
+
 
 
 INSERT INTO Category(category) 

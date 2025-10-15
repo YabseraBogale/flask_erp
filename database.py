@@ -291,7 +291,7 @@ class Customer(db.Model):
     __tablename__="Customer"
 
     customer_tin=db.Column(db.Integer,primary_key=True,nullable=False)
-    customer_name=db.Column(db.String,nullable=False,unque=True)
+    customer_name=db.Column(db.String,nullable=False,unique=True)
     customer_email=db.Column(db.String,nullable=False,unique=True)
     customer_phonenumber=db.Column(db.String,nullable=False)
     customer_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)

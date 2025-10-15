@@ -134,7 +134,7 @@ def employee_registeration():
 
                 employee=db.session.query(Employee).filter(Employee.email==email).first()
                 subject="Well Come to Comapny Name"
-                body=f"This sent by bot for Comapny Name password.Employee id:{employee.employee_tin_number}  Your password: {password_to_send}"
+                body=f"This sent by bot for Comapny Name password. Employee id:{employee.employee_tin_number}  Your password: {password_to_send}"
                 msg = EmailMessage()
                 msg['subject']=subject
                 msg['From']=company_email
@@ -169,10 +169,10 @@ def employee_termination():
                 termination_date=datetime.strptime(termination_date, "%Y-%m-%d").date()
                 termination_reason=request.form["termination_reason"]
                 employment_status=request.form["employment_status"]
-                employee_id=request.form["employee_id"]
+                employee_tin_number=request.form["employee_tin_number"]
                 stmt=(
                     update(Employee)
-                    .where(Employee.employee_tin_number==employee_id)
+                    .where(Employee.employee_tin_number==employee_tin_number)
                     .values(termination_date=termination_date,
                             termination_reason=termination_reason,
                             employment_status=employment_status)
@@ -264,7 +264,7 @@ def item_checkout():
                     item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
                     item_quantity=item_quantity,item_siv=item_siv,department=department,
                     location_name=location_name,item_description=item_description,
-                    unit_name=unit_name,employee_id=session["employee_tin_number"])
+                    unit_name=unit_name,employee_tin_number=session["employee_tin_number"])
                 db.session.add(checkout_item)
                 db.session.commit()
                 
@@ -306,12 +306,12 @@ def item_checkin():
                 
                 checkin_item=CheckIn(
                         item_name=item_name,reciving_employee_id=reciving_employee_id,
-                        employee_id=session["employee_tin_number"],item_price=item_price,
+                        employee_tin_number=session["employee_tin_number"],item_price=item_price,
                         item_quantity=item_quantity,item_grr=item_grr,
                         item_description=item_description,unit_name=unit,
                         checkin_date=checkin_date,currency_name=currency)
 
-                print(checkin_item.to_dict())
+                
                 db.session.add(checkin_item)
                 db.session.commit()
                 return render_template("checkin.html")

@@ -3,14 +3,13 @@ import os
 import string
 import random
 import bcrypt
-import uuid
 import logging
 from sqlalchemy import update
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
-from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn
+from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Unit,Currency,Department
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -20,6 +19,7 @@ logging.basicConfig(
     level=logging.ERROR, 
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
+
 
 
 app=Flask(__name__)
@@ -61,6 +61,10 @@ with app.app_context():
         
     db.create_all()
 
+    db_location=db.session.query(Location.location).order_by(Location.location.asc()).all()
+    db_unit=db.session.query(Unit.unit).order_by(Unit.unit.asc()).all()
+    db_currency=db.session.query(Currency.currency).order_by(Currency.currency.asc()).all()
+    db_department=db.session.query(Department.department).order_by(Department.department.asc()).all()
 
 @login_manager.user_loader
 def load_user(employee_tin_number):
@@ -77,6 +81,7 @@ def logout_if_not_active():
 
 
 @app.route("/employee_registeration",methods=["GET","POST"])
+@login_required
 def employee_registeration():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
@@ -152,7 +157,7 @@ def employee_registeration():
                     db.session.rollback()
                     return render_template("404.html")
                 return redirect("/dashboard")
-            return render_template("employee_registeration.html")
+            return render_template("employee_registeration.html",db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_department=db_department)
         return render_template("404.html")
     
     except Exception as e:

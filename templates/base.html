@@ -1,10 +1,5 @@
 <!doctype html>
-<!-- 
-* Bootstrap Simple Admin Template
-* Version: 2.1
-* Author: Alexis Luna
-* Website: https://github.com/alexis-luna/bootstrap-simple-admin-template
--->
+
 <html lang="en">
 
 <head>
@@ -30,9 +25,55 @@
                 <img src="{{url_for('static',filename='image/logo.png')}}" alt="bootraper logo" class="app-logo">
             </div>
             <ul class="list-unstyled components text-secondary">
-                {% block nav %}
 
-                {% endblock %}
+                {% if session["department_name"] == "Administration" %}
+                    <li>
+                        <a href="/item_checkin"><i class="fa fa-sign-out">checkin</i></a>
+                    </li>
+
+                    <li>
+                        <a href="/item_checkout"><i class="fa fa-sign-out">checkout</i></a>
+                    </li>
+
+                    <li>
+                        <a href="/item_regsisteration"><i class="fa fa-sign-out">item regsisteration</i></a>
+                    </li>
+
+                    <li>
+                        <a href="/employee_registeration"><i class="fa fa-sign-out">employee registeration</i></a>
+                    </li>
+
+                    <li>
+                        <a href="/employee_termination"><i class="fa fa-sign-out">employee termination</i></a>
+                    </li>
+                {% elif session["department_name"] == "Store" %}
+                    
+                    <li>
+                        <a href="/item_checkin"><i class="fa fa-sign-out">checkin</i></a>
+                    </li>
+
+                    <li>
+                        <a href="/item_checkout"><i class="fa fa-sign-out">checkout</i></a>
+                    </li>
+
+                    <li>
+                        <a href="/item_regsisteration"><i class="fa fa-sign-out">item regsisteration</i></a>
+                    </li>
+                
+                {% elif session["department_name"] == "Human Resources" %}
+                    
+                    <li>
+                        <a href="/employee_registeration"><i class="fa fa-sign-out">employee registeration</i></a>
+                    </li>
+
+                    <li>
+                        <a href="/employee_termination"><i class="fa fa-sign-out">employee termination</i></a>
+                    </li>
+                    
+                {% endif %}
+                <li>
+                    <a href="/logout"><i class="fa fa-sign-out">logout</i></a>
+                </li>
             </ul>
         </nav>
         <div id="body" class="active">
@@ -50,19 +91,7 @@
             <!-- end of navbar navigation -->
             <div class="content">
                {% block content %}
-                <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" name="email" placeholder="Email Address" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" name="password" placeholder="Password" class="form-control" required>
-            </div>
-          <div class="col-sm-4 offset-sm-2">
-              <button type="submit" class="btn btn-secondary mb-2"><i class="fas fa-times"></i> Cancel</button>
-              <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-save"></i> Save</button>
-          </div>
-        </div>       
+               
                {% endblock %}
             </div>
         </div>

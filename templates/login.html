@@ -1,26 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Login</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/login.css')}}" />
+    <link href="{{url_for('static',filename='js/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename='js/bootstrap/css/auth.css')}}" rel="stylesheet">
 </head>
+
 <body>
-    <form action="/login" method="POST">
-        <div class="employee_id">
-            <p>employee id </p> <input type="text" name="employee_id" id="" placeholder="employee id">
+    <div class="wrapper">
+        <div class="auth-content">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-4">
+                        <img class="brand" src="{{url_for('static',filename='image/logo.png')}}" alt="bootstraper logo">
+                    </div>
+                    <h6 class="mb-4 text-muted">Login to your account</h6>
+                    <form action="/login" method="POST">
+                        <div class="mb-3 text-start">
+                            <label for="employee id" class="form-label">employee id</label>
+                            <input type="text" class="form-control" name="employee_id" placeholder="employee id" required>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" placeholder="Enter your password" required>
+                        </div>
+                        <button class="btn btn-primary mb-4" style="width:100%">Login</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="password">
-            <p>
-            password
-        </p> <input type="password" name="password" id="" placeholder="password">
-        </div>
-        <div class="btn">
-            <input type="submit" value="enter">
-            <input type="reset" value="reset">
-        </div>
-        
-    </form>
+    </div>
+    <script src="{{url_for('static',filename='js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 </body>
+
 </html>

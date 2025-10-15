@@ -105,7 +105,7 @@ class Employee(db.Model,UserMixin):
 
     __tablename__="Employee"
 
-    employee_tin_number=db.Column(db.Integer,nullable=False)
+    employee_tin_number=db.Column(db.Integer,primary_key=True,nullable=False)
     firstname=db.Column(db.String,nullable=False)
     middlename=db.Column(db.String,nullable=False)
     lastname=db.Column(db.String,nullable=False)
@@ -138,7 +138,6 @@ class Employee(db.Model,UserMixin):
 
     def to_dict(self):
         return {
-                          "employee_tin_number":self.employee_tin_number,
             "fyida_id":self.fyida_id,
             "firstname":self.firstname,
             "middlename":self.middlename,
@@ -180,7 +179,7 @@ class Item(db.Model):
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
-    created_by_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    created_by_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     category_name=db.Column(db.String,db.ForeignKey("Category.category"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
@@ -222,7 +221,7 @@ class CheckOut(db.Model):
     item_description=db.Column(db.String)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
-    return_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    return_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     department_name=db.Column(db.String,db.ForeignKey("Department.department"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
@@ -260,8 +259,8 @@ class CheckIn(db.Model):
     item_grr=db.Column(db.Integer,nullable=False)
     checkin_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
-    employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
-    reciving_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    reciving_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
     
@@ -296,7 +295,7 @@ class Customer(db.Model):
     customer_email=db.Column(db.String,nullable=False,unique=True)
     customer_phonenumber=db.Column(db.String,nullable=False)
     customer_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
-    regsistered_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    regsistered_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     customer_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     location=db.relationship("Location",foreign_keys=[customer_location])
     employee=db.relationship("Employee",foreign_keys=[regsistered_employee_tin_number])
@@ -305,6 +304,7 @@ class Customer(db.Model):
         return {
             
             "customer_name":self.customer_name,
+            "customer_registered_date":self.customer_registered_date,
             "customer_email":self.customer_email,
             "customer_phonenumber":self.customer_phonenumber,
             "customer_location":self.customer_location,
@@ -321,8 +321,8 @@ class Sales(db.Model):
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_quantity=db.Column(db.Integer,nullable=False)
     total_price=db.Column(db.Float,nullable=False)
-    employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
-    customer_tin=db.Column(db.Integer,db.ForeignKey("Customer.customer_tin"),nullable=False)
+    employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    customer_tin=db.Column(db.String,db.ForeignKey("Customer.customer_tin"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
 
@@ -356,7 +356,7 @@ class PurchaseOrder(db.Model):
     ordered_quantity=db.Column(db.Float,nullable=False)
     purchase_reason=db.Column(db.String,nullable=False)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
-    employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     
     item=db.relationship("Item",foreign_keys=[item_name])
     employee=db.relationship("Employee",foreign_keys=[employee_tin_number])

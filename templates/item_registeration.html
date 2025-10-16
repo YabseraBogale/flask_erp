@@ -43,17 +43,9 @@
         <div class="mb-3 col-md-4">
             <label for="currency" class="form-label">Currency</label>
               <select name="currency" class="form-select" required>
-                <option value="ETH">Birr</option>
-                <option value="USD">USD $</option>
-                <option value="EUR">EUR €</option>
-                <option value="JPY">JPY ¥</option>
-                <option value="GBP">GBP £</option>
-                <option value="CNY">CNY ¥</option>
-                <option value="CHF">CHF Fr</option>
-                <option value="CAD">CAD $</option>
-                <option value="AUD">AUD $</option>
-                <option value="SGD">SGD $</option>
-                <option value="HKD">HKD $</option>
+                  {% for i in db_currency %}
+                    <option value="{{i[0]}}">{{i[0]}}</option>
+                  {% endfor %}
             </select>
         </div>
 
@@ -78,73 +70,36 @@
         <div class="mb-3 col-md-4">
           <label for="Item Category" class="form-label">Item Category</label>
             <select name="item_category" class="form-select" required>
-                <option value="Electronics">Electronics</option>
-                <option value="Food">Food</option>
-                <option value="Furniture">Furniture</option>
-                <option value="Safety Equipment">Safety Equipment</option>
-                <option value="Chemical">Chemical</option>
-                <option value="Sanitary">Sanitary</option>
-                <option value="Spare Part">Spare Part</option>
-                <option value="Accessory">Accessory</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Constraction Material">Constraction Material</option>
-                <option value="Pad">Pad</option>
-                <option value="Stationery">Stationery</option>   
+                 {% for i in db_category %}
+                    <option value="{{i[0]}}">{{i[0]}}</option>
+                  {% endfor %}
             </select>
         </div>
 
         <div class="mb-3 col-md-4">
           <label for="Item SubCategory" class="form-label">Item SubCategory</label>
             <select name="item_subcategory" class="form-select" required>
-                <option value="Fixed Assest">Fixed Assest</option>
-                <option value="Moving">Moving</option>
-                <option value="Consumable">Consumable</option>
+                {% for i in db_subcategory %}
+                    <option value="{{i[0]}}">{{i[0]}}</option>
+                  {% endfor %}
             </select>
         </div>
 
         <div class="mb-3 col-md-4">
           <label for="Location" class="form-label">Item Location</label>
             <select name="location" class="form-select" required>
-                <option value="Addis Ababa">Addis Ababa</option>
-                <option value="Adama">Adama</option>
-                <option value="Dire Dawa">Dire Dawa</option>
-                <option value="Mekelle">Mekelle</option>
-                <option value="Gondar">Gondar</option>
-                <option value="Bahir Dar">Bahir Dar</option>
-                <option value="Hawassa">Hawassa</option>
-                <option value="Jimma">Jimma</option>
-                <option value="Harar">Harar</option>
-                <option value="Dessie">Dessie</option>
-                <option value="Shashamane">Shashamane</option>
-                <option value="Asella">Asella</option>
-                <option value="Debre Markos">Debre Markos</option>
-                <option value="Gambela">Gambela</option>
-                <option value="Jijiga">Jijiga</option>
-                <option value="Arba Minch">Arba Minch</option>
-                <option value="Dilla">Dilla</option>
+                {% for i in db_location %}
+                  <option value="{{i[0]}}">{{i[0]}}</option>
+                {% endfor %}
             </select>
         </div>
 
         <div class="mb-3 col-md-4">
           <label for="unit" class="form-label">Unit Of Measurment</label>
             <select name="unit" class="form-select" required>
-                <option value="Piece">Piece</option>
-                <option value="Dozen">Dozen</option>
-                <option value="Package">Package</option>
-                <option value="Gram">Gram</option>
-                <option value="Kilogram">Kilogram</option>
-                <option value="Ton">Ton</option>
-                <option value="Milliliter">Milliliter</option>
-                <option value="Liter">Liter</option>
-                <option value="Gallon">Gallon</option>
-                <option value="Barrel">Barrel</option>
-                <option value="Millimeter">Millimeter</option>
-                <option value="Centimeter">Centimeter</option>
-                <option value="Meter">Meter</option>
-                <option value="Roll">Roll</option>
-                <option value="Sheet">Sheet</option>
-                <option value="Bottle">Bottle</option>
-                <option value="Can">Can</option>
+                {% for i in db_unit %}
+                  <option value="{{i[0]}}">{{i[0]}}</option>
+                {% endfor %}
             </select>
         </div>
 

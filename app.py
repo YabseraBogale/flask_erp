@@ -9,7 +9,7 @@ from flask_login import LoginManager, login_user, login_required, current_user, 
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
-from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Unit,Currency,Department
+from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -65,6 +65,9 @@ with app.app_context():
     db_unit=db.session.query(Unit.unit).order_by(Unit.unit.asc()).all()
     db_currency=db.session.query(Currency.currency).order_by(Currency.currency.asc()).all()
     db_department=db.session.query(Department.department).order_by(Department.department.asc()).all()
+    db_category=db.session.query(Category.category).order_by(Category.category.asc()).all()
+    db_subcategory=db.session.query(Subcategory.subcategory).order_by(Subcategory.subcategory.asc()).all()
+
 
 @login_manager.user_loader
 def load_user(employee_tin_number):
@@ -224,7 +227,7 @@ def item_registeration():
                 db.session.add(item)
                 db.session.commit()
                 return redirect("/dashboard")
-            return render_template("item_registeration.html")
+            return render_template("item_registeration.html",db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_category=db_category,db_subcategory=db_subcategory)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -253,14 +256,14 @@ def item_checkout():
 
                 item=db.session.query(Item).filter(Item.item_name==item_name).first()
 
-                if item.item_quantity-int(item_quantity)<0:
+                if item.item_quantity-float(item_quantity)<0:
                     return render_template("checkout.html",negative=True)
 
                 stmt=(
                     update(
                         Item
                     ).where(Item.item_name==item_name)
-                    .values(item_quantity=Item.item_quantity-int(item_quantity))
+                    .values(item_quantity=Item.item_quantity-float(item_quantity))
                 )
 
                 db.session.execute(stmt)
@@ -274,7 +277,7 @@ def item_checkout():
                 db.session.add(checkout_item)
                 db.session.commit()
                 
-            return render_template("checkout.html",item_name_list=item_name_list)
+            return render_template("checkout.html",item_name_list=item_name_list,db_location=db_location,db_unit=db_unit,db_department=db_department)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -300,7 +303,8 @@ def item_checkin():
                 item_description=request.form["item_description"]
                 unit=request.form["unit"]
                 currency=request.form["currency"]
-
+                item_shelf_life=request.form["item_shelf_life"]
+                item_shelf_life=datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
                 stmt=(
                     update(Item)
                     .where(Item.item_name==item_name)
@@ -315,16 +319,97 @@ def item_checkin():
                         employee_tin_number=session["employee_tin_number"],item_price=item_price,
                         item_quantity=item_quantity,item_grr=item_grr,
                         item_description=item_description,unit_name=unit,
-                        checkin_date=checkin_date,currency_name=currency)
+                        checkin_date=checkin_date,currency_name=currency,item_shelf_life=item_shelf_life)
 
                 
                 db.session.add(checkin_item)
                 db.session.commit()
                 return render_template("checkin.html")
                         
-            return render_template("checkin.html",item_name_list=item_name_list)
+            return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,)
         else:
             return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+@app.route("/sales_registeration",methods=["GET","POST"])
+@login_required
+def sales_registeration():
+    try:
+        if session["department_name"]=="Sales" or session["department_name"]=="Administration":
+            if request.method=="POST":
+                item_name=request.form["item_name"]
+                item_quantity=request.form["item_quantity"]
+                item_price=request.form["item_price"]
+                customer_tin=request.form["customer_tin"]
+                unit_name=request.form["unit_name"]
+                currency_name=request.form["currency_name"]
+                
+                item=db.session.query(Item).filter(Item.item_name==item_name).first()
+
+                if item.item_quantity-int(item_quantity)<0:
+                    return render_template("sales_registeration.html",negative=True)
+
+                stmt=(
+                    update(
+                        Item
+                    ).where(Item.item_name==item_name)
+                    .values(item_quantity=Item.item_quantity-float(item_quantity))
+                )
+
+                db.session.execute(stmt)
+                db.session.commit()
+
+                sales=Sales(
+                    item_name=item_name,item_quantity=item_quantity,item_price=item_price,
+                    customer_tin=customer_tin,unit_name=unit_name,currency_name=currency_name,
+                    employee_tin_number=session["employee_tin_number"]
+                )
+
+                db.session.add(sales)
+                db.session.commit()
+                return render_template("sales_registeration.html",sucess=True)
+
+            return render_template("sales_registeration.html")
+        else:
+            return render_template("404.html")
+        
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+
+@app.route("/customer_registeration",methods=["GET","POST"])
+@login_required
+def customer_registeration():
+    try:
+        if session["department_name"]=="Sales" or session["department_name"]=="Administration":
+            if request.method=="POST":
+                customer_name=request.form["customer_name"]
+                customer_email=request.form["customer_email"]
+                customer_phonenumber=request.form["customer_phonenumber"]
+                customer_tin=request.form["customer_tin"]
+                customer_location=request.form["customer_location"]
+                
+                customer=Customer(
+                    customer_tin=customer_tin,customer_phonenumber=customer_phonenumber,
+                    customer_name=customer_name,customer_location=customer_location,
+                    customer_email=customer_email
+                )
+                
+                db.session.add(customer)
+                db.session.commit()
+                return render_template("customer_registeration.html",sucess=True)
+
+            return render_template("customer_registeration.html")
+        else:
+            return render_template("404.html")
+        
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

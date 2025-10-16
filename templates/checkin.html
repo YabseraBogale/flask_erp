@@ -40,7 +40,7 @@
           <div class="mb-3 row">
             <label class="col-sm-2 form-label" for="Item Price">Item Price</label>
               <div class="col-sm-10">
-                <input type="number" name="item_price" placeholder="Item Price" class="form-control" required>
+                <input type="number" name="item_price" placeholder="Item Price" class="form-control" min="0" required>
               </div>
           </div>
         </div>
@@ -48,17 +48,9 @@
         <div class="mb-3 col-md-4">
           <label for="currency" class="form-label">Currency</label>
             <select name="currency" class="form-select" required>
-              <option value="ETH">Birr</option>
-              <option value="USD">USD $</option>
-              <option value="EUR">EUR €</option>
-              <option value="JPY">JPY ¥</option>
-              <option value="GBP">GBP £</option>
-              <option value="CNY">CNY ¥</option>
-              <option value="CHF">CHF Fr</option>
-              <option value="CAD">CAD $</option>
-              <option value="AUD">AUD $</option>
-              <option value="SGD">SGD $</option>
-              <option value="HKD">HKD $</option>
+              {% for i in db_currency %}
+                  <option value="{{i[0]}}">{{i[0]}}</option>
+                {% endfor %}
           </select>
         </div>
 
@@ -66,7 +58,7 @@
           <div class="mb-3 row">
             <label class="col-sm-2 form-label" for="Item Quantity">Item Quantity</label>
               <div class="col-sm-10">
-                <input type="number" name="item_quantity" placeholder="Item Quantity" class="form-control" required>
+                <input type="number" name="item_quantity" placeholder="Item Quantity" min="0" class="form-control" required>
               </div>
           </div>
         </div>
@@ -89,26 +81,22 @@
           </div>
         </div>
 
+        <div class="card-body">
+          <div class="mb-3 row">
+            <label class="col-sm-2 form-label" for="Item Description">Item Shelf Life</label>
+              <div class="col-sm-10">
+                <input type="date" name="item_shelf_life"  class="form-control" required>
+              </div>
+          </div>
+        </div>
+
+        
          <div class="mb-3 col-md-4">
           <label for="unit" class="form-label">Unit Of Measurment</label>
             <select name="unit" class="form-select" required>
-                <option value="Piece">Piece</option>
-                <option value="Dozen">Dozen</option>
-                <option value="Package">Package</option>
-                <option value="Gram">Gram</option>
-                <option value="Kilogram">Kilogram</option>
-                <option value="Ton">Ton</option>
-                <option value="Milliliter">Milliliter</option>
-                <option value="Liter">Liter</option>
-                <option value="Gallon">Gallon</option>
-                <option value="Barrel">Barrel</option>
-                <option value="Millimeter">Millimeter</option>
-                <option value="Centimeter">Centimeter</option>
-                <option value="Meter">Meter</option>
-                <option value="Roll">Roll</option>
-                <option value="Sheet">Sheet</option>
-                <option value="Bottle">Bottle</option>
-                <option value="Can">Can</option>
+                {% for i in db_unit %}
+                  <option value="{{i[0]}}">{{i[0]}}</option>
+                {% endfor %}
             </select>
         </div>
 

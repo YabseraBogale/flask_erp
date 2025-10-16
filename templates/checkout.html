@@ -24,22 +24,9 @@
             <div class="mb-3 col-md-4">
                 <label for="department" class="form-label">Department</label>
                 <select name="department" class="form-select" required>
-                    <option value="Human Resources">Human Resources</option>
-                    <option value="Finance">Finance</option>
-                    <option value="Sales">Sales</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Customer Service">Support</option>
-                    <option value="Operations">Operations</option>
-                    <option value="Procurement">Procurement</option>
-                    <option value="Information Technology">Information Technology</option>
-                    <option value="Research & Development">Research & Development</option>
-                    <option value="Administration">Administration</option>
-                    <option value="Logistics & Supply Chain">Logistics & Supply Chain</option>
-                    <option value="Manufacturing">Production / Manufacturing</option>
-                    <option value="Quality Assurance">Quality Assurance</option>
-                    <option value="Legal">Legal</option>
-                    <option value="Public Relations">Public Relations</option>
-                    <option value="Store">Store</option>
+                     {% for i in db_department %}
+                        <option value="{{i[0]}}">{{i[0]}}</option>
+                    {% endfor %}
                 </select>
             </div>
 
@@ -95,46 +82,18 @@
             <div class="mb-3 col-md-4">
                 <label for="unit" class="form-label">Unit Of Measurment</label>
                     <select name="unit" class="form-select" required>
-                        <option value="Piece">Piece</option>
-                        <option value="Dozen">Dozen</option>
-                        <option value="Package">Package</option>
-                        <option value="Gram">Gram</option>
-                        <option value="Kilogram">Kilogram</option>
-                        <option value="Ton">Ton</option>
-                        <option value="Milliliter">Milliliter</option>
-                        <option value="Liter">Liter</option>
-                        <option value="Gallon">Gallon</option>
-                        <option value="Barrel">Barrel</option>
-                        <option value="Millimeter">Millimeter</option>
-                        <option value="Centimeter">Centimeter</option>
-                        <option value="Meter">Meter</option>
-                        <option value="Roll">Roll</option>
-                        <option value="Sheet">Sheet</option>
-                        <option value="Bottle">Bottle</option>
-                        <option value="Can">Can</option>
+                        {% for i in db_unit %}
+                            <option value="{{i[0]}}">{{i[0]}}</option>
+                        {% endfor %}
                     </select>
             </div>
 
             <div class="mb-3 col-md-4">
                 <label for="Location" class="form-label">Item Location</label>
                 <select name="location" class="form-select" required>
-                    <option value="Addis Ababa">Addis Ababa</option>
-                    <option value="Adama">Adama</option>
-                    <option value="Dire Dawa">Dire Dawa</option>
-                    <option value="Mekelle">Mekelle</option>
-                    <option value="Gondar">Gondar</option>
-                    <option value="Bahir Dar">Bahir Dar</option>
-                    <option value="Hawassa">Hawassa</option>
-                    <option value="Jimma">Jimma</option>
-                    <option value="Harar">Harar</option>
-                    <option value="Dessie">Dessie</option>
-                    <option value="Shashamane">Shashamane</option>
-                    <option value="Asella">Asella</option>
-                    <option value="Debre Markos">Debre Markos</option>
-                    <option value="Gambela">Gambela</option>
-                    <option value="Jijiga">Jijiga</option>
-                    <option value="Arba Minch">Arba Minch</option>
-                    <option value="Dilla">Dilla</option>
+                    {% for i in db_location %}
+                        <option value="{{i[0]}}">{{i[0]}}</option>
+                    {% endfor %}
                 </select>
             </div>
 

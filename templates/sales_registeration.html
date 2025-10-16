@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Sales Registeration</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form action="/sales_registeration" method="POST">
+            <h5 class="card-title">Sales Registeration</h5>
+                {% if negative %}
+                    <h6 class="card-title" style="color: red;">Not Enough Item Quantity In Inventory</h6>
+                {% endif %}
+                {% if sucess %}
+                    <h6 class="card-title" style="color: green;">Sucessfully Registeratred</h6>
+                {% endif %}
+            <div class="mb-3 col-md-4">
+                <label for="Item Name" class="form-label">Item Name</label>
+                <select name="item_name" class="form-select" required>
+                    {% for i in item_name_list %}
+                    <option value="{{i[0]}}">{{i[0]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="Item Quantity">Item Quantity</label>
+                    <div class="col-sm-10">
+                    <input type="number" name="item_quantity" placeholder="Item Quantity" class="form-control" min="0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="Item Price">Item Price</label>
+                    <div class="col-sm-10">
+                    <input type="number" name="item_price" placeholder="Item Price" class="form-control" min="0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="Customer Tin Number">Customer Tin Number</label>
+                    <div class="col-sm-10">
+                    <input type="number" name="customer_tin" placeholder="Customer Tin Number" class="form-control" min="0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 col-md-4">
+            <label for="unit" class="form-label">Unit Of Measurment</label>
+                <select name="unit_name" class="form-select" required>
+                    {% for i in db_unit %}
+                    <option value="{{i[0]}}">{{i[0]}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3 col-md-4">
+            <label for="currency" class="form-label">Currency</label>
+                <select name="currency_name" class="form-select" required>
+                {% for i in db_currency %}
+                    <option value="{{i[0]}}">{{i[0]}}</option>
+                    {% endfor %}
+            </select>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

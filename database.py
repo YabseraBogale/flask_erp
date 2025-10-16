@@ -263,6 +263,7 @@ class CheckIn(db.Model):
     reciving_employee_tin_number=db.Column(UUID(as_uuid=True),db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
+    item_shelf_life = db.Column(db.DateTime(timezone=True), nullable=False)
     
     currency=db.relationship("Currency",foreign_keys=[currency_name])
     employee=db.relationship("Employee",foreign_keys=[employee_tin_number])

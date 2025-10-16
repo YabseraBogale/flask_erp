@@ -9,7 +9,7 @@ from flask_login import LoginManager, login_user, login_required, current_user, 
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
-from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer
+from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -377,6 +377,31 @@ def sales_registeration():
         else:
             return render_template("404.html")
         
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+
+@app.route("/purchase_order",methods=["GET","POST"])
+@login_required
+def purchase_order():
+    try:
+        if request.method=="POST":
+            item_name=request.form["item_name"]
+            ordered_quantity=request.form["ordered_quantity"]
+            purchase_reason=request.form["purchase_reason"]
+            order_status="Pending"
+            purchase=PurchaseOrder(
+                item_name=item_name,ordered_quantity=ordered_quantity,
+                purchase_reason=purchase_reason,order_status=order_status,
+                employee_tin_number=session["employee_tin_number"]
+            )
+            db.session.add(purchase)
+            db.session.commit()
+        return render_template("purchase_order.html")
+    
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

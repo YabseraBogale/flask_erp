@@ -248,6 +248,7 @@ def item_checkout():
                 checkout_date=request.form["checkout_date"]
                 item_quantity=request.form["item_quantity"]
                 item_siv=request.form["item_siv"]
+                item_status=request.form["item_status"]
                 department=request.form["department"]
                 location_name=request.form["location"]
                 item_description=request.form["item_description"]
@@ -272,7 +273,7 @@ def item_checkout():
                 checkout_item=CheckOut(
                     item_name=item_name,return_employee_id=return_employee_id,checkout_date=checkout_date,
                     item_quantity=item_quantity,item_siv=item_siv,department=department,
-                    location_name=location_name,item_description=item_description,
+                    location_name=location_name,item_description=item_description,item_status=item_status,
                     unit_name=unit_name,employee_tin_number=session["employee_tin_number"])
                 db.session.add(checkout_item)
                 db.session.commit()
@@ -302,6 +303,7 @@ def item_checkin():
                 item_grr=request.form["item_grr"]
                 item_description=request.form["item_description"]
                 unit=request.form["unit"]
+                item_status=request.form["item_status"]
                 currency=request.form["currency"]
                 item_shelf_life=request.form["item_shelf_life"]
                 item_shelf_life=datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
@@ -319,7 +321,8 @@ def item_checkin():
                         employee_tin_number=session["employee_tin_number"],item_price=item_price,
                         item_quantity=item_quantity,item_grr=item_grr,
                         item_description=item_description,unit_name=unit,
-                        checkin_date=checkin_date,currency_name=currency,item_shelf_life=item_shelf_life)
+                        checkin_date=checkin_date,currency_name=currency,
+                        item_shelf_life=item_shelf_life,item_status=item_status)
 
                 
                 db.session.add(checkin_item)

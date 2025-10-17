@@ -220,6 +220,9 @@ class CheckOut(db.Model):
     checkout_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_description=db.Column(db.String)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
+    item_status = db.Column(Enum(
+                "New", "Used", "Good","Poor","Damaged", name="item_status_enum"),
+                default="New",nullable=False)
     employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     return_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
@@ -264,7 +267,9 @@ class CheckIn(db.Model):
     currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
     unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
     item_shelf_life = db.Column(db.DateTime(timezone=True), nullable=False)
-    
+    item_status = db.Column(Enum(
+                "New", "Used", "Good","Poor","Damaged", name="item_status_enum"),
+                default="New",nullable=False)
     currency=db.relationship("Currency",foreign_keys=[currency_name])
     employee=db.relationship("Employee",foreign_keys=[employee_tin_number])
     reciving_employee=db.relationship("Employee",foreign_keys=[reciving_employee_tin_number])

@@ -91,7 +91,7 @@
         </div>
 
         
-         <div class="mb-3 col-md-4">
+        <div class="mb-3 col-md-4">
           <label for="unit" class="form-label">Unit Of Measurment</label>
             <select name="unit" class="form-select" required>
                 {% for i in db_unit %}
@@ -100,6 +100,16 @@
             </select>
         </div>
 
+        <div class="mb-3 col-md-4">
+          <label for="Item Status" class="form-label">Item Status</label>
+            <select name="item_status" class="form-select" required>
+                <option value="New">New</option>
+                <option value="Used">Used</option>
+                <option value="Good">Good</option>
+                <option value="Poor">"Poor"</option>
+                <option value="Damaged">"Damaged"</option>
+            </select>
+        </div>
 
         <div class="mb-3 row">
           <div class="col-sm-10 offset-sm-2">

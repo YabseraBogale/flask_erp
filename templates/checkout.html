@@ -89,6 +89,17 @@
             </div>
 
             <div class="mb-3 col-md-4">
+                <label for="Item Status" class="form-label">Item Status</label>
+                <select name="item_status" class="form-select" required>
+                    <option value="New">New</option>
+                    <option value="Used">Used</option>
+                    <option value="Good">Good</option>
+                    <option value="Poor">"Poor"</option>
+                    <option value="Damaged">"Damaged"</option>
+                </select>
+            </div>
+
+            <div class="mb-3 col-md-4">
                 <label for="Location" class="form-label">Item Location</label>
                 <select name="location" class="form-select" required>
                     {% for i in db_location %}

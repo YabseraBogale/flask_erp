@@ -377,3 +377,39 @@ class PurchaseOrder(db.Model):
             "order_status":self.order_status,
             "order_date":self.order_date
         }
+
+class Vendor(db.Model):
+
+    __tablename__="Vendor"
+
+    vendor_tin=db.Column(db.Integer,primary_key=True,nullable=False)
+    vendor_name=db.Column(db.String,nullable=False,unique=True)
+    vendor_email=db.Column(db.String,nullable=False,unique=True)
+    vendor_phonenumber=db.Column(db.String,nullable=False)
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
+    item_quantity=db.Column(db.Float,nullable=False)
+    item_price=db.Column(db.Float,nullable=False)
+    item_unit=db.Column(db.String,,db.ForeignKey("Unit.unit"),nullable=False)
+    vendor_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
+    regsistered_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    vendor_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    location=db.relationship("Location",foreign_keys=[vendor_location])
+    employee=db.relationship("Employee",foreign_keys=[regsistered_employee_tin_number])
+    item=db.relationship("Item",foreign_keys=[item_name])
+    unit=db.relationship("Unit",foreign_keys=[item_unit])
+
+    def to_dict(self):
+        return {
+            
+            "vendor_name":self.vendor_name,
+            "vendor_registered_date":self.vendor_registered_date,
+            "vendor_email":self.vendor_email,
+            "vendor_phonenumber":self.vendor_phonenumber,
+            "vendor_location":self.vendor_location,
+            "vendor_tin":self.vendor_tin,
+            "employee_regsistered_id":self.regsistered_employee_tin_number,
+            "item_name":self.item_name,
+            "item_quantity":self.item_quantity,
+            "item_price":self.item_price,
+            "item_unit":self.item_unit
+        }

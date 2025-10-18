@@ -206,6 +206,8 @@ def employee_data():
                                     Employee.phonenumber,Employee.department_name,
                                     Employee.position,Employee.salary,
                                     Employee.date_of_employement,Employee.employee_tin_number
+                                    ).where(
+                                        Employee.employment_status=="Active"
                                     ).all()
             lst=[]
             for i in result:

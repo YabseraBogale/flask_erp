@@ -458,18 +458,21 @@ def vendor_regsisteration():
                 location=request.form["location"]
                 item_name=request.form["item_name"]
                 unit=request.form["unit"]
-                
-                customer=Vendor(
-                    customer_tin=customer_tin,customer_phonenumber=customer_phonenumber,
-                    customer_name=customer_name,customer_location=customer_location,
-                    customer_email=customer_email
+                item_quantity=request.form["item_quantity"]
+                item_price=request.form["request.form"]
+
+                vendor=Vendor(
+                    vendor_name=vendor_name,vendor_tin=vendor_tin,
+                    vendor_phonenumber=vendor_phonenumber,vendor_email=vendor_email,
+                    location=location,item_name=item_name,unit=unit,
+                    item_quantity=item_quantity,item_price=item_price
                 )
                 
-                db.session.add(customer)
+                db.session.add(vendor)
                 db.session.commit()
-                return render_template("customer_registeration.html",sucess=True)
+                return render_template("vendor_regsisteration.html",sucess=True)
 
-            return render_template("customer_registeration.html")
+            return render_template("vendor_regsisteration.html",db_unit=db_unit,item_name_list=item_name_list,db_location=db_location)
         else:
             return render_template("404.html")
         

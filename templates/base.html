@@ -54,7 +54,9 @@
                     <li>
                         <a href="/customer_registeration"><i class="fa fa-sign-out">customer registeration</i></a>
                     </li>
-                    
+                    <li>
+                        <a href="/vendor_regsisteration"><i class="fa fa-sign-out">vendor regsisteration</i></a>
+                    </li>
 
                 {% elif session["department_name"] == "Store" %}
                     
@@ -88,8 +90,14 @@
                     <li>
                         <a href="/customer_registeration"><i class="fa fa-sign-out">customer registeration</i></a>
                     </li>
+                {% elif session["department_name"]=="Procurement" %}
+
+                    <li>
+                        <a href="/vendor_regsisteration"><i class="fa fa-sign-out">vendor regsisteration</i></a>
+                    </li>
                 
                 {% endif %}
+
                 <li>
                     <a href="/purchase_order"><i class="fa fa-sign-out">purchase order</i></a>
                 </li>

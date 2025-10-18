@@ -202,8 +202,8 @@ def employee_termination():
 def employee_data():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
-            result=db.session.query(Employee.firstname,Employee.middlename,Employee.email).all()
-            return jsonify([employee.to_dict() for employee in result ])
+            result=db.session.query(Employee.firstname,Employee.middlename,Employee.email)
+            return jsonify(result.to_dict())
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

@@ -6,31 +6,91 @@
 
 {% block content %}
 <div class="container">
-        <div class="row">
-            <div class="col-md-12 page-header">
-                <div class="page-pretitle">Account Info</div>
-                <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <h5 class="card-header">Card Title</h5>
-                                        <div class="card-body">
-                                            <h5 class="card-title">Some Title</h5>
-                                            <p class="card-text">This is some text within a card body...</p>
-                                            <a href="#" class="btn btn-primary">Do Something here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h5 class="card-header">Employee Information</h5>
+                            <div class="card-body">
+
+                                <h6 class="card-title">Employee Name</h6>
+                                <p class="card-text">{{employee["name"]}}</p>
+
+                                <h6 class="card-title">Department</h6>
+                                <p class="card-text">{{employee["department_name"]}}</p>
+
+                                <h6 class="card-title">Location</h6>
+                                <p class="card-text">{{employee["location"]}}</p>
+
+                                <h6 class="card-title">Position</h6>
+                                <p class="card-text">{{employee["position"]}}</p>
+
+                                <h6 class="card-title">Salary</h6>
+                                <p class="card-text">{{employee["salary"]}}</p>
+
+                                <h6 class="card-title">Date Of Employement</h6>
+                                <p class="card-text">{{employee["date_of_employement"]}}</p>
+
+                                <h6 class="card-title">Fyida Id</h6>
+                                <p class="card-text">{{employee["fyida_id"]}}</p>
+
+                                <h6 class="card-title">Gender</h6>
+                                <p class="card-text">{{employee["gender"]}}</p>
+
+                                <h6 class="card-title">Phonenumber</h6>
+                                <p class="card-text">{{employee["phonenumber"]}}</p>
+
+                                <h6 class="card-title">Email</h6>
+                                <p class="card-text">{{employee["email"]}}</p>
+
+                                <h6 class="card-title">Tin Number</h6>
+                                <p class="card-text">{{employee["employee_tin_number"]}}</p>
+
+                                <h6 class="card-title">bank account number</h6>
+                                <p class="card-text">{{employee["bank_account_number"]}}</p>
+
+                                <h6 class="card-title">Job Description</h6>
+                                <p class="card-text">{{employee["job_description"]}}</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
         </div>
-       
-        
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h5 class="card-header">Emergency Contact</h5>
+                            <div class="card-body">
+
+                                <h6 class="card-title">Name</h6>
+                                <p class="card-text">{{employee["emergency_contact"]["name"]}}</p>
+
+                                <h6 class="card-title">Location</h6>
+                                <p class="card-text">{{employee["emergency_contact"]["location"]}}</p>
+
+                                <h6 class="card-title">Fyida Id</h6>
+                                <p class="card-text">{{employee["emergency_contact"]["fyida_id"]}}</p>
+
+                                <h6 class="card-title">Gender</h6>
+                                <p class="card-text">{{employee["emergency_contact"]["gender"]}}</p>
+
+                                <h6 class="card-title">Phonenumber</h6>
+                                <p class="card-text">{{employee["emergency_contact"]["phonenumber"]}}</p>
+
+                                <h6 class="card-title">Email</h6>
+                                <p class="card-text">{{employee["emergency_contact"]["email"]}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </div>
-<script>
-    
-</script>
+
 <script src="{{url_for('static',filename='datatables/datatables.min.js')}}"></script>
 <script src="{{url_for('static',filename='js/initiate-datatables.js')}}"></script>
 <script src="{{url_for('static',filename='js/script.js')}}"></script>  

@@ -226,12 +226,36 @@ def employee_data():
         return render_template("404.html")
 
 
-@app.route("/My_Account")
+@app.route("/my_account")
 @login_required
 def account():
     try:
-        employee=db.session.query(Employee).filter_by(Employee.employee_tin_number==session["employee_tin_number"]).first()
-        return render_template("account.html")
+        employee=db.session.query(Employee).where(Employee.employee_tin_number==session["employee_tin_number"]).first()
+        emergency_contact=db.session.query(EmergencyContact).where(EmergencyContact.fyida_id==employee.emergency_contact_fyida_id).first()
+        employee={
+            "emergency_contact":{
+                "name":emergency_contact.firstname + " " +emergency_contact.lastname,
+                "fyida_id":emergency_contact.fyida_id,
+                "email":emergency_contact.email,
+                "gender":emergency_contact.gender,
+                "phonenumber":emergency_contact.phonenumber,
+                "location":str(emergency_contact.location).replace("<Location ","").replace(">","")
+            },
+            "employee_tin_number":employee.employee_tin_number,
+            "location":str(employee.location).replace("<Location ","").replace(">",""),
+            "department_name":employee.department_name,
+            "salary":employee.salary,
+            "name":employee.firstname + " " +employee.lastname,
+            "fyida_id":employee.fyida_id,
+            "date_of_employement":employee.date_of_employement,
+            "bank_account_number":employee.bank_account_number,
+            "gender":employee.gender,
+            "email":employee.email,
+            "job_description":employee.job_description,
+            "position":employee.position
+        }
+
+        return render_template("my_account.html",employee=employee)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

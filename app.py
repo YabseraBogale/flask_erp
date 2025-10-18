@@ -205,7 +205,7 @@ def employee_data():
             result=db.session.query(Employee.firstname,Employee.lastname,
                                     Employee.phonenumber,Employee.department_name,
                                     Employee.position,Employee.salary,
-                                    Employee.date_of_employement,Employee.employee_tin_number
+                                    Employee.bank_account_number,Employee.employee_tin_number
                                     ).where(
                                         Employee.employment_status=="Active"
                                     ).all()
@@ -218,7 +218,7 @@ def employee_data():
                     "department_name":i[3],
                     "position":i[4],
                     "salary":i[5],
-                    "date_of_employement":i[6],
+                    "bank_account_number":i[6],
                     "employee_tin_number":i[7]
                 })
             return jsonify(lst)

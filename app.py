@@ -202,8 +202,35 @@ def employee_termination():
 def employee_data():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
-            result=db.session.query(Employee.firstname,Employee.middlename,Employee.email)
-            return jsonify(result.to_dict())
+            result=db.session.query(Employee.firstname,Employee.lastname,
+                                    Employee.phonenumber,Employee.department_name,
+                                    Employee.position,Employee.salary,
+                                    Employee.date_of_employement,Employee.employee_tin_number
+                                    ).all()
+            lst=[]
+            for i in result:
+                lst.append({
+                    "firstname":i[0],
+                    "lastname":i[1],
+                    "phonenumber":i[2],
+                    "department_name":i[3],
+                    "position":i[4],
+                    "salary":i[5],
+                    "date_of_employement":i[6],
+                    "employee_tin_number":i[7]
+                })
+            return jsonify(lst)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+@app.route("/employee/<employee_tin_number>")
+@login_required
+def get_employee_by_employee_tin_number(employee_tin_number):
+    try:
+        return employee_tin_number
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

@@ -228,7 +228,7 @@ def item_registeration():
                 db.session.add(item)
                 db.session.commit()
                 return redirect("/dashboard")
-            return render_template("item_registeration.html",db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_category=db_category,db_subcategory=db_subcategory)
+            return render_template("item_registeration.html",db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_category=db_category,db_subcategory=db_subcategory,sucess=True)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -278,7 +278,7 @@ def item_checkout():
                 db.session.add(checkout_item)
                 db.session.commit()
                 
-            return render_template("checkout.html",item_name_list=item_name_list,db_location=db_location,db_unit=db_unit,db_department=db_department)
+            return render_template("checkout.html",item_name_list=item_name_list,db_location=db_location,db_unit=db_unit,db_department=db_department,sucess=True)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -374,9 +374,9 @@ def sales_registeration():
 
                 db.session.add(sales)
                 db.session.commit()
-                return render_template("sales_registeration.html",sucess=True)
+                return render_template("sales_registeration.html",item_name_list=item_name_list,sucess=True)
 
-            return render_template("sales_registeration.html")
+            return render_template("sales_registeration.html",item_name_list=item_name_list)
         else:
             return render_template("404.html")
         
@@ -403,7 +403,7 @@ def purchase_order():
             )
             db.session.add(purchase)
             db.session.commit()
-        return render_template("purchase_order.html")
+        return render_template("purchase_order.html",item_name_list=item_name_list,sucess=True)
     
     except Exception as e:
         logging.exception(str(e))

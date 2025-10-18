@@ -389,7 +389,7 @@ class Vendor(db.Model):
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_quantity=db.Column(db.Float,nullable=False)
     item_price=db.Column(db.Float,nullable=False)
-    item_unit=db.Column(db.String,,db.ForeignKey("Unit.unit"),nullable=False)
+    item_unit=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
     vendor_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     regsistered_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     vendor_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())

@@ -67,6 +67,7 @@ with app.app_context():
     db_department=db.session.query(Department.department).order_by(Department.department.asc()).all()
     db_category=db.session.query(Category.category).order_by(Category.category.asc()).all()
     db_subcategory=db.session.query(Subcategory.subcategory).order_by(Subcategory.subcategory.asc()).all()
+    item_name_list=db.session.query(Item.item_name).all()
 
 
 @login_manager.user_loader
@@ -241,7 +242,6 @@ def item_registeration():
 def item_checkout():
     try:
         if session["department_name"]=="Store" or session["department_name"]=="Administration":
-            item_name_list=db.session.query(Item.item_name).all()
             if request.method=="POST":
                 item_name=request.form["item_name"]
                 return_employee_id=request.form["return_employee_id"]

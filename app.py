@@ -197,6 +197,29 @@ def employee_termination():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/all/employee/data")
+@login_required
+def employee_data():
+    try:
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            result=db.session.query(Employee.firstname,Employee.middlename,Employee.email).all()
+            return jsonify([employee.to_dict() for employee in result ])
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+@app.route("/all/employee")
+@login_required
+def all_employee():
+    try:
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            return render_template("all_employee.html",db_department=db_department,db_location=db_location)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
     
 @app.route("/item_regsisteration",methods=["GET","POST"])
 @login_required
@@ -432,9 +455,9 @@ def customer_registeration():
                 
                 db.session.add(customer)
                 db.session.commit()
-                return render_template("customer_registeration.html",sucess=True)
+                return render_template("customer_registeration.html",db_location=db_location,sucess=True)
 
-            return render_template("customer_registeration.html")
+            return render_template("customer_registeration.html",db_location=db_location)
         else:
             return render_template("404.html")
         

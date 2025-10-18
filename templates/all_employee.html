@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Employee Lisiting</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+        <div class="row">
+            <div class="col-md-12 page-header">
+                <div class="page-pretitle">Employee Lisiting</div>
+        </div>
+        <div class="content">
+                <div class="container">
+                    <div class="col-md-12 col-lg-12">
+                            <div class="card">
+                               
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Number</th>
+                                                    <th>
+                                                        Employee Name <input type="text" name="name" placeholder="Employee Name" class="form-control">
+                                                    </th>
+                                                    <th>Phonenumber</th>
+                                                    <th>Poistion</th>
+                                                    <th>
+                                                        Department
+                                                        <select name="department" id="" class="form-select">
+                                                            {% for i in db_department %}
+                                                                <option value="{{i[0]}}">{{i[0]}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </th>
+                                                    <th>Salary</th>
+                                                    <th>Bank Account Number</th>
+                                                    <th>View Full info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="employee_list">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>   
+        </div>
+</div>
+<script>
+    console.log("hi")
+</script>
+<script src="{{url_for('static',filename='datatables/datatables.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/initiate-datatables.js')}}"></script>
+<script src="{{url_for('static',filename='js/script.js')}}"></script>  
+{% endblock %}

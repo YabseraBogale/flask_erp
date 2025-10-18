@@ -13,6 +13,7 @@
     <link href="{{url_for('static',filename='fontawesome/css/solid.min.css')}}" rel="stylesheet">
     <link href="{{url_for('static',filename='fontawesome/css/brands.min.css')}}" rel="stylesheet">
     <link href="{{url_for('static',filename='js/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename='datatables/datatables.min.css')}}" rel="stylesheet">
     <link href="{{url_for('static',filename='css/master.css')}}" rel="stylesheet">
     <link href="{{url_for('static',filename='flagiconcss/css/flag-icon.min.css')}}" rel="stylesheet">
     
@@ -81,6 +82,7 @@
                     <li>
                         <a href="/employee_termination"><i class="fa fa-sign-out">employee termination</i></a>
                     </li>
+                    
                 {% elif session["department_name"] == "Sales" %}
                     
                     <li>

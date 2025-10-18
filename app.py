@@ -9,7 +9,7 @@ from flask_login import LoginManager, login_user, login_required, current_user, 
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
-from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder
+from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder,Vendor
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -442,6 +442,42 @@ def customer_registeration():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+    
+
+
+@app.route("/vendor_regsisteration",methods=["GET","POST"])
+@login_required
+def vendor_regsisteration():
+    try:
+        if session["department_name"]=="Procurement" or session["department_name"]=="Administration":
+            if request.method=="POST":
+                vendor_name=request.form["vendor_name"]
+                vendor_tin=request.form["vendor_tin"]
+                vendor_phonenumber=request.form["vendor_phonenumber"]
+                vendor_email=request.form["vendor_email"]
+                location=request.form["location"]
+                item_name=request.form["item_name"]
+                unit=request.form["unit"]
+                
+                customer=Vendor(
+                    customer_tin=customer_tin,customer_phonenumber=customer_phonenumber,
+                    customer_name=customer_name,customer_location=customer_location,
+                    customer_email=customer_email
+                )
+                
+                db.session.add(customer)
+                db.session.commit()
+                return render_template("customer_registeration.html",sucess=True)
+
+            return render_template("customer_registeration.html")
+        else:
+            return render_template("404.html")
+        
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+    
 
 
 @app.route("/login",methods=["GET","POST"])

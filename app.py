@@ -226,11 +226,12 @@ def employee_data():
         return render_template("404.html")
 
 
-@app.route("/employee/<employee_tin_number>")
+@app.route("/My_Account")
 @login_required
-def get_employee_by_employee_tin_number(employee_tin_number):
+def account():
     try:
-        return employee_tin_number
+        employee=db.session.query(Employee).filter_by(Employee.employee_tin_number==session["employee_tin_number"]).first()
+        return render_template("account.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

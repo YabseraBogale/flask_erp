@@ -65,10 +65,16 @@
                                     <p class="card-text">{{employee["employment_status"]}}</p>
 
                                     {% if employee["employment_status"]!="Deceased" %}
-                                        <form action="" method="POST">
+                                        <form action='/restate/{{employee["employee_tin_number"]}}' method="POST">
                                             <select name="employment_status" id="">
                                                 <option value="Active">Active</option>
                                             </select>
+                                            <div class="mb-3 row">
+                                                <div class="col-sm-10 offset-sm-2">
+                                                    <input type="submit" class="btn btn-primary">
+                                                    <input type="reset" class="btn btn-primary">
+                                                </div>
+                                            </div>
                                         </form>
                                     {% endif %}
                                 {% endif %}

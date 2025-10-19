@@ -277,7 +277,30 @@ def terminated_employee_data(employee_tin_number):
         db.session.rollback()
         return render_template("404.html")
 
-
+@app.route("/restate/<employee_tin_number>")
+@login_required
+def restate(employee_tin_number):
+    try:
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            if request.method=="POST":
+                employment_status=request.form["employment_status"]
+                stmt=(
+                    update(
+                        Employee
+                    ).where(
+                        Employee.employee_tin_number==employee_tin_number
+                    ).values(
+                        employment_status=employment_status
+                    )
+                )
+                db.session.execute(stmt)
+                db.session.commit()
+                return redirect("/dashboard")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
 
 @app.route("/all/employee/data")
 @login_required

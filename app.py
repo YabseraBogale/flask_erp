@@ -218,10 +218,50 @@ def employee_data():
                     "employee_tin_number":i[7]
                 })
             return jsonify(lst)
+        return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+@app.route("/employee_info_for_hr/<employee_tin_number>")
+@login_required
+def employee_info_for_hr(employee_tin_number):
+    try:
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            employee=db.session.query(Employee).where(Employee.employee_tin_number==employee_tin_number).first()
+            emergency_contact=db.session.query(EmergencyContact).where(EmergencyContact.fyida_id==employee.emergency_contact_fyida_id).first()
+            employee={
+                "emergency_contact":{
+                    "name":emergency_contact.firstname + " " +emergency_contact.lastname,
+                    "fyida_id":emergency_contact.fyida_id,
+                    "email":emergency_contact.email,
+                    "gender":emergency_contact.gender,
+                    "phonenumber":emergency_contact.phonenumber,
+                    "location":str(emergency_contact.location).replace("<Location ","").replace(">","")
+                },
+                "employee_tin_number":employee.employee_tin_number,
+                "location":str(employee.location).replace("<Location ","").replace(">",""),
+                "department_name":employee.department_name,
+                "salary":employee.salary,
+                "name":employee.firstname + " " +employee.lastname,
+                "fyida_id":employee.fyida_id,
+                "date_of_employement":employee.date_of_employement,
+                "bank_account_number":employee.bank_account_number,
+                "gender":employee.gender,
+                "email":employee.email,
+                "job_description":employee.job_description,
+                "position":employee.position
+            }
+            return render_template("my_account.html",employee=employee)
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+
 
 @app.route("/my_account")
 @login_required

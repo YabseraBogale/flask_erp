@@ -277,7 +277,7 @@ def terminated_employee_data(employee_tin_number):
         db.session.rollback()
         return render_template("404.html")
 
-@app.route("/restate/<employee_tin_number>")
+@app.route("/restate/<employee_tin_number>",methods=["GET","POST"])
 @login_required
 def restate(employee_tin_number):
     try:

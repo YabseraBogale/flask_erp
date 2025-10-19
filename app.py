@@ -192,6 +192,52 @@ def employee_termination():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+    
+@app.route("/terminated_employee_list")
+@login_required
+def terminated_employee_list():
+    try:
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            return render_template("terminated_employee_list.html",db_department=db_department,db_location=db_location)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+@app.route("/terminated_employee_list/employee/data")
+@login_required
+def employee_data():
+    try:
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            result=db.session.query(Employee.firstname,Employee.lastname,
+                                    Employee.phonenumber,Employee.department_name,
+                                    Employee.position,Employee.salary,
+                                    Employee.bank_account_number,Employee.employee_tin_number
+                                    ).where(
+                                        Employee.employment_status!="Active"
+                                    ).all()
+            lst=[]
+            for i in result:
+                lst.append({
+                    "firstname":i[0],
+                    "lastname":i[1],
+                    "phonenumber":i[2],
+                    "department_name":i[3],
+                    "position":i[4],
+                    "salary":i[5],
+                    "bank_account_number":i[6],
+                    "employee_tin_number":i[7]
+                })
+            return jsonify(lst)
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+
 
 @app.route("/all/employee/data")
 @login_required
@@ -303,7 +349,7 @@ def account():
 def all_employee():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
-            return render_template("all_employee.html",db_department=db_department,db_location=db_location)
+            return render_template("all_employee.html",db_department=db_department)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

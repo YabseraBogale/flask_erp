@@ -63,12 +63,12 @@
             data => {
                 let employee_list=document.getElementById("employee_list")
                 let department=document.getElementById("department")
-                
+                let td=""
                 
 
                 department.addEventListener("change",function(event){
                     
-                    let td=""
+                    
                     for(let i=0;i<data.length;i++){
                         
                         if(event.target.value==data[i]["department_name"]){
@@ -82,14 +82,36 @@
                             td+="<td>"+data[i]["bank_account_number"]+"</td>"
                             td+="<td>"+"<a href='/employee/"+data[i]["employee_tin_number"]+"' class='btn btn-primary'>View</a>"+"</td></tr>"
                             employee_list.innerHTML=td
+                            td=""
                         } else{
                             employee_list.innerHTML = '<tr><td colspan="8">No employees found in this department.</td></tr>';
+                            td=""
                         }
                             
                     }
                     
                 })
                 
+                for(let i=0;i<data.length;i++){
+                        
+                        if("Administration"==data[i]["department_name"]){
+                            
+                            td+="<tr><td>"+(i+1).toString()+"</td>"
+                            td+="<td>"+data[i]["firstname"]+" "+data[i]["lastname"] +"</td>"
+                            td+="<td>"+data[i]["phonenumber"]+"</td>"
+                            td+="<td>"+data[i]["department_name"]+"</td>"
+                            td+="<td>"+data[i]["position"]+"</td>"
+                            td+="<td>"+data[i]["salary"]+"</td>"
+                            td+="<td>"+data[i]["bank_account_number"]+"</td>"
+                            td+="<td>"+"<a href='/employee/"+data[i]["employee_tin_number"]+"' class='btn btn-primary'>View</a>"+"</td></tr>"
+                            employee_list.innerHTML=td
+                            td=""
+                        } else{
+                            employee_list.innerHTML = '<tr><td colspan="8">No employees found in this department.</td></tr>';
+                            td=""
+                        }
+                            
+                    }
                 
                 
                 

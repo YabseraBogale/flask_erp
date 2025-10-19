@@ -185,13 +185,14 @@ def employee_termination():
                 )
                 db.session.execute(stmt)
                 db.session.commit()        
-            return render_template("employee_termination.html")
+            return render_template("employee_termination.html",sucess=True)
         else:
             return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
     
 @app.route("/terminated_employee_list")
 @login_required
@@ -213,7 +214,7 @@ def terminated_employee_list_data():
             result=db.session.query(Employee.firstname,Employee.lastname,
                                     Employee.phonenumber,Employee.department_name,
                                     Employee.position,Employee.salary,
-                                    Employee.bank_account_number,Employee.employee_tin_number
+                                    Employee.termination_date,Employee.employee_tin_number
                                     ).where(
                                         Employee.employment_status!="Active"
                                     ).all()
@@ -226,7 +227,7 @@ def terminated_employee_list_data():
                     "department_name":i[3],
                     "position":i[4],
                     "salary":i[5],
-                    "bank_account_number":i[6],
+                    "termination_date":i[6],
                     "employee_tin_number":i[7]
                 })
             return jsonify(lst)
@@ -235,6 +236,48 @@ def terminated_employee_list_data():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+
+@app.route("/terminated_employee_list/employee/data/<employee_tin_number>")
+@login_required
+def terminated_employee_data(employee_tin_number):
+    try:
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            employee=db.session.query(Employee).where(Employee.employee_tin_number==employee_tin_number).first()
+            emergency_contact=db.session.query(EmergencyContact).where(EmergencyContact.fyida_id==employee.emergency_contact_fyida_id).first()
+            employee={
+                "emergency_contact":{
+                    "name":emergency_contact.firstname + " " +emergency_contact.lastname,
+                    "fyida_id":emergency_contact.fyida_id,
+                    "email":emergency_contact.email,
+                    "gender":emergency_contact.gender,
+                    "phonenumber":emergency_contact.phonenumber,
+                    "location":str(emergency_contact.location).replace("<Location ","").replace(">","")
+                },
+                "employee_tin_number":employee.employee_tin_number,
+                "location":str(employee.location).replace("<Location ","").replace(">",""),
+                "department_name":employee.department_name,
+                "salary":employee.salary,
+                "name":employee.firstname + " " +employee.lastname,
+                "fyida_id":employee.fyida_id,
+                "date_of_employement":employee.date_of_employement,
+                "bank_account_number":employee.bank_account_number,
+                "gender":employee.gender,
+                "email":employee.email,
+                "job_description":employee.job_description,
+                "position":employee.position,
+                "termination_date":employee.termination_date,
+                "termination_reason":employee.termination_reason,
+                "employment_status":employee.employment_status,
+            }
+            return render_template("my_account.html",employee=employee,termaination=True)
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
 
 @app.route("/all/employee/data")
 @login_required
@@ -266,6 +309,9 @@ def employee_data():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+
+
 
 @app.route("/employee_info_for_hr/<employee_tin_number>")
 @login_required

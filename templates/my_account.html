@@ -52,6 +52,26 @@
 
                                 <h6 class="card-title">Job Description</h6>
                                 <p class="card-text">{{employee["job_description"]}}</p>
+
+                                {% if termaination %}
+
+                                    <h6 class="card-title">Termination Date</h6>
+                                    <p class="card-text">{{employee["termination_date"]}}</p>
+
+                                    <h6 class="card-title">Termination Reason</h6>
+                                    <p class="card-text">{{employee["termination_reason"]}}</p>
+
+                                    <h6 class="card-title">employment_status</h6>
+                                    <p class="card-text">{{employee["employment_status"]}}</p>
+
+                                    {% if employee["employment_status"]!="Deceased" %}
+                                        <form action="" method="POST">
+                                            <select name="employment_status" id="">
+                                                <option value="Active">Active</option>
+                                            </select>
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
                         </div>
                     </div>
                 </div>

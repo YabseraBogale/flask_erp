@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Employee Lisiting</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+        <div class="row">
+            <div class="col-md-12 page-header">
+                <div class="page-pretitle">Employee Lisiting</div>
+        </div>
+        <div class="content">
+                <div class="container">
+                    <div class="col-md-12 col-lg-12">
+                            <div class="card">
+                               
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Number</th>
+                                                    <th>
+                                                        Employee Name 
+                                                    </th>
+                                                    <th>Phonenumber</th>
+                                                    <th>
+                                                        Department
+                                                        <select name="" id="department" class="form-select">
+                                                            {% for i in db_department %}
+                                                                <option value="{{i[0]}}">{{i[0]}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </th>
+                                                    <th>Poistion</th>
+                                                    <th>Salary</th>
+                                                    <th>Termation date</th>
+                                                    <th>View Full info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="employee_list">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>   
+        </div>
+</div>
+<script>
+
+    
+    fetch("/terminated_employee_list/employee/data")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(
+            data => {
+                let employee_list=document.getElementById("employee_list")
+                let department=document.getElementById("department")
+                
+                let found_employee=false
+                
+
+                department.addEventListener("change",function(event){
+                    let td=""
+                    for(let i=0;i<data.length;i++){
+                        if(event.target.value==data[i]["department_name"]){
+                            console.log(event.target.value);
+                            found_employee=true
+                            td+="<tr><td>"+(i+1).toString()+"</td>"
+                            td+="<td>"+data[i]["firstname"]+" "+data[i]["lastname"] +"</td>"
+                            td+="<td>"+data[i]["phonenumber"]+"</td>"
+                            td+="<td>"+data[i]["department_name"]+"</td>"
+                            td+="<td>"+data[i]["position"]+"</td>"
+                            td+="<td>"+data[i]["salary"]+"</td>"
+                            td+="<td>"+data[i]["termination_date"]+"</td>"
+                            td+="<td>"+"<a href='/employee_info_for_hr/"+data[i]["employee_tin_number"]+"' class='btn btn-primary'>View</a>"+"</td></tr>"  
+                        }     
+                    }
+                    if(found_employee){
+                        employee_list.innerHTML=td
+                    } else{
+                        employee_list.innerHTML = '<tr><td colspan="8">No employees found in this department.</td></tr>';
+                        
+                    }
+                })
+                
+                
+                
+            }
+        )
+        .catch((error)=>{
+            console.log(error);
+        });
+</script>
+<script src="{{url_for('static',filename='datatables/datatables.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/initiate-datatables.js')}}"></script>
+<script src="{{url_for('static',filename='js/script.js')}}"></script>  
+{% endblock %}

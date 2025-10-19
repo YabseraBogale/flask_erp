@@ -20,8 +20,6 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-
-
 app=Flask(__name__)
 
 company_email=os.getenv("company_email")
@@ -69,7 +67,6 @@ with app.app_context():
     db_subcategory=db.session.query(Subcategory.subcategory).order_by(Subcategory.subcategory.asc()).all()
     item_name_list=db.session.query(Item.item_name).all()
 
-
 @login_manager.user_loader
 def load_user(employee_tin_number):
     return db.session.get(Employee, employee_tin_number)
@@ -82,7 +79,6 @@ def logout_if_not_active():
             logout_user()
             session.clear()
             return redirect(url_for('login'))
-
 
 @app.route("/employee_registeration",methods=["GET","POST"])
 @login_required
@@ -227,7 +223,6 @@ def employee_data():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/my_account")
 @login_required
 def account():
@@ -273,8 +268,7 @@ def all_employee():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
-    
+   
 @app.route("/item_regsisteration",methods=["GET","POST"])
 @login_required
 def item_registeration():
@@ -312,7 +306,6 @@ def item_registeration():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
 
 @app.route("/item_checkout",methods=["GET","POST"])
 @login_required
@@ -362,7 +355,6 @@ def item_checkout():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
 
 @app.route("/item_checkin",methods=["GET","POST"])
 @login_required
@@ -414,7 +406,6 @@ def item_checkin():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/sales_registeration",methods=["GET","POST"])
 @login_required
 def sales_registeration():
@@ -431,7 +422,7 @@ def sales_registeration():
                 item=db.session.query(Item).filter(Item.item_name==item_name).first()
 
                 if item.item_quantity-int(item_quantity)<0:
-                    return render_template("sales_registeration.html",negative=True)
+                    return render_template("sales_registeration.html",negative=True,db_currency=db_currency,db_unit=db_unit)
 
                 stmt=(
                     update(
@@ -451,9 +442,9 @@ def sales_registeration():
 
                 db.session.add(sales)
                 db.session.commit()
-                return render_template("sales_registeration.html",item_name_list=item_name_list,sucess=True)
+                return render_template("sales_registeration.html",item_name_list=item_name_list,sucess=True,db_currency=db_currency,db_unit=db_unit)
 
-            return render_template("sales_registeration.html",item_name_list=item_name_list)
+            return render_template("sales_registeration.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit)
         else:
             return render_template("404.html")
         
@@ -461,8 +452,6 @@ def sales_registeration():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
-
 
 @app.route("/purchase_order",methods=["GET","POST"])
 @login_required
@@ -487,8 +476,6 @@ def purchase_order():
         db.session.rollback()
         return render_template("404.html")
 
-
-
 @app.route("/customer_registeration",methods=["GET","POST"])
 @login_required
 def customer_registeration():
@@ -501,10 +488,12 @@ def customer_registeration():
                 customer_tin=request.form["customer_tin"]
                 customer_location=request.form["customer_location"]
                 
+                
                 customer=Customer(
                     customer_tin=customer_tin,customer_phonenumber=customer_phonenumber,
                     customer_name=customer_name,customer_location=customer_location,
-                    customer_email=customer_email
+                    customer_email=customer_email,regsistered_employee_tin_number=session["employee_tin_number"],
+                   
                 )
                 
                 db.session.add(customer)
@@ -520,8 +509,6 @@ def customer_registeration():
         db.session.rollback()
         return render_template("404.html")
     
-
-
 @app.route("/vendor_regsisteration",methods=["GET","POST"])
 @login_required
 def vendor_regsisteration():
@@ -558,8 +545,6 @@ def vendor_regsisteration():
         db.session.rollback()
         return render_template("404.html")
     
-
-
 @app.route("/login",methods=["GET","POST"])
 @limiter.limit("5 per minute")
 def login():
@@ -584,7 +569,6 @@ def login():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/logout")
 def logout():
     try:
@@ -594,7 +578,6 @@ def logout():
     except Exception as e:
         logging.exception(str(e))
         return render_template("404.html")
-
 
 @app.route("/dashboard")
 def dashboard():

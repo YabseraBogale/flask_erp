@@ -207,7 +207,7 @@ def terminated_employee_list():
 
 @app.route("/terminated_employee_list/employee/data")
 @login_required
-def employee_data():
+def terminated_employee_list_data():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
             result=db.session.query(Employee.firstname,Employee.lastname,
@@ -235,9 +235,6 @@ def employee_data():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
-
-
 
 @app.route("/all/employee/data")
 @login_required

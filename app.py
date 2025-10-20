@@ -570,7 +570,7 @@ def customer_list():
 
 @app.route("/customer_list/list/<employee_tin_number>")
 @login_required
-def customer_list(employee_tin_number):
+def customer_list_employee_tin_number(employee_tin_number):
     try:
         if session["Sales"]=="Human Resources" or session["department_name"]=="Administration":
             customer_list_name=db.session.query(Customer).where(

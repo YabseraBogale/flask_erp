@@ -372,8 +372,6 @@ def employee_info_for_hr(employee_tin_number):
         return render_template("404.html")
 
 
-
-
 @app.route("/my_account")
 @login_required
 def account():
@@ -409,12 +407,12 @@ def account():
         db.session.rollback()
         return render_template("404.html")
 
-@app.route("/all/employee")
+@app.route("/employee_list")
 @login_required
-def all_employee():
+def employee_list():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
-            return render_template("all_employee.html",db_department=db_department)
+            return render_template("employee_list.html",db_department=db_department)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
@@ -615,8 +613,8 @@ def sales_list():
 def sales_list_employee_tin_number(employee_tin_number):
     try:
         if session["department_name"]=="Sales" or session["department_name"]=="Administration":
-            sales_list_name=db.session.query(Customer).where(
-                                Customer.regsistered_employee_tin_number==employee_tin_number
+            sales_list_name=db.session.query(Sales).where(
+                                Sales.employee_tin_number==employee_tin_number
                             ).all()
 
             lst=[]
@@ -624,11 +622,12 @@ def sales_list_employee_tin_number(employee_tin_number):
             for i in sales_list_name:
                 lst.append(
                     {
-                        "customer_tin":i[0],
-                        "customer_name":i[1],
-                        "customer_email":i[2],
-                        "customer_phonenumber":i[3],
-                        "customer_location":i[4]
+                        "customer_tin":i[6],
+                        "sales_date":i[1],
+                        "item_name":i[2],
+                        "item_quantity":i[3],
+                        "total_price":i[4],
+                        "unit_name":i[8],
                     }
                 )
 

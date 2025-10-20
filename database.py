@@ -326,6 +326,7 @@ class Sales(db.Model):
     sales_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_quantity=db.Column(db.Float,nullable=False)
+    # change total_price to unit pirce
     total_price=db.Column(db.Float,nullable=False)
     employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     customer_tin=db.Column(db.String,db.ForeignKey("Customer.customer_tin"),nullable=False)

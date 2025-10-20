@@ -13,15 +13,16 @@
 {% endblock %}
 
 {% block column %}
-
+    
     <th>Customer Tin</th>                                                
-    <th>Customer Name</th>
-    <th>Customer Email</th>
-    <th>Customer Phonenumber</th>
-    <th>Customer Location</th>
+    <th>Sales Date</th>
+    <th>Item Name</th>
+    <th>Item Quantity</th>
+    <th>Total Price</th>
+    <th>Unit Name</th>
     
 <script>
-    fetch("/customer_list/list/{{ session['employee_tin_number'] }}")
+    fetch("/sales_list/list/{{ session['employee_tin_number'] }}")
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -33,10 +34,11 @@
                 let employee_list=document.getElementById("list")
                 for(let i=0;i<data.length;i++){ 
                     td+="<tr><td>"+data[i]["customer_tin"]+"</td>"
-                    td+="<td>"+data[i]["customer_name"]+"</td>"
-                    td+="<td>"+data[i]["customer_email"]+"</td>"
-                    td+="<td>"+data[i]["customer_phonenumber"]+"</td>"
-                    td+="<td>"+data[i]["customer_location"]+"</td></tr>"     
+                    td+="<td>"+data[i]["sales_date"]+"</td>"
+                    td+="<td>"+data[i]["item_name"]+"</td>"
+                    td+="<td>"+data[i]["item_quantity"]+"</td>"
+                    td+="<td>"+data[i]["total_price"]+"</td>"
+                    td+="<td>"+data[i]["unit_name"]+"</td></tr>"     
                 }
                 
             }

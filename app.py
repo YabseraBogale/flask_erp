@@ -561,7 +561,7 @@ def item_checkin():
 @login_required
 def customer_list():
     try:
-        if session["Sales"]=="Human Resources" or session["department_name"]=="Administration":
+        if session["department_name"]=="Sales" or session["department_name"]=="Administration":
             return render_template("customer_list.html")
     except Exception as e:
         logging.exception(str(e))
@@ -572,7 +572,7 @@ def customer_list():
 @login_required
 def customer_list_employee_tin_number(employee_tin_number):
     try:
-        if session["Sales"]=="Human Resources" or session["department_name"]=="Administration":
+        if session["department_name"]=="Sales" or session["department_name"]=="Administration":
             customer_list_name=db.session.query(Customer).where(
                                 Customer.regsistered_employee_tin_number==employee_tin_number
                             ).all()

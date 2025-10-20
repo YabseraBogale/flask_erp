@@ -579,7 +579,7 @@ def customer_list(employee_tin_number):
 
             lst=[]
 
-            for i in customer_list:
+            for i in customer_list_name:
                 lst.append(
                     {
                         "customer_tin":i[0],

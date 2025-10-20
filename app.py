@@ -205,7 +205,6 @@ def terminated_employee_list():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/terminated_employee_list/employee/data")
 @login_required
 def terminated_employee_list_data():
@@ -557,6 +556,47 @@ def item_checkin():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+@app.route("/customer_list")
+@login_required
+def customer_list():
+    try:
+        if session["Sales"]=="Human Resources" or session["department_name"]=="Administration":
+            return render_template("customer_list.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+@app.route("/customer_list/list/<employee_tin_number>")
+@login_required
+def customer_list(employee_tin_number):
+    try:
+        if session["Sales"]=="Human Resources" or session["department_name"]=="Administration":
+            customer_list_name=db.session.query(Customer).where(
+                                Customer.regsistered_employee_tin_number==employee_tin_number
+                            ).all()
+
+            lst=[]
+
+            for i in customer_list:
+                lst.append(
+                    {
+                        "customer_tin":i[0],
+                        "customer_name":i[1],
+                        "customer_email":i[2],
+                        "customer_phonenumber":i[3],
+                        "customer_location":i[4]
+                    }
+                )
+
+
+            return jsonify(lst)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
 
 @app.route("/sales_registeration",methods=["GET","POST"])
 @login_required

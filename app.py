@@ -332,9 +332,6 @@ def employee_data():
         db.session.rollback()
         return render_template("404.html")
 
-
-
-
 @app.route("/employee_info_for_hr/<employee_tin_number>")
 @login_required
 def employee_info_for_hr(employee_tin_number):
@@ -514,6 +511,7 @@ def item_checkin():
             if request.method=="POST":
                 item_name=request.form["item_name"]
                 reciving_employee_id=request.form["reciving_employee_id"]
+                vendor_tin=request.form["vendor_tin"]
                 checkin_date=request.form["checkin_date"]
                 checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d").date()
                 item_price=request.form["item_price"]
@@ -540,7 +538,7 @@ def item_checkin():
                         item_quantity=item_quantity,item_grr=item_grr,
                         item_description=item_description,unit_name=unit,
                         checkin_date=checkin_date,currency_name=currency,
-                        item_shelf_life=item_shelf_life,item_status=item_status)
+                        item_shelf_life=item_shelf_life,item_status=item_status,vendor_tin=vendor_tin)
 
                 
                 db.session.add(checkin_item)

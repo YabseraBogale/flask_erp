@@ -46,6 +46,7 @@ limiter = Limiter(
 db.init_app(app)
 login_manager=LoginManager(app)
 login_manager.login_view = "login"
+characters = string.ascii_letters + string.digits + string.punctuation
 
 with app.app_context():
 
@@ -58,6 +59,33 @@ with app.app_context():
             cursor.close()
         
     db.create_all()
+
+    # add info for the first admin and remove 
+    # admin_emergencyContact=EmergencyContact(
+    #                 firstname="",
+    #                 lastname="",middlename="",
+    #                 phonenumber="",location_name="",
+    #                 fyida_id="",gender="",
+    #                 email="")
+    
+    # db.session.add(admin_emergencyContact)
+    # db.session.commit()
+
+    # password_to_send = ''.join(random.choice(characters) for i in range(15))  
+    # print(password_to_send)
+    # password=(password_to_send).encode("utf-8")
+    # admin=Employee(
+    #                 emergency_contact_fyida_id="",
+    #                 firstname="",lastname="",middlename="",phonenumber="",
+    #                 gender="",email="",date_of_employement="",fyida_id="",
+    #                 employee_tin_number="",currency_name="",
+    #                 position="",location_name="",
+    #                 department_name="",job_description="",
+    #                 bank_account_number="",salary="",
+    #                 password=bcrypt.hashpw(password,salt))
+    # db.session.add(admin)        
+    # db.session.commit()
+
 
     db_location=db.session.query(Location.location).order_by(Location.location.asc()).all()
     db_unit=db.session.query(Unit.unit).order_by(Unit.unit.asc()).all()
@@ -121,7 +149,6 @@ def employee_registeration():
                 bank_account_number=request.form["bank_account_number"]
                 currency=request.form["currency"]
                 salary=request.form["salary"]
-                characters = string.ascii_letters + string.digits + string.punctuation
                 password_to_send = ''.join(random.choice(characters) for i in range(15))
                 
                 password=(password_to_send).encode("utf-8")

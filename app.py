@@ -479,6 +479,22 @@ def item_registeration():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+    
+
+@app.route("/checkout_list")
+@login_required
+def checkout_list():
+    try:
+        checkout_list_name=db.session.query(
+            CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
+            CheckOut.item_siv,CheckOut.unit_name
+            ).where(
+                CheckOut.employee_tin_number==session["employee_tin_number"]).all()
+        return render_template("checkin_list.html",checkout_list_name=checkout_list_name)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
 
 @app.route("/item_checkout",methods=["GET","POST"])
 @login_required
@@ -528,6 +544,23 @@ def item_checkout():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+@app.route("/checkin_list")
+@login_required
+def checkin_list():
+    try:
+        checkin_list_name=db.session.query(
+            CheckIn.item_name,CheckIn.item_price,CheckIn.item_quantity,
+            CheckIn.item_grr,CheckIn.unit_name
+            ).where(
+                CheckIn.employee_tin_number==session["employee_tin_number"]).all()
+        return render_template("checkin_list.html",checkin_list_name=checkin_list_name)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+    
+
 
 @app.route("/item_checkin",methods=["GET","POST"])
 @login_required
@@ -777,7 +810,7 @@ def vendor_listing():
                 Vendor.item_name,Vendor.item_price,Vendor.item_quantity,Vendor.item_unit
                 ).where(Vendor.regsistered_employee_tin_number==session["employee_tin_number"]).all()
             
-            return render_template("vendor_list.html")
+            return render_template("vendor_list.html",vendor_lst=vendor)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))

@@ -18,15 +18,13 @@
     <th>Item Price</th>
     <th>Item Quantity</th>
     <th>Item Grr</th>
-    <th>Item Price</th>
-    <th>Item Quantity</th>
     <th>Item Unit</th>
     <th>View Info</th>
 
 {% endblock %}
 
 {% block table_content %}
-    {% for i in checkin_lst %}
+    {% for i in checkin_list_name %}
         <tr>
             
             <td>
@@ -49,18 +47,7 @@
                 {{i[4]}}
             </td>
             
-            <td>
-                {{i[5]}}
-            </td>
             
-            <td>
-                {{i[6]}}
-            </td>
-
-            <td>
-                {{i[7]}}
-            </td>
-        
         </tr>
 
     {% endfor %}

@@ -1,0 +1,62 @@
+{% extends "table.html" %}
+
+{% block title %}
+
+  <title>Customer Lisiting</title>
+
+{% endblock %}
+
+{% block listing_name %}
+
+    Vendor Lisiting
+
+{% endblock %}
+
+{% block column %}
+
+    <th>Vendor Tin</th>                                                
+    <th>Vendor Name</th>
+    <th>Vendor Phonenumber</th>
+    <th>Item Name</th>
+    <th>Item Price</th>
+    <th>Item Quantity</th>
+    <th>Item Unit</th>
+{% endblock %}
+
+{% block table_content %}
+    {% for i in vendor_lst %}
+        <tr>
+            
+            <td>
+                {{i[0]}}
+            </td>
+            
+            <td>
+                {{i[1]}}
+            </td>
+            
+            <td>
+                {{i[2]}}
+            </td>
+            
+            <td>
+                {{i[3]}}
+            </td>
+            
+            <td>
+                {{i[4]}}
+            </td>
+            
+            <td>
+                {{i[5]}}
+            </td>
+            
+            <td>
+                {{i[6]}}
+            </td>
+        
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}

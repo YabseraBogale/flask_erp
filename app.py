@@ -765,6 +765,25 @@ def customer_registeration():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+
+@app.route("/vendor_listing")
+@login_required
+def vendor_listing():
+    try:
+        if session["department_name"]=="Procurement" or session["department_name"]=="Administration":
+            vendor=db.session.query(
+                Vendor.vendor_tin,Vendor.vendor_name,Vendor.vendor_phonenumber,
+                Vendor.item_name,Vendor.item_price,Vendor.item_quantity,Vendor.item_unit
+                ).where(Vendor.regsistered_employee_tin_number==session["employee_tin_number"]).all()
+            
+            return render_template("vendor_list.html")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
     
 @app.route("/vendor_regsisteration",methods=["GET","POST"])
 @login_required
@@ -785,8 +804,9 @@ def vendor_regsisteration():
                 vendor=Vendor(
                     vendor_name=vendor_name,vendor_tin=vendor_tin,
                     vendor_phonenumber=vendor_phonenumber,vendor_email=vendor_email,
-                    location=location,item_name=item_name,unit=unit,
-                    item_quantity=item_quantity,item_price=item_price
+                    location=location,item_name=item_name,item_unit=unit,
+                    item_quantity=item_quantity,item_price=item_price,
+                    regsistered_employee_tin_number=session["employee_tin_number"]
                 )
                 
                 db.session.add(vendor)

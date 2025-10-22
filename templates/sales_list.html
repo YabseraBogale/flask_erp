@@ -21,6 +21,9 @@
     <th>Unit Price</th>
     <th>Unit Name</th>
     
+{% endblock %}
+
+{% block table_content %}
 <script>
     fetch("/sales_list/list/{{ session['employee_tin_number'] }}")
         .then(response => {

@@ -1,0 +1,58 @@
+{% extends "table.html" %}
+
+{% block title %}
+
+  <title>Checkin Lisiting</title>
+
+{% endblock %}
+
+{% block listing_name %}
+
+    Checkin Lisiting
+
+{% endblock %}
+
+{% block column %}
+
+    <th>Item Name</th>                                                
+    <th>Item Price</th>
+    <th>Item Quantity</th>
+    <th>Item Unit</th>
+    <th>Shelf Life</th>
+    <th>View Info</th>
+
+{% endblock %}
+
+{% block table_content %}
+    {% for i in item_list %}
+        <tr>
+            
+            <td>
+                {{i[0]}}
+            </td>
+            
+            <td>
+                {{i[1]}}
+            </td>
+            
+            <td>
+                {{i[2]}}
+            </td>
+            
+            <td>
+                {{i[3]}}
+            </td>
+            
+            <td>
+                {{i[4]}}
+            </td>
+
+            <td>
+                {{i[5]}}
+            </td>
+            
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}

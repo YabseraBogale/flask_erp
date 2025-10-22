@@ -479,7 +479,24 @@ def item_registeration():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-    
+
+@app.route("/item_listing")
+@login_required
+def item_listing():
+    try:
+        if session["department_name"]=="Store" or session["department_name"]=="Administration":
+            item_list=db.session.query(
+                Item.item_name,Item.item_price,Item.item_quantity,
+                Item.unit_name,Item.item_shelf_life
+            ).order_by(Item.item_shelf_life.asc()).all()
+            return render_template("item_list.html",item_list=item_list)
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
 
 @app.route("/checkout_list")
 @login_required
@@ -560,8 +577,6 @@ def checkin_list():
         db.session.rollback()
         return render_template("404.html")
     
-
-
 @app.route("/item_checkin",methods=["GET","POST"])
 @login_required
 def item_checkin():
@@ -652,8 +667,6 @@ def customer_list_employee_tin_number(employee_tin_number):
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
-
 
 @app.route("/sales_list")
 @login_required

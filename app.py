@@ -497,6 +497,20 @@ def item_listing():
         return render_template("404.html")
 
 
+@app.route("/checkout_list/all")
+@login_required
+def checkout_list_all():
+    try:
+        checkout_list_name=db.session.query(
+            CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
+            CheckOut.item_siv,CheckOut.unit_name
+            ).order_by(CheckOut.checkout_date.asc()).all()
+        return render_template("checkout_list_all.html",checkout_list_name=checkout_list_name)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
 
 @app.route("/checkout_list")
 @login_required
@@ -561,6 +575,22 @@ def item_checkout():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+
+@app.route("/checkin_list/all")
+@login_required
+def checkin_list_all():
+    try:
+        checkin_list_name=db.session.query(
+            CheckIn.item_name,CheckIn.item_price,CheckIn.item_quantity,
+            CheckIn.item_grr,CheckIn.unit_name
+            ).order_by(CheckIn.checkin_date.asc()).all()
+        return render_template("checkin_list_all.html",checkin_list_name=checkin_list_name)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
 
 @app.route("/checkin_list")
 @login_required

@@ -1,0 +1,44 @@
+{% extends "table.html" %}
+
+{% block title %}
+
+  <title>Approved List</title>
+
+{% endblock %}
+
+{% block listing_name %}
+    Approved List
+{% endblock %}
+
+{% block column %}
+    <th>employee tin number</th>
+    <th>Item Name</th>
+    <th>Order Status</th>
+    <th>Order Date</th>                                                
+{% endblock %}
+
+{% block table_content %}
+    {% for i in approved_list_name %}
+        <tr>
+            
+            <td>
+                {{i[0]}}
+            </td>
+            
+            <td>
+                {{i[1]}}
+            </td>
+            
+            <td>
+                {{i[2]}}
+            </td>
+            
+            <td>
+                {{i[3]}}
+            </td>
+            
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}

@@ -858,6 +858,24 @@ def approved_listing():
         return render_template("404.html")
     
 
+@app.route("/rejected_listing")
+@login_required
+def rejected_listing():
+    try:
+        rejected_list_name=db.session.query(
+                            PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
+                            PurchaseOrder.order_status,PurchaseOrder.order_date
+                        ).where(
+                            PurchaseOrder.employee_tin_number==session["employee_tin_number"]
+                            and PurchaseOrder.order_status== "Decline"
+                        ).order_by(PurchaseOrder.order_date.asc()).all()
+        return render_template("rejected_list.html",rejected_list_name=rejected_list_name)
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
 @app.route("/vendor_listing")
 @login_required
 def vendor_listing():

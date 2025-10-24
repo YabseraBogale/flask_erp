@@ -219,8 +219,7 @@ def employee_termination():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
-    
+   
 @app.route("/terminated_employee_list")
 @login_required
 def terminated_employee_list():
@@ -395,7 +394,6 @@ def employee_info_for_hr(employee_tin_number):
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/my_account")
 @login_required
 def account():
@@ -496,7 +494,6 @@ def item_listing():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/checkout_list/all")
 @login_required
 def checkout_list_all():
@@ -510,7 +507,6 @@ def checkout_list_all():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
 
 @app.route("/checkout_list")
 @login_required
@@ -576,7 +572,6 @@ def item_checkout():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/checkin_list/all")
 @login_required
 def checkin_list_all():
@@ -590,7 +585,6 @@ def checkin_list_all():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
 
 @app.route("/checkin_list")
 @login_required
@@ -645,7 +639,6 @@ def item_checkin():
                         checkin_date=checkin_date,currency_name=currency,
                         item_shelf_life=item_shelf_life,item_status=item_status,vendor_tin=vendor_tin)
 
-                
                 db.session.add(checkin_item)
                 db.session.commit()
                 return render_template("checkin.html")
@@ -690,8 +683,6 @@ def customer_list_employee_tin_number(employee_tin_number):
                         "customer_location":i[4]
                     }
                 )
-
-
             return jsonify(lst)
     except Exception as e:
         logging.exception(str(e))
@@ -818,7 +809,6 @@ def customer_registeration():
                 customer_phonenumber=request.form["customer_phonenumber"]
                 customer_tin=request.form["customer_tin"]
                 customer_location=request.form["customer_location"]
-                
                 
                 customer=Customer(
                     customer_tin=customer_tin,customer_phonenumber=customer_phonenumber,

@@ -312,7 +312,7 @@ class CheckIn(db.Model):
     reciving_employee=db.relationship("Employee",foreign_keys=[reciving_employee_tin_number])
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])
-    vendor=db.relationship("Vendor",foregin_keys=[vendor_tin])
+    vendor=db.relationship("Vendor",foreign_keys=[vendor_tin])
     def to_dict(self):
         return {
             "checkin_id":self.checkin_id,

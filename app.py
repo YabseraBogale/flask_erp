@@ -840,41 +840,62 @@ def customer_registeration():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/pending_listing")
+@login_required
+def pending_listing():
+    try:
+        if session["department_name"]!="Procurement":
+            pending_list_name=db.session.query(
+                                PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
+                                PurchaseOrder.order_status,PurchaseOrder.order_date
+                            ).where(
+                                PurchaseOrder.employee_tin_number==session["employee_tin_number"]
+                                and PurchaseOrder.order_status== "Pending"
+                            ).order_by(PurchaseOrder.order_date.asc()).all()
+            return render_template("pending_list.html",pending_list_name=pending_list_name)
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
 @app.route("/approved_listing")
 @login_required
 def approved_listing():
     try:
-        approved_list_name=db.session.query(
-                            PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
-                            PurchaseOrder.order_status,PurchaseOrder.order_date
-                        ).where(
-                            PurchaseOrder.employee_tin_number==session["employee_tin_number"]
-                            and PurchaseOrder.order_status== "Approved"
-                        ).order_by(PurchaseOrder.order_date.asc()).all()
-        return render_template("approved_list.html",approved_list_name=approved_list_name)
+        if session["department_name"]!="Procurement":
+            approved_list_name=db.session.query(
+                                PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
+                                PurchaseOrder.order_status,PurchaseOrder.order_date
+                            ).where(
+                                PurchaseOrder.employee_tin_number==session["employee_tin_number"]
+                                and PurchaseOrder.order_status== "Approved"
+                            ).order_by(PurchaseOrder.order_date.asc()).all()
+            return render_template("approved_list.html",approved_list_name=approved_list_name)
+        return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
     
-
 @app.route("/rejected_listing")
 @login_required
 def rejected_listing():
     try:
-        rejected_list_name=db.session.query(
-                            PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
-                            PurchaseOrder.order_status,PurchaseOrder.order_date
-                        ).where(
-                            PurchaseOrder.employee_tin_number==session["employee_tin_number"]
-                            and PurchaseOrder.order_status== "Decline"
-                        ).order_by(PurchaseOrder.order_date.asc()).all()
-        return render_template("rejected_list.html",rejected_list_name=rejected_list_name)
+        if session["department_name"]!="Procurement":
+            rejected_list_name=db.session.query(
+                                PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
+                                PurchaseOrder.order_status,PurchaseOrder.order_date
+                            ).where(
+                                PurchaseOrder.employee_tin_number==session["employee_tin_number"]
+                                and PurchaseOrder.order_status== "Decline"
+                            ).order_by(PurchaseOrder.order_date.asc()).all()
+            return render_template("rejected_list.html",rejected_list_name=rejected_list_name)
+        return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
 
 @app.route("/vendor_listing")
 @login_required
@@ -893,7 +914,6 @@ def vendor_listing():
         db.session.rollback()
         return render_template("404.html")
 
-    
 @app.route("/vendor_regsisteration",methods=["GET","POST"])
 @login_required
 def vendor_regsisteration():

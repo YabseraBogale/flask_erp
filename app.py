@@ -212,7 +212,7 @@ def employee_termination():
                 )
                 db.session.execute(stmt)
                 db.session.commit()        
-            return render_template("employee_termination.html",sucess=True)
+            return render_template("employee_termination.html")
         else:
             return render_template("404.html")
     except Exception as e:
@@ -470,7 +470,7 @@ def item_registeration():
                 db.session.add(item)
                 db.session.commit()
                 return redirect("/dashboard")
-            return render_template("item_registeration.html",db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_category=db_category,db_subcategory=db_subcategory,sucess=True)
+            return render_template("item_registeration.html",db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_category=db_category,db_subcategory=db_subcategory)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -564,7 +564,7 @@ def item_checkout():
                 db.session.add(checkout_item)
                 db.session.commit()
                 
-            return render_template("checkout.html",item_name_list=item_name_list,db_location=db_location,db_unit=db_unit,db_department=db_department,sucess=True)
+            return render_template("checkout.html",item_name_list=item_name_list,db_location=db_location,db_unit=db_unit,db_department=db_department)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -764,7 +764,7 @@ def sales_registeration():
 
                 db.session.add(sales)
                 db.session.commit()
-                return render_template("sales_registeration.html",item_name_list=item_name_list,sucess=True,db_currency=db_currency,db_unit=db_unit)
+                return render_template("sales_registeration.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit)
 
             return render_template("sales_registeration.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit)
         else:
@@ -791,7 +791,7 @@ def purchase_order():
             )
             db.session.add(purchase)
             db.session.commit()
-        return render_template("purchase_order.html",item_name_list=item_name_list,sucess=True)
+        return render_template("purchase_order.html",item_name_list=item_name_list)
     
     except Exception as e:
         logging.exception(str(e))
@@ -819,7 +819,7 @@ def customer_registeration():
                 
                 db.session.add(customer)
                 db.session.commit()
-                return render_template("customer_registeration.html",db_location=db_location,sucess=True)
+                return render_template("customer_registeration.html",db_location=db_location)
 
             return render_template("customer_registeration.html",db_location=db_location)
         else:
@@ -962,7 +962,7 @@ def vendor_regsisteration():
                 
                 db.session.add(vendor)
                 db.session.commit()
-                return render_template("vendor_regsisteration.html",sucess=True)
+                return render_template("vendor_regsisteration.html")
 
             return render_template("vendor_regsisteration.html",db_unit=db_unit,item_name_list=item_name_list,db_location=db_location)
         else:

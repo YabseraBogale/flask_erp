@@ -21,7 +21,7 @@ INSERT INTO SubCategory(subcategory)
 
 INSERT INTO Department(department)
     Values ("Human Resources"),("Finance"),("Sales"),
-            ("Operations"),("Procurement"),("Administration"),("Store");
+           ("Procurement"),("Administration"),("Store");
 
 INSERT INTO Location(location)
     Values ("Addis Ababa"),("Adama"),("Dire Dawa"),("Mekelle"),

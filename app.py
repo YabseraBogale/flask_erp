@@ -837,7 +837,7 @@ def pending_listing():
         if session["department_name"]=="Administration" or session["department_name"]=="Procurement":
             pending_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
-                                PurchaseOrder.order_status,PurchaseOrder.order_date
+                                PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
                             ).where(
                                 PurchaseOrder.order_status== "Pending"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
@@ -846,7 +846,7 @@ def pending_listing():
         else:
             pending_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
-                                PurchaseOrder.order_status,PurchaseOrder.order_date
+                                PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
                             ).where(
                                 PurchaseOrder.employee_tin_number==session["employee_tin_number"]
                                 and PurchaseOrder.order_status== "Pending"
@@ -860,23 +860,24 @@ def pending_listing():
 
 @app.route("/purchase_order_approval/<purchase_order_id>",methods=["GET","POST"])
 @login_required
-def purchase_order_approval(purchase_order_approval):
+def purchase_order_approval(purchase_order_id):
     try:
         if session["department_name"]=="Administration":
+            purchase_order_data=db.session.query(PurchaseOrder).where(PurchaseOrder.order_status==purchase_order_id).first()
             if request.method=="POST":
                 order_status=request.form["order_status"]
                 stmt=(
                     update(
                         PurchaseOrder
                     ).where(
-                        PurchaseOrder.purchase_order_id==purchase_order_approval
+                        PurchaseOrder.purchase_order_id==purchase_order_id
                     ).values(
                         order_status=order_status
                     )
                 )
                 db.session.execute(stmt)
                 db.session.commit()
-            return render_template("purchase_order_info.html")
+            return render_template("purchase_order_info.html",purchase_order_data=purchase_order_data)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -891,7 +892,7 @@ def approved_listing():
         if session["department_name"]=="Administration" or session["department_name"]=="Procurement":
             approved_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
-                                PurchaseOrder.order_status,PurchaseOrder.order_date
+                                PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
                             ).where(
                                 PurchaseOrder.order_status== "Approved"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
@@ -899,7 +900,7 @@ def approved_listing():
         else:
             approved_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
-                                PurchaseOrder.order_status,PurchaseOrder.order_date
+                                PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
                             ).where(
                                 PurchaseOrder.employee_tin_number==session["employee_tin_number"]
                                 and PurchaseOrder.order_status== "Approved"
@@ -918,7 +919,7 @@ def rejected_listing():
         if session["department_name"]=="Administration" or session["department_name"]=="Procurement":
             rejected_list_name=db.session.query(
                                         PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
-                                        PurchaseOrder.order_status,PurchaseOrder.order_date
+                                        PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
                                     ).where(
                                         PurchaseOrder.employee_tin_number==session["employee_tin_number"]
                                         and PurchaseOrder.order_status== "Decline"
@@ -927,7 +928,7 @@ def rejected_listing():
         else:
             rejected_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
-                                PurchaseOrder.order_status,PurchaseOrder.order_date
+                                PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
                             ).where(
                                 PurchaseOrder.employee_tin_number==session["employee_tin_number"]
                                 and PurchaseOrder.order_status== "Decline"

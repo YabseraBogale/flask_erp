@@ -14,7 +14,8 @@
     <th>employee tin number</th>
     <th>Item Name</th>
     <th>Order Status</th>
-    <th>Order Date</th>                                                
+    <th>Order Date</th>
+    <th>Order Info</th>                                                
 {% endblock %}
 
 {% block table_content %}
@@ -36,7 +37,10 @@
             <td>
                 {{i[3]}}
             </td>
-            
+
+            <td>
+                <a href="/purchase_order_approval/{{i[4]}}" class="btn btn-primary">view</a>
+            </td>
         </tr>
 
     {% endfor %}

@@ -858,6 +858,32 @@ def pending_listing():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/purchase_order_approval/<purchase_order_id>",methods=["GET","POST"])
+@login_required
+def purchase_order_approval(purchase_order_approval):
+    try:
+        if session["department_name"]=="Administration":
+            if request.method=="POST":
+                order_status=request.form["order_status"]
+                stmt=(
+                    update(
+                        PurchaseOrder
+                    ).where(
+                        PurchaseOrder.purchase_order_id==purchase_order_approval
+                    ).values(
+                        order_status=order_status
+                    )
+                )
+                db.session.execute(stmt)
+                db.session.commit()
+            return render_template("purchase_order_info.html")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
 @app.route("/approved_listing")
 @login_required
 def approved_listing():

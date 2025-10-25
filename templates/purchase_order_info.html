@@ -35,7 +35,7 @@
                                 <h6 class="card-title">Order Status</h6>
                                 <p class="card-text">{{purchase_order_data[0][2]}}</p>
                                 
-                                <form action="" method="POST">
+                                <form action="/purchase_order_approval/{{purchase_order_data[0][0]}}" method="POST">
                                     <select name="order_status" id="">
                                         <option value="Approved">Approved</option>
                                         <option value="Decline">Decline</option>

@@ -845,7 +845,7 @@ def pending_listing():
                             ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("pending_list.html",pending_list_name=pending_list_name)
         
-        elif session["department_name"]=="Administration":
+        elif session["department_name"]=="Administration" or session["department_name"]=="Procurement":
             pending_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                 PurchaseOrder.order_status,PurchaseOrder.order_date
@@ -874,7 +874,7 @@ def approved_listing():
                             ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("approved_list.html",approved_list_name=approved_list_name)
         
-        elif session["department_name"]=="Administration":
+        elif session["department_name"]=="Administration" or session["department_name"]=="Procurement":
             approved_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                 PurchaseOrder.order_status,PurchaseOrder.order_date
@@ -903,7 +903,7 @@ def rejected_listing():
                             ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("rejected_list.html",rejected_list_name=rejected_list_name)
         
-        elif session["department_name"]=="Administration":
+        elif session["department_name"]=="Administration" or session["department_name"]=="Procurement":
             rejected_list_name=db.session.query(
                                         PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                         PurchaseOrder.order_status,PurchaseOrder.order_date

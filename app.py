@@ -862,23 +862,21 @@ def pending_listing():
 @login_required
 def purchase_order_approval(purchase_order_id):
     try:
-        if session["department_name"]=="Administration":
-            purchase_order_data=db.session.query(PurchaseOrder).where(PurchaseOrder.order_status==purchase_order_id).first()
-            if request.method=="POST":
-                order_status=request.form["order_status"]
-                stmt=(
-                    update(
-                        PurchaseOrder
-                    ).where(
-                        PurchaseOrder.purchase_order_id==purchase_order_id
-                    ).values(
-                        order_status=order_status
-                    )
+        purchase_order_data=db.session.query(PurchaseOrder).where(PurchaseOrder.order_status==purchase_order_id).first()
+        if request.method=="POST" and session["department_name"]=="Administration":
+            order_status=request.form["order_status"]
+            stmt=(
+                update(
+                    PurchaseOrder
+                ).where(
+                    PurchaseOrder.purchase_order_id==purchase_order_id
+                ).values(
+                    order_status=order_status
                 )
-                db.session.execute(stmt)
-                db.session.commit()
-            return render_template("purchase_order_info.html",purchase_order_data=purchase_order_data)
-        return render_template("404.html")
+            )
+            db.session.execute(stmt)
+            db.session.commit()
+        return render_template("purchase_order_info.html",purchase_order_data=purchase_order_data)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

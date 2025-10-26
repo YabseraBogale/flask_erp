@@ -8,7 +8,7 @@ from sqlalchemy import update
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
-from sqlalchemy import event
+from sqlalchemy import event,func
 from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder,Vendor
 from email.message import EmailMessage
 from flask_limiter import Limiter
@@ -990,6 +990,20 @@ def vendor_regsisteration():
         db.session.rollback()
         return render_template("404.html")
     
+@app.route("/finance")
+@login_required
+def finance():
+    try:
+        if session["department_name"]=="Finance" or session["department_name"]=="Administration":
+            return render_template("finance.html")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+
 @app.route("/login",methods=["GET","POST"])
 @limiter.limit("5 per minute")
 def login():

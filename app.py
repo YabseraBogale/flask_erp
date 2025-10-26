@@ -62,11 +62,11 @@ with app.app_context():
 
     # add info for the first admin and remove 
     # admin_emergencyContact=EmergencyContact(
-    #                 firstname="",
-    #                 lastname="",middlename="",
-    #                 phonenumber="",location_name="",
-    #                 fyida_id="",gender="",
-    #                 email="")
+    #                 firstname="Yabsera",
+    #                 lastname="Yabsera",middlename="Yabsera",
+    #                 phonenumber="92020201161",location_name="Addis Ababa",
+    #                 fyida_id="321",gender="Male",
+    #                 email="yabserabgl@gmail.com")
     
     # db.session.add(admin_emergencyContact)
     # db.session.commit()
@@ -75,13 +75,13 @@ with app.app_context():
     # print(password_to_send)
     # password=(password_to_send).encode("utf-8")
     # admin=Employee(
-    #                 emergency_contact_fyida_id="",
-    #                 firstname="",lastname="",middlename="",phonenumber="",
-    #                 gender="",email="",date_of_employement="",fyida_id="",
-    #                 employee_tin_number="",currency_name="",
-    #                 position="",location_name="",
-    #                 department_name="",job_description="",
-    #                 bank_account_number="",salary="",
+    #                 emergency_contact_fyida_id="321",
+    #                 firstname="Yabsera",lastname="Yabsera",middlename="Yabsera",phonenumber="92020201161",
+    #                 gender="Male",email="yabserapython@gmail.com",date_of_employement="11-12-2021",fyida_id="123",
+    #                 employee_tin_number="123",currency_name="ETH",
+    #                 position="IT",location_name="Addis Ababa",
+    #                 department_name="Administration",job_description="Administration",
+    #                 bank_account_number="123456",salary="12333",
     #                 password=bcrypt.hashpw(password,salt))
     # db.session.add(admin)        
     # db.session.commit()

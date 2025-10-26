@@ -813,8 +813,7 @@ def customer_registeration():
                 customer=Customer(
                     customer_tin=customer_tin,customer_phonenumber=customer_phonenumber,
                     customer_name=customer_name,customer_location=customer_location,
-                    customer_email=customer_email,regsistered_employee_tin_number=session["employee_tin_number"],
-                   
+                    customer_email=customer_email,regsistered_employee_tin_number=session["employee_tin_number"]
                 )
                 
                 db.session.add(customer)
@@ -1026,6 +1025,7 @@ def logout():
         return render_template("404.html")
 
 @app.route("/dashboard")
+@login_required
 def dashboard():
     try:
         return render_template("hr_dashboard.html")

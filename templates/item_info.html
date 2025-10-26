@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Item Info</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <h5 class="card-header">Item Info</h5>
+                            <div class="card-body">
+
+                                <h6 class="card-title">Item Id</h6>
+                                <p class="card-text">{{item[0]}}</p>
+
+                                <h6 class="card-title">Item Name</h6>
+                                <p class="card-text">{{item[1]}}</p>
+
+                                <h6 class="card-title">Item Description</h6>
+                                <p class="card-text">{{item[2]}}</p>
+
+                                <h6 class="card-title">Item Price</h6>
+                                <p class="card-text">{{item[3]}}</p>
+
+                                <h6 class="card-title">Item Quantity</h6>
+                                <p class="card-text">{{item[4]}}</p>
+
+                                <h6 class="card-title">Item Shelf Life</h6>
+                                <p class="card-text">{{item[5]}}</p>
+
+                                <h6 class="card-title">Item Created At</h6>
+                                <p class="card-text">{{item[6]}}</p>
+
+                                <h6 class="card-title">Item Updated At</h6>
+                                <p class="card-text">{{item[7]}}</p>
+                                
+                                <h6 class="card-title">Item Unit Name</h6>
+                                <p class="card-text">{{item[8]}}</p>
+
+                                <h6 class="card-title">Item First Create By</h6>
+                                <p class="card-text">{{item[9]}}</p>
+
+                                <h6 class="card-title">Item Location Name</h6>
+                                <p class="card-text">{{item[10]}}</p>
+
+                                <h6 class="card-title">Item Category Name</h6>
+                                <p class="card-text">{{item[11]}}</p>
+
+                                <h6 class="card-title">Item Subcategory Name</h6>
+                                <p class="card-text">{{item[13]}}</p>
+
+                                <h6 class="card-title">Item Currency Name</h6>
+                                <p class="card-text">{{item[12]}}</p>
+
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   
+        
+                            
+</div>
+
+<script src="{{url_for('static',filename='datatables/datatables.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/initiate-datatables.js')}}"></script>
+<script src="{{url_for('static',filename='js/script.js')}}"></script>  
+{% endblock %}

@@ -478,6 +478,19 @@ def item_registeration():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/item_info/<item_id>")
+@login_required
+def item_info(item_id):
+    try:
+        item=db.session.query(Item).where(Item.item_id==item_id).first()
+        return render_template("item_info.html",item=item[0])
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+    
+
+
 @app.route("/item_listing")
 @login_required
 def item_listing():
@@ -485,7 +498,7 @@ def item_listing():
         if session["department_name"]=="Store" or session["department_name"]=="Administration":
             item_list=db.session.query(
                 Item.item_name,Item.item_price,Item.item_quantity,
-                Item.unit_name,Item.item_shelf_life
+                Item.unit_name,Item.item_shelf_life,Item.item_id
             ).order_by(Item.item_shelf_life.asc()).all()
             return render_template("item_list.html",item_list=item_list)
         return render_template("404.html")

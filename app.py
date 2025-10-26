@@ -77,7 +77,7 @@ with app.app_context():
     # admin=Employee(
     #                 emergency_contact_fyida_id="321",
     #                 firstname="Yabsera",lastname="Yabsera",middlename="Yabsera",phonenumber="92020201161",
-    #                 gender="Male",email="yabserapython@gmail.com",date_of_employement="11-12-2021",fyida_id="123",
+    #                 gender="Male",email="yabserapython@gmail.com",date_of_employement=datetime.today(),fyida_id="123",
     #                 employee_tin_number="123",currency_name="ETH",
     #                 position="IT",location_name="Addis Ababa",
     #                 department_name="Administration",job_description="Administration",
@@ -463,7 +463,7 @@ def item_registeration():
                     currency_name=currency,item_quantity=item_quantity,
                     unit_name=unit,category_name=item_category,
                     location_name=location_name,subcategory_name=item_subcategory,
-                    created_by_employee_id=session["employee_tin_number"],
+                    created_by_employee_tin_number=session["employee_tin_number"],
                     item_description=item_description,
                     item_shelf_life=item_shelf_life)
                 

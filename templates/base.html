@@ -28,6 +28,11 @@
             <ul class="list-unstyled components text-secondary">
 
                 {% if session["department_name"] == "Administration" %}
+
+                    <li>
+                        <a href="/item_listing"><i class="fa fa-sign-out">item listing</i></a>
+                    </li>
+                    
                     <li>
                         <a href="/item_checkin"><i class="fa fa-sign-out">checkin</i></a>
                     </li>
@@ -86,6 +91,10 @@
 
                 {% elif session["department_name"] == "Store" %}
                     
+                    <li>
+                        <a href="/item_listing"><i class="fa fa-sign-out">item listing</i></a>
+                    </li>
+
                     <li>
                         <a href="/item_checkin"><i class="fa fa-sign-out">checkin</i></a>
                     </li>

@@ -515,7 +515,6 @@ def checkout_info(checkout_id):
         db.session.rollback()
         return render_template("404.html")
     
-
 @app.route("/checkin_info/<checkin_id>")
 def checkin_info(checkin_id):
     try:

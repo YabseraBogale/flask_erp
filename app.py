@@ -505,21 +505,6 @@ def item_listing():
         db.session.rollback()
         return render_template("404.html")
 
-@app.route("/checkout_list/all")
-@login_required
-def checkout_list_all():
-    try:
-        if session["department_name"]=="Administration":
-            checkout_list_name=db.session.query(
-                CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
-                CheckOut.item_siv,CheckOut.unit_name
-                ).order_by(CheckOut.checkout_date.asc()).all()
-            return render_template("checkout_list_all.html",checkout_list_name=checkout_list_name)
-        return render_template("404.html")
-    except Exception as e:
-        logging.exception(str(e))
-        db.session.rollback()
-        return render_template("404.html")
 
 @app.route("/checkout_list")
 @login_required
@@ -528,10 +513,19 @@ def checkout_list():
         if session["department_name"]=="Store":
             checkout_list_name=db.session.query(
                 CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
-                CheckOut.item_siv,CheckOut.unit_name
+                CheckOut.item_siv,CheckOut.unit_name,CheckOut.checkout_id
                 ).order_by(CheckOut.checkout_date.asc()).where(
                     CheckOut.employee_tin_number==session["employee_tin_number"]).all()
-            return render_template("checkin_list.html",checkout_list_name=checkout_list_name)
+            return render_template("checkout_list.html",checkout_list_name=checkout_list_name)
+        
+        elif session["department_name"]=="Administration":
+            checkout_list_name=db.session.query(
+                CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
+                CheckOut.item_siv,CheckOut.unit_name,CheckOut.checkout_id
+                ).order_by(CheckOut.checkout_date.asc()).all()
+            return render_template("checkout_list.html",checkout_list_name=checkout_list_name)
+        
+        return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

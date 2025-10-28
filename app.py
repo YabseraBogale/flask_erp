@@ -523,12 +523,21 @@ def checkout_list_all():
 @login_required
 def checkout_list():
     try:
-        checkout_list_name=db.session.query(
-            CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
-            CheckOut.item_siv,CheckOut.unit_name
-            ).where(
-                CheckOut.employee_tin_number==session["employee_tin_number"]).all()
-        return render_template("checkin_list.html",checkout_list_name=checkout_list_name)
+        if session["department_name"]=="Store":
+            checkout_list_name=db.session.query(
+                CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
+                CheckOut.item_siv,CheckOut.unit_name
+                ).where(
+                    CheckOut.employee_tin_number==session["employee_tin_number"]).all()
+            return render_template("checkin_list.html",checkout_list_name=checkout_list_name)
+        elif session["department_name"]=="Administration":
+            checkout_list_name=db.session.query(
+                CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
+                CheckOut.item_siv,CheckOut.unit_name
+                ).order_by(
+                    CheckOut.checkout_date.asc()).all()
+            return render_template("checkin_list.html",checkout_list_name=checkout_list_name)
+        return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

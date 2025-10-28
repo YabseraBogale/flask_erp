@@ -489,8 +489,6 @@ def item_info(item_id):
         db.session.rollback()
         return render_template("404.html")
     
-
-
 @app.route("/item_listing")
 @login_required
 def item_listing():
@@ -953,12 +951,17 @@ def rejected_listing():
 @login_required
 def vendor_listing():
     try:
-        if session["department_name"]=="Procurement" or session["department_name"]=="Administration":
+        if session["department_name"]=="Procurement":
             vendor=db.session.query(
                 Vendor.vendor_tin,Vendor.vendor_name,Vendor.vendor_phonenumber,
                 Vendor.item_name,Vendor.item_price,Vendor.item_quantity,Vendor.item_unit
                 ).where(Vendor.regsistered_employee_tin_number==session["employee_tin_number"]).all()
-            
+            return render_template("vendor_list.html",vendor_lst=vendor)
+        elif session["department_name"]=="Administration":
+            vendor=db.session.query(
+                Vendor.vendor_tin,Vendor.vendor_name,Vendor.vendor_phonenumber,
+                Vendor.item_name,Vendor.item_price,Vendor.item_quantity,Vendor.item_unit
+                ).all()
             return render_template("vendor_list.html",vendor_lst=vendor)
         return render_template("404.html")
     except Exception as e:

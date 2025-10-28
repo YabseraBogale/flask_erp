@@ -505,7 +505,6 @@ def item_listing():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/checkout_list")
 @login_required
 def checkout_list():
@@ -580,30 +579,26 @@ def item_checkout():
         db.session.rollback()
         return render_template("404.html")
 
-@app.route("/checkin_list/all")
-@login_required
-def checkin_list_all():
-    try:
-        checkin_list_name=db.session.query(
-            CheckIn.item_name,CheckIn.item_price,CheckIn.item_quantity,
-            CheckIn.item_grr,CheckIn.unit_name
-            ).order_by(CheckIn.checkin_date.asc()).all()
-        return render_template("checkin_list_all.html",checkin_list_name=checkin_list_name)
-    except Exception as e:
-        logging.exception(str(e))
-        db.session.rollback()
-        return render_template("404.html")
-
 @app.route("/checkin_list")
 @login_required
 def checkin_list():
     try:
-        checkin_list_name=db.session.query(
+        if session["department_name"]=="Store":
+            checkin_list_name=db.session.query(
+                CheckIn.item_name,CheckIn.item_price,CheckIn.item_quantity,
+                CheckIn.item_grr,CheckIn.unit_name
+                ).where(
+                    CheckIn.employee_tin_number==session["employee_tin_number"]).all()
+            return render_template("checkin_list.html",checkin_list_name=checkin_list_name)
+        
+        elif session["department_name"]=="Administration":
+            checkin_list_name=db.session.query(
             CheckIn.item_name,CheckIn.item_price,CheckIn.item_quantity,
-            CheckIn.item_grr,CheckIn.unit_name
-            ).where(
-                CheckIn.employee_tin_number==session["employee_tin_number"]).all()
-        return render_template("checkin_list.html",checkin_list_name=checkin_list_name)
+            CheckIn.item_grr,CheckIn.unit_name,CheckIn.checkin_id
+            ).order_by(CheckIn.checkin_date.asc()).all()
+            return render_template("checkin_list.html",checkin_list_name=checkin_list_name)
+        return render_template("404.html")
+    
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

@@ -505,6 +505,27 @@ def item_listing():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/checkout_info/<checkout_id>")
+def checkout_info(checkout_id):
+    try:
+        item=db.session.query(CheckOut).where(CheckOut.checkout_id==checkout_id).first()
+        return render_template("checkout_info.html",item=item[0])
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+    
+
+@app.route("/checkin_info/<checkin_id>")
+def checkin_info(checkin_id):
+    try:
+        item=db.session.query(CheckIn).where(CheckIn.checkin_id==checkin_id).first()
+        return render_template("checkin_info.html",item=item[0])
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
 @app.route("/checkout_list")
 @login_required
 def checkout_list():

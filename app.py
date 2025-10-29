@@ -665,9 +665,9 @@ def item_checkin():
 
                 db.session.add(checkin_item)
                 db.session.commit()
-                return render_template("checkin.html")
+                return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_tin=db_vendor_tin)
                         
-            return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,)
+            return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_tin=db_vendor_tin)
         else:
             return render_template("404.html")
     except Exception as e:

@@ -21,6 +21,7 @@
     <th>Item Price</th>
     <th>Item Quantity</th>
     <th>Item Unit</th>
+    <th>View</th>
 {% endblock %}
 
 {% block table_content %}
@@ -53,6 +54,10 @@
             
             <td>
                 {{i[6]}}
+            </td>
+
+            <td>
+                <a href="/view_info/{{i[0]}}" class="btn btn-primary">view</a>
             </td>
         
         </tr>

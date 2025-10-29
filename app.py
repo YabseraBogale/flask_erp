@@ -93,6 +93,7 @@ with app.app_context():
     db_department=db.session.query(Department.department).order_by(Department.department.asc()).all()
     db_category=db.session.query(Category.category).order_by(Category.category.asc()).all()
     db_subcategory=db.session.query(Subcategory.subcategory).order_by(Subcategory.subcategory.asc()).all()
+    db_vendor_tin=db.session.query(Vendor.vendor_tin).all()
     item_name_list=db.session.query(Item.item_name).all()
 
 @login_manager.user_loader

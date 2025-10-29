@@ -93,7 +93,7 @@ with app.app_context():
     db_department=db.session.query(Department.department).order_by(Department.department.asc()).all()
     db_category=db.session.query(Category.category).order_by(Category.category.asc()).all()
     db_subcategory=db.session.query(Subcategory.subcategory).order_by(Subcategory.subcategory.asc()).all()
-    db_vendor_tin=db.session.query(Vendor.vendor_tin).all()
+    db_vendor_name=db.session.query(Vendor.vendor_name).all()
     item_name_list=db.session.query(Item.item_name).all()
 
 @login_manager.user_loader
@@ -634,7 +634,7 @@ def item_checkin():
             if request.method=="POST":
                 item_name=request.form["item_name"]
                 reciving_employee_id=request.form["reciving_employee_id"]
-                vendor_tin=request.form["vendor_tin"]
+                vendor_name=request.form["vendor_name"]
                 checkin_date=request.form["checkin_date"]
                 checkin_date = datetime.strptime(checkin_date, "%Y-%m-%d").date()
                 item_price=request.form["item_price"]
@@ -663,13 +663,13 @@ def item_checkin():
                         item_quantity=item_quantity,item_grr=item_grr,
                         item_description=item_description,unit_name=unit,
                         checkin_date=checkin_date,currency_name=currency,
-                        item_shelf_life=item_shelf_life,item_status=item_status,vendor_tin=vendor_tin)
+                        item_shelf_life=item_shelf_life,item_status=item_status,vendor_name=vendor_name)
 
                 db.session.add(checkin_item)
                 db.session.commit()
-                return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_tin=db_vendor_tin)
+                return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_name=db_vendor_name)
                         
-            return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_tin=db_vendor_tin)
+            return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_name=db_vendor_name)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -962,20 +962,35 @@ def rejected_listing():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/vendor_info/<vendor_tin>",methods=["GET","POST"])
+@login_required
+def vendor_info(vendor_tin):
+    try:
+        if session["department_name"]=="Procurement":
+            return render_template("vendor_info.html")
+
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+    
+
 @app.route("/vendor_listing")
 @login_required
 def vendor_listing():
     try:
         if session["department_name"]=="Procurement":
             vendor=db.session.query(
-                Vendor.vendor_tin,Vendor.vendor_name,Vendor.vendor_phonenumber,
-                Vendor.item_name,Vendor.item_price,Vendor.item_quantity,Vendor.item_unit
+                Vendor.vendor_tin,Vendor.vendor_name,
+                Vendor.vendor_phonenumber,Vendor.vendor_email,Vendor.location
                 ).where(Vendor.regsistered_employee_tin_number==session["employee_tin_number"]).all()
             return render_template("vendor_list.html",vendor_lst=vendor)
         elif session["department_name"]=="Administration":
             vendor=db.session.query(
-                Vendor.vendor_tin,Vendor.vendor_name,Vendor.vendor_phonenumber,
-                Vendor.item_name,Vendor.item_price,Vendor.item_quantity,Vendor.item_unit
+                Vendor.vendor_tin,Vendor.vendor_name,
+                Vendor.vendor_phonenumber,Vendor.vendor_email,Vendor.location
                 ).all()
             return render_template("vendor_list.html",vendor_lst=vendor)
         return render_template("404.html")

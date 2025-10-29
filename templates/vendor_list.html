@@ -17,11 +17,13 @@
     <th>Vendor Tin</th>                                                
     <th>Vendor Name</th>
     <th>Vendor Phonenumber</th>
-    <th>Item Name</th>
-    <th>Item Price</th>
-    <th>Item Quantity</th>
-    <th>Item Unit</th>
-    <th>View</th>
+    <th>Vendor Email</th>
+    <th>Vendor Location</th>
+    
+    {% if session["department_name"]=="Procurement" %}
+        <th>Edit</th>
+    {% endif %}
+
 {% endblock %}
 
 {% block table_content %}
@@ -47,19 +49,11 @@
             <td>
                 {{i[4]}}
             </td>
-            
-            <td>
-                {{i[5]}}
-            </td>
-            
-            <td>
-                {{i[6]}}
-            </td>
-
-            <td>
-                <a href="/view_info/{{i[0]}}" class="btn btn-primary">view</a>
-            </td>
-        
+            {% if session["department_name"]=="Procurement" %}
+                <td>
+                    <a href="/view_info/{{i[0]}}" class="btn btn-primary">Edit</a>
+                </td>
+            {% endif %}
         </tr>
 
     {% endfor %}

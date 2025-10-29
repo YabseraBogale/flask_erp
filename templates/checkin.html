@@ -30,9 +30,9 @@
 
 
         <div class="mb-3 col-md-4">
-          <label for="Vendor Tin" class="form-label">Vendor Tin</label>
-            <select name="vendor_tin" class="form-select" required>
-                {% for i in vendor_tin %}
+          <label for="Vendor Name" class="form-label">Vendor Name</label>
+            <select name="vendor_name" class="form-select" required>
+                {% for i in db_vendor_name %}
                   <option value="{{i[0]}}">{{i[0]}}</option>
                 {% endfor %}
             </select>

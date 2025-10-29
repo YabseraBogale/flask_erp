@@ -285,7 +285,7 @@ class CheckIn(db.Model):
 
     checkin_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
-    vendor_tin=db.Column(db.Integer,db.ForeignKey("Vendor.vendor_tin"))
+    vendor_name=db.Column(db.Integer,db.ForeignKey("Vendor.vendor_name"))
     item_price=db.Column(db.Float,nullable=False)
     item_quantity=db.Column(db.Float,nullable=False)
     item_grr=db.Column(db.Integer,nullable=False)
@@ -304,7 +304,7 @@ class CheckIn(db.Model):
     reciving_employee=db.relationship("Employee",foreign_keys=[reciving_employee_tin_number])
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])
-    vendor=db.relationship("Vendor",foreign_keys=[vendor_tin])
+    vendor=db.relationship("Vendor",foreign_keys=[vendor_name])
     def to_dict(self):
         return {
             "checkin_id":self.checkin_id,
@@ -318,7 +318,7 @@ class CheckIn(db.Model):
             "item_quantity":self.item_quantity,
             "item_price":self.item_price,
             "item_description":self.item_description,
-            "vendor_tin":self.vendor_tin
+            "vendor_name":self.vendor_name
         }
 
 

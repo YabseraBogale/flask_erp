@@ -967,8 +967,37 @@ def rejected_listing():
 def vendor_info(vendor_tin):
     try:
         if session["department_name"]=="Procurement":
-            return render_template("vendor_info.html")
+            vendor=db.session.query(Vendor).where(
+                Vendor.vendor_tin==vendor_tin,
+                Vendor.regsistered_employee_tin_number==session["employee_tin_number"]
+            ).first()
 
+            if request.method=="POST":
+                vendor_tin_new=request.form["vendor_tin"]
+                vendor_email=request.form["vendor_email"]
+                vendor_phonenumber=request.form["vendor_phonenumber"]
+                location=request.form["location"]
+                vendor_name=request.form["vendor_name"]
+
+                stmt=(
+                    update(
+                        Vendor
+                    ).where(
+                        Vendor.vendor_tin==vendor_tin
+                    ).values(
+                        vendor_tin=vendor_tin_new,
+                        vendor_email=vendor_email,
+                        vendor_phonenumber=vendor_phonenumber,
+                        location=location,
+                        vendor_name=vendor_name
+                    )
+                )
+
+                db.session.execute(stmt)
+                db.session.commit()
+                return render_template("vendor_info.html",vendor=vendor)
+            return render_template("vendor_info.html",vendor=vendor)
+        
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))

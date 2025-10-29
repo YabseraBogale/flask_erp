@@ -13,22 +13,36 @@
                     <div class="card">
                         <h5 class="card-header">Vendor Info</h5>
                             <div class="card-body">
+                                <form action="/vendor_info/{{vendor[0]}}" method="POST">
+                                    <h6 class="card-title">Vendor Tin Number</h6>
+                                    <p class="card-text">{{vendor[0]}}</p>
+                                    
+                                    <input type="number" name="vendor_tin" placeholder="Tin Number">
 
-                                <h6 class="card-title">Vendor Tin Number</h6>
-                                <p class="card-text">{{vendor[0]}}</p>
+                                    <h6 class="card-title">Vendor Name</h6>
+                                    <p class="card-text">{{vendor[1]}}</p>
 
-                                <h6 class="card-title">Vendor Name</h6>
-                                <p class="card-text">{{vendor[1]}}</p>
+                                    <input type="text" name="vendor_name" placeholder="Vendor Name">
 
-                                <h6 class="card-title">Vendor Email</h6>
-                                <p class="card-text">{{vendor[2]}}</p>
+                                    <h6 class="card-title">Vendor Email</h6>
+                                    <p class="card-text">{{vendor[2]}}</p>
 
-                                <h6 class="card-title">Vendor Phonenumber</h6>
-                                <p class="card-text">{{vendor[3]}}</p>
+                                    <input type="email" name="vendor_email" placeholder="Vendor Email">
 
-                                <h6 class="card-title">Vendor Location</h6>
-                                <p class="card-text">{{vendor[4]}}</p>
+                                    <h6 class="card-title">Vendor Phonenumber</h6>
+                                    <p class="card-text">{{vendor[3]}}</p>
 
+                                    <input type="number" name="vendor_phonenumber" placeholder="Vendor Phonenumber">
+
+                                    <h6 class="card-title">Vendor Location</h6>
+                                    <p class="card-text">{{vendor[4]}}</p>
+                                    <select name="location" class="form-select" required>
+                                        {% for i in db_location %}
+                                        <option value="{{i[0]}}">{{i[0]}}</option>
+                                        {% endfor %}
+                                    </select>
+
+                                </form>
                         </div>
                     </div>
                 </div>

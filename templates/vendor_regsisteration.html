@@ -42,42 +42,6 @@
         </div>
 
         <div class="mb-3 col-md-4">
-          <label for="Item Name" class="form-label">Item Name</label>
-            <select name="item_name" class="form-select" required>
-                {% for i in item_name_list %}
-                  <option value="{{i[0]}}">{{i[0]}}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="mb-3 col-md-4">
-          <label for="unit" class="form-label">Unit Of Measurment</label>
-            <select name="unit" class="form-select" required>
-                {% for i in db_unit %}
-                  <option value="{{i[0]}}">{{i[0]}}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="card-body">
-          <div class="mb-3 row">
-            <label class="col-sm-2 form-label" for="Item Price">Item Price</label>
-              <div class="col-sm-10">
-                <input type="number" name="item_price" placeholder="Item Price" class="form-control" min="0" required>
-              </div>
-          </div>
-        </div>
-
-        <div class="card-body">
-          <div class="mb-3 row">
-            <label class="col-sm-2 form-label" for="Item Quantity">Item Quantity</label>
-              <div class="col-sm-10">
-                <input type="number" name="item_quantity" placeholder="Item Quantity" min="0" class="form-control" required>
-              </div>
-          </div>
-        </div>
-
-        <div class="mb-3 col-md-4">
           <label for="Location" class="form-label">Location</label>
             <select name="location" class="form-select" required>
                 {% for i in db_location %}

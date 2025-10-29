@@ -173,17 +173,12 @@ class Vendor(db.Model):
     vendor_name=db.Column(db.String,nullable=False,unique=True)
     vendor_email=db.Column(db.String,nullable=False,unique=True)
     vendor_phonenumber=db.Column(db.String,nullable=False)
-    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
-    item_quantity=db.Column(db.Float,nullable=False)
-    item_price=db.Column(db.Float,nullable=False)
-    item_unit=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
     vendor_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
     regsistered_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     vendor_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     location=db.relationship("Location",foreign_keys=[vendor_location])
     employee=db.relationship("Employee",foreign_keys=[regsistered_employee_tin_number])
-    item=db.relationship("Item",foreign_keys=[item_name])
-    unit=db.relationship("Unit",foreign_keys=[item_unit])
+   
 
     def to_dict(self):
         return {
@@ -195,10 +190,7 @@ class Vendor(db.Model):
             "vendor_location":self.vendor_location,
             "vendor_tin":self.vendor_tin,
             "employee_regsistered_id":self.regsistered_employee_tin_number,
-            "item_name":self.item_name,
-            "item_quantity":self.item_quantity,
-            "item_price":self.item_price,
-            "item_unit":self.item_unit
+            
         }
     
 class Item(db.Model):
@@ -364,7 +356,6 @@ class Sales(db.Model):
     sales_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_quantity=db.Column(db.Float,nullable=False)
-    # change total_price to unit pirce
     total_price=db.Column(db.Float,nullable=False)
     employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     customer_tin=db.Column(db.String,db.ForeignKey("Customer.customer_tin"),nullable=False)

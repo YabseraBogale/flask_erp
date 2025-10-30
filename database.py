@@ -26,7 +26,7 @@ class Location(db.Model):
 class Unit(db.Model):
     __tablename__="Unit"
 
-    unit=db.Column(db.String,primary_key=True)
+    
 
     unit=db.Column(Enum("Piece","Dozen","Package","Gram",
             "Kilogram","Ton","Milliliter","Liter",

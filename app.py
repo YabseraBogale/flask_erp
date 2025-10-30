@@ -649,8 +649,8 @@ def item_checkin():
                 stmt=(
                     update(Item)
                     .where(Item.item_name==item_name)
-                    .values(item_quantity=Item.item_quantity+int(item_quantity),
-                            item_price=(Item.item_price+int(item_quantity))/2
+                    .values(item_quantity=Item.item_quantity+float(item_quantity),
+                            item_price=(Item.item_price+float(item_quantity))/2
                     )
                 )
                 

@@ -87,12 +87,12 @@ with app.app_context():
     # db.session.commit()
 
 
-    db_location=db.session.query(Location.location).order_by(Location.location.asc()).all()
-    db_unit=db.session.query(Unit.unit).order_by(Unit.unit.asc()).all()
-    db_currency=db.session.query(Currency.currency).order_by(Currency.currency.asc()).all()
-    db_department=db.session.query(Department.department).order_by(Department.department.asc()).all()
-    db_category=db.session.query(Category.category).order_by(Category.category.asc()).all()
-    db_subcategory=db.session.query(Subcategory.subcategory).order_by(Subcategory.subcategory.asc()).all()
+    db_location=Location.location_array
+    db_unit=Unit.unit_array
+    db_currency=Currency.currency_array
+    db_department=Department.department_array
+    db_category=Category.category_array
+    db_subcategory=Subcategory.subcategory_array
     db_vendor_name=db.session.query(Vendor.vendor_name).all()
     item_name_list=db.session.query(Item.item_name).all()
 

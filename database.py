@@ -11,8 +11,12 @@ db=SQLAlchemy()
 class Location(db.Model):
 
     __tablename__="Location"
+    
 
-    location=db.Column(db.String,primary_key=True)
+    location=db.Column(Enum("Addis Ababa","Adama","Dire Dawa","Mekelle",
+            "Gondar","Bahir Dar","Hawassa",
+            "Jimma","Harar","Dessie","Shashamane",
+            "Asella","Debre Markos","Gambela","Jijiga","Arba Minch","Dilla", name="location_enum"),nullable=False,primary_key=True)
 
     def to_dict(self):
         return {
@@ -24,6 +28,11 @@ class Unit(db.Model):
 
     unit=db.Column(db.String,primary_key=True)
 
+    unit=db.Column(Enum("Piece","Dozen","Package","Gram",
+            "Kilogram","Ton","Milliliter","Liter",
+            "Gallon","Barrel","Millimeter","Centimeter",
+            "Meter","Roll","Sheet","Bottle","Can", name="unit_enum"),nullable=False,primary_key=True)
+
     def to_dict(self):
         return {
             "unit":self.unit
@@ -33,7 +42,11 @@ class Category(db.Model):
 
     __tablename__="Category"
 
-    category=db.Column(db.String,primary_key=True)
+    category=db.Column(Enum("Food","Furniture","Safety Equipment",
+            "Chemical","Sanitary","Spare Part",
+            "Stationery","Electronics",
+            "Accessory","Clothing","Constraction Material","Pad", name="category_enum"),nullable=False,primary_key=True)
+
 
     def to_dict(self):
         return {
@@ -44,7 +57,8 @@ class Department(db.Model):
 
     __tablename__="Department"
 
-    department=db.Column(db.String,primary_key=True)
+    department=db.Column(Enum("Human Resources","Finance","Sales",
+           "Procurement","Administration","Store", name="department_enum"),nullable=False,primary_key=True)
 
     def to_dict(self):
         return {
@@ -56,7 +70,11 @@ class Currency(db.Model):
 
     __tablename__="Currency"
 
-    currency=db.Column(db.String,primary_key=True)
+    currency=db.Column(Enum("USD","EUR","JPY",
+            "GBP","CNY","CHF",
+            "CAD","AUD","SGD",
+            "HKD","ETH",name="currency_enum"),nullable=False,primary_key=True)
+
     def to_dict(self):
         return {
             "currency":self.currency
@@ -66,7 +84,7 @@ class Subcategory(db.Model):
 
     __tablename__="Subcategory"
 
-    subcategory=db.Column(db.String,primary_key=True)
+    subcategory=db.Column(Enum("Fixed Assest","Moving","Consumable",name="subcategory_enum"),nullable=False,primary_key=True)
 
     def to_dict(self):
         return {

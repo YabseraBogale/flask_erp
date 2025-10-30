@@ -12,11 +12,13 @@ class Location(db.Model):
 
     __tablename__="Location"
     
-
-    location=db.Column(Enum("Addis Ababa","Adama","Dire Dawa","Mekelle",
+    location_array=[
+            "Addis Ababa","Adama","Dire Dawa","Mekelle",
             "Gondar","Bahir Dar","Hawassa",
             "Jimma","Harar","Dessie","Shashamane",
-            "Asella","Debre Markos","Gambela","Jijiga","Arba Minch","Dilla", name="location_enum"),nullable=False,primary_key=True)
+            "Asella","Debre Markos","Gambela","Jijiga","Arba Minch","Dilla"
+    ]
+    location=db.Column(Enum(*location_array, name="location_enum"),nullable=False,primary_key=True)
 
     def to_dict(self):
         return {
@@ -26,12 +28,11 @@ class Location(db.Model):
 class Unit(db.Model):
     __tablename__="Unit"
 
-    
-
-    unit=db.Column(Enum("Piece","Dozen","Package","Gram",
+    unit_array=["Piece","Dozen","Package","Gram",
             "Kilogram","Ton","Milliliter","Liter",
             "Gallon","Barrel","Millimeter","Centimeter",
-            "Meter","Roll","Sheet","Bottle","Can", name="unit_enum"),nullable=False,primary_key=True)
+            "Meter","Roll","Sheet","Bottle","Can"]
+    unit=db.Column(Enum(*unit_array, name="unit_enum"),nullable=False,primary_key=True)
 
     def to_dict(self):
         return {
@@ -42,10 +43,13 @@ class Category(db.Model):
 
     __tablename__="Category"
 
-    category=db.Column(Enum("Food","Furniture","Safety Equipment",
+    category_array=[
+            "Food","Furniture","Safety Equipment",
             "Chemical","Sanitary","Spare Part",
             "Stationery","Electronics",
-            "Accessory","Clothing","Constraction Material","Pad", name="category_enum"),nullable=False,primary_key=True)
+            "Accessory","Clothing","Constraction Material","Pad"
+    ]
+    category=db.Column(Enum(*category_array, name="category_enum"),nullable=False,primary_key=True)
 
 
     def to_dict(self):
@@ -56,9 +60,11 @@ class Category(db.Model):
 class Department(db.Model):
 
     __tablename__="Department"
-
-    department=db.Column(Enum("Human Resources","Finance","Sales",
-           "Procurement","Administration","Store", name="department_enum"),nullable=False,primary_key=True)
+    department_array=[
+            "Human Resources","Finance","Sales",
+            "Procurement","Administration","Store"
+    ]
+    department=db.Column(Enum(*department_array, name="department_enum"),nullable=False,primary_key=True)
 
     def to_dict(self):
         return {
@@ -70,10 +76,13 @@ class Currency(db.Model):
 
     __tablename__="Currency"
 
-    currency=db.Column(Enum("USD","EUR","JPY",
+    currency_array=[
+            "USD","EUR","JPY",
             "GBP","CNY","CHF",
             "CAD","AUD","SGD",
-            "HKD","ETH",name="currency_enum"),nullable=False,primary_key=True)
+            "HKD","ETH"
+    ]
+    currency=db.Column(Enum(*currency_array,name="currency_enum"),nullable=False,primary_key=True)
 
     def to_dict(self):
         return {
@@ -84,7 +93,10 @@ class Subcategory(db.Model):
 
     __tablename__="Subcategory"
 
-    subcategory=db.Column(Enum("Fixed Assest","Moving","Consumable",name="subcategory_enum"),nullable=False,primary_key=True)
+    subcategory_array=[
+        "Fixed Assest","Moving","Consumable"
+    ]   
+    subcategory=db.Column(Enum(*subcategory_array,name="subcategory_enum"),nullable=False,primary_key=True)
 
     def to_dict(self):
         return {
@@ -102,7 +114,7 @@ class EmergencyContact(db.Model):
     gender=db.Column(db.String,nullable=False)
     phonenumber=db.Column(db.String,nullable=False)
     email=db.Column(db.String,nullable=False,unique=True)
-    location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
+    location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
     
     location=db.relationship("Location",foreign_keys=[location_name])
 
@@ -145,10 +157,9 @@ class Employee(db.Model,UserMixin):
     termination_reason = db.Column(db.String)
     termination_date = db.Column(db.DateTime(timezone=True))
     emergency_contact_fyida_id=db.Column(db.String,db.ForeignKey("EmergencyContact.fyida_id"),nullable=False) 
-    department_name=db.Column(db.String,db.ForeignKey("Department.department"),nullable=False)
-    location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
-    currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
-
+    department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department"),nullable=False)
+    location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
+    currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
     emergencycontact=db.relationship("EmergencyContact",foreign_keys=[emergency_contact_fyida_id])
     location=db.relationship("Location",foreign_keys=[location_name])
     currency=db.relationship("Currency",foreign_keys=[currency_name])
@@ -191,7 +202,7 @@ class Vendor(db.Model):
     vendor_name=db.Column(db.String,nullable=False,unique=True)
     vendor_email=db.Column(db.String,nullable=False,unique=True)
     vendor_phonenumber=db.Column(db.String,nullable=False)
-    vendor_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
+    vendor_location=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
     regsistered_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     vendor_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     location=db.relationship("Location",foreign_keys=[vendor_location])
@@ -224,13 +235,12 @@ class Item(db.Model):
     created_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at=db.Column(db.DateTime(timezone=True), onupdate=func.now())
 
-    unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
+    unit_name=db.Column(Enum(*Unit.unit_array,name="unit_enum"),db.ForeignKey("Unit.unit"),nullable=False)
     created_by_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
-    location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
-    category_name=db.Column(db.String,db.ForeignKey("Category.category"),nullable=False)
-    currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
-    subcategory_name=db.Column(db.String,db.ForeignKey("Subcategory.subcategory"),nullable=False)
-    
+    location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
+    category_name=db.Column(Enum(*Category.category_array,name="category_enum"),db.ForeignKey("Category.category"),nullable=False)
+    currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
+    subcategory_name=db.Column(Enum(*Subcategory.subcategory_array,name="subcategory_enum"),db.ForeignKey("Subcategory.subcategory"),nullable=False)
     unit=db.relationship("Unit",foreign_keys=[unit_name])
     location=db.relationship("Location",foreign_keys=[location_name])
     currency=db.relationship("Currency",foreign_keys=[currency_name])
@@ -271,9 +281,9 @@ class CheckOut(db.Model):
                 default="New",nullable=False)
     employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     return_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
-    location_name=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
-    department_name=db.Column(db.String,db.ForeignKey("Department.department"),nullable=False)
-    unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
+    location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
+    department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department"),nullable=False)
+    unit_name=db.Column(Enum(*Unit.unit_array,name="unit_enum"),db.ForeignKey("Unit.unit"),nullable=False)
     
 
     department=db.relationship("Department",foreign_keys=[department_name])
@@ -303,7 +313,7 @@ class CheckIn(db.Model):
 
     checkin_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
-    vendor_name=db.Column(db.Integer,db.ForeignKey("Vendor.vendor_name"))
+    vendor_name=db.Column(db.String,db.ForeignKey("Vendor.vendor_name"))
     item_price=db.Column(db.Float,nullable=False)
     item_quantity=db.Column(db.Float,nullable=False)
     item_grr=db.Column(db.Integer,nullable=False)
@@ -311,8 +321,8 @@ class CheckIn(db.Model):
     item_description=db.Column(db.String)
     employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     reciving_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
-    currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
-    unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
+    currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
+    unit_name=db.Column(Enum(*Unit.unit_array,name="unit_enum"),db.ForeignKey("Unit.unit"),nullable=False)
     item_shelf_life = db.Column(db.DateTime(timezone=True), nullable=False)
     item_status = db.Column(Enum(
                 "New", "Used", "Good","Poor","Damaged", name="item_status_enum"),
@@ -348,7 +358,7 @@ class Customer(db.Model):
     customer_name=db.Column(db.String,nullable=False,unique=True)
     customer_email=db.Column(db.String,nullable=False,unique=True)
     customer_phonenumber=db.Column(db.String,nullable=False)
-    customer_location=db.Column(db.String,db.ForeignKey("Location.location"),nullable=False)
+    customer_location=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
     regsistered_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     customer_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     location=db.relationship("Location",foreign_keys=[customer_location])
@@ -376,9 +386,9 @@ class Sales(db.Model):
     item_quantity=db.Column(db.Float,nullable=False)
     total_price=db.Column(db.Float,nullable=False)
     employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
-    customer_tin=db.Column(db.String,db.ForeignKey("Customer.customer_tin"),nullable=False)
-    currency_name=db.Column(db.String,db.ForeignKey("Currency.currency"),nullable=False)
-    unit_name=db.Column(db.String,db.ForeignKey("Unit.unit"),nullable=False)
+    customer_tin=db.Column(db.Integer,db.ForeignKey("Customer.customer_tin"),nullable=False)
+    currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
+    unit_name=db.Column(Enum(*Unit.unit_array,name="unit_enum"),db.ForeignKey("Unit.unit"),nullable=False)
 
     currency=db.relationship("Currency",foreign_keys=[currency_name])
     employee=db.relationship("Employee",foreign_keys=[employee_tin_number])

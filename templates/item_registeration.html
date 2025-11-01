@@ -40,7 +40,7 @@
             <label for="currency" class="form-label">Currency</label>
               <select name="currency" class="form-select" required>
                   {% for i in db_currency %}
-                    <option value="{{i[0]}}">{{i[0]}}</option>
+                    <option value="{{i}}">{{i}}</option>
                   {% endfor %}
             </select>
         </div>
@@ -67,7 +67,7 @@
           <label for="Item Category" class="form-label">Item Category</label>
             <select name="item_category" class="form-select" required>
                  {% for i in db_category %}
-                    <option value="{{i[0]}}">{{i[0]}}</option>
+                    <option value="{{i}}">{{i}}</option>
                   {% endfor %}
             </select>
         </div>
@@ -76,7 +76,7 @@
           <label for="Item SubCategory" class="form-label">Item SubCategory</label>
             <select name="item_subcategory" class="form-select" required>
                 {% for i in db_subcategory %}
-                    <option value="{{i[0]}}">{{i[0]}}</option>
+                    <option value="{{i}}">{{i}}</option>
                   {% endfor %}
             </select>
         </div>
@@ -85,7 +85,7 @@
           <label for="Location" class="form-label">Item Location</label>
             <select name="location" class="form-select" required>
                 {% for i in db_location %}
-                  <option value="{{i[0]}}">{{i[0]}}</option>
+                  <option value="{{i}}">{{i}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -94,7 +94,7 @@
           <label for="unit" class="form-label">Unit Of Measurment</label>
             <select name="unit" class="form-select" required>
                 {% for i in db_unit %}
-                  <option value="{{i[0]}}">{{i[0]}}</option>
+                  <option value="{{i}}">{{i}}</option>
                 {% endfor %}
             </select>
         </div>

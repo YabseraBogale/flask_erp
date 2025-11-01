@@ -58,7 +58,7 @@
           <label for="currency" class="form-label">Currency</label>
             <select name="currency" class="form-select" required>
               {% for i in db_currency %}
-                  <option value="{{i[0]}}">{{i[0]}}</option>
+                  <option value="{{i[0]}}">{{i}}</option>
                 {% endfor %}
           </select>
         </div>
@@ -105,7 +105,7 @@
           <label for="unit" class="form-label">Unit Of Measurment</label>
             <select name="unit" class="form-select" required>
                 {% for i in db_unit %}
-                  <option value="{{i[0]}}">{{i[0]}}</option>
+                  <option value="{{i[0]}}">{{i}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -116,8 +116,8 @@
                 <option value="New">New</option>
                 <option value="Used">Used</option>
                 <option value="Good">Good</option>
-                <option value="Poor">"Poor"</option>
-                <option value="Damaged">"Damaged"</option>
+                <option value="Poor">Poor</option>
+                <option value="Damaged">Damaged</option>
             </select>
         </div>
 

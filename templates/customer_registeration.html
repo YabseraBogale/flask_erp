@@ -48,7 +48,7 @@
           <label for="Location" class="form-label">Customer Location</label>
             <select name="customer_location" class="form-select" required>
                 {% for i in db_location %}
-                  <option value="{{i[0]}}">{{i[0]}}</option>
+                  <option value="{{i}}">{{i}}</option>
                 {% endfor %}
             </select>
         </div>

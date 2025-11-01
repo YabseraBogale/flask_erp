@@ -27,7 +27,7 @@
                 <label for="department" class="form-label">Department</label>
                 <select name="department" class="form-select" required>
                      {% for i in db_department %}
-                        <option value="{{i[0]}}">{{i[0]}}</option>
+                        <option value="{{i}}">{{i}}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -85,7 +85,7 @@
                 <label for="unit" class="form-label">Unit Of Measurment</label>
                     <select name="unit" class="form-select" required>
                         {% for i in db_unit %}
-                            <option value="{{i[0]}}">{{i[0]}}</option>
+                            <option value="{{i}}">{{i}}</option>
                         {% endfor %}
                     </select>
             </div>
@@ -105,7 +105,7 @@
                 <label for="Location" class="form-label">Item Location</label>
                 <select name="location" class="form-select" required>
                     {% for i in db_location %}
-                        <option value="{{i[0]}}">{{i[0]}}</option>
+                        <option value="{{i}}">{{i}}</option>
                     {% endfor %}
                 </select>
             </div>

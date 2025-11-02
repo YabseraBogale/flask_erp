@@ -226,7 +226,7 @@ def employee_termination():
 def terminated_employee_list():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
-            return render_template("terminated_employee_list.html",db_department=db_department,db_location=db_location)
+            return render_template("terminated_employee_list.html",db_department=db_department)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

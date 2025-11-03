@@ -94,7 +94,7 @@ class Subcategory(db.Model):
     __tablename__="Subcategory"
 
     subcategory_array=[
-        "Fixed Assest","Moving"
+        "Fixed Assest","Moving Assest"
     ]   
     subcategory=db.Column(Enum(*subcategory_array,name="subcategory_enum"),nullable=False,primary_key=True)
 

@@ -27,6 +27,6 @@ values ("USD"),("EUR"),("JPY"),
         ("HKD"),("ETH");
 
 Insert Into Subcategory(Subcategory) 
-values ("Fixed Assest"),("Moving");
+values ("Fixed Assest"),("Moving Assest");
         
         

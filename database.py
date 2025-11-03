@@ -226,7 +226,7 @@ class Item(db.Model):
 
     __tablename__="Item"
 
-    item_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
+    item_id=db.Column(db.Integer,primary_key=True,autoincrement=True,nullable=False)
     item_name=db.Column(db.String,nullable=False,unique=True)
     item_description=db.Column(db.String,nullable=False)
     item_price=db.Column(db.Float,nullable=False)
@@ -269,7 +269,7 @@ class CheckOut(db.Model):
 
     __tablename__="CheckOut"
 
-    checkout_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
+    checkout_id=db.Column(db.Integer,primary_key=True,autoincrement=True,nullable=False)
     
     item_quantity=db.Column(db.Float,nullable=False)
     item_siv=db.Column(db.Integer,nullable=False)
@@ -311,7 +311,7 @@ class CheckIn(db.Model):
 
     __tablename__="CheckIn"
 
-    checkin_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
+    checkin_id=db.Column(db.Integer,primary_key=True,autoincrement=True,nullable=False)
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     vendor_name=db.Column(db.String,db.ForeignKey("Vendor.vendor_name"))
     item_price=db.Column(db.Float,nullable=False)
@@ -380,7 +380,7 @@ class Sales(db.Model):
 
     __tablename__="Sales"
 
-    sales_id=db.Column(UUID(as_uuid=True),primary_key=True,default=uuid.uuid4)
+    sales_id=db.Column(db.Integer,primary_key=True,autoincrement=True,nullable=False)
     sales_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_quantity=db.Column(db.Float,nullable=False)
@@ -436,3 +436,37 @@ class PurchaseOrder(db.Model):
             "order_date":self.order_date
         }
 
+class UtilityCost(db.Model):
+
+    __tablename__="UtilityCost"
+
+    utility_cost_id=db.Column(db.Integer,primary_key=True,autoincrement=True,nullable=False)
+    utility_type_array=[
+            "Electricity","Water","Natural Gas",
+            "Internet","Telephone","Waste Removal"
+    ]
+    utility_type=db.Column(Enum(*utility_type_array, name="utility_type_enum"),nullable=False)
+    total_cost=db.Column(db.Float,nullable=False)
+    consumption_amount=db.Column(db.Float) 
+    location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
+    department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department")) 
+    currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
+    recorded_by_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    recorded_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    location=db.relationship("Location",foreign_keys=[location_name])
+    department=db.relationship("Department",foreign_keys=[department_name])
+    currency=db.relationship("Currency",foreign_keys=[currency_name])
+    employee=db.relationship("Employee",foreign_keys=[recorded_by_employee_tin_number])
+
+    def to_dict(self):
+        return {
+            "utility_cost_id":self.utility_cost_id,
+            "utility_type":self.utility_type,
+            "total_cost":self.total_cost,
+            "consumption_amount":self.consumption_amount,
+            "location_name":self.location_name,
+            "department_name":self.department_name,
+            "currency_name":self.currency_name,
+            "recorded_by_employee_tin_number":self.recorded_by_employee_tin_number,
+            "recorded_at":self.recorded_at
+        }

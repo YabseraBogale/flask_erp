@@ -859,7 +859,7 @@ def customer_registeration():
 @login_required
 def pending_listing():
     try:
-        if session["department_name"]=="Administration" or session["department_name"]=="Procurement":
+        if session["department_name"]=="Administration":
             pending_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                 PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
@@ -868,7 +868,7 @@ def pending_listing():
                             ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("pending_list_all.html",pending_list_name=pending_list_name)
 
-        else:
+        elif session["department_name"]=="Procurement":
             pending_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                 PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
@@ -877,7 +877,7 @@ def pending_listing():
                                 and PurchaseOrder.order_status== "Pending"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("pending_list.html",pending_list_name=pending_list_name)
-        
+        return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
@@ -912,7 +912,7 @@ def purchase_order_approval(purchase_order_id):
 @login_required
 def approved_listing():
     try:            
-        if session["department_name"]=="Administration" or session["department_name"]=="Procurement":
+        if session["department_name"]=="Administration":
             approved_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                 PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
@@ -920,7 +920,7 @@ def approved_listing():
                                 PurchaseOrder.order_status== "Approved"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("approved_list.html",approved_list_name=approved_list_name)
-        else:
+        elif session["department_name"]=="Procurement":
             approved_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                 PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
@@ -929,7 +929,7 @@ def approved_listing():
                                 and PurchaseOrder.order_status== "Approved"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("approved_list.html",approved_list_name=approved_list_name)
-
+        return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
@@ -939,7 +939,7 @@ def approved_listing():
 @login_required
 def rejected_listing():
     try:
-        if session["department_name"]=="Administration" or session["department_name"]=="Procurement":
+        if session["department_name"]=="Administration":
             rejected_list_name=db.session.query(
                                         PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                         PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
@@ -948,7 +948,7 @@ def rejected_listing():
                                         and PurchaseOrder.order_status== "Decline"
                                     ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("rejected_list.html",rejected_list_name=rejected_list_name)
-        else:
+        elif session["department_name"]=="Procurement":
             rejected_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
                                 PurchaseOrder.order_status,PurchaseOrder.order_date,PurchaseOrder.purchase_order_id
@@ -957,6 +957,7 @@ def rejected_listing():
                                 and PurchaseOrder.order_status== "Decline"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
             return render_template("rejected_list.html",rejected_list_name=rejected_list_name)
+        return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

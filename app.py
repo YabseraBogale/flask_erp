@@ -1006,7 +1006,34 @@ def vendor_info(vendor_tin):
         db.session.rollback()
         return render_template("404.html")
 
-    
+@app.route("/utility_registeration",methods=["GET","POST"])
+@login_required
+def utility_registeration():
+    try:
+        if session["department_name"]=="Finance":
+            if request.method=="POST":
+                utility_type=request.form["utility_type"]
+                total_cost=request.form["total_cost"]
+                department_name=request.form["department"]
+                currency_name=request.form["currency"]
+                location_name=request.form["location"]
+
+                utility=UtilityCost(
+                    utility_type=utility_type,
+                    total_cost=total_cost,
+                    department_name=department_name,
+                    currency_name=currency_name,
+                    location_name=location_name,
+                    recorded_by_employee_tin_number=session["employee_tin_number"]
+                )
+                db.session.add(utility)
+                db.session.commit()
+            return render_template("utility_registeration.html",db_utility=db_utility)
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
 
 @app.route("/vendor_listing")
 @login_required

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Utility Registeration</title>
+{% endblock %}
+
+{% block content %}
+ <div class="container">
+        <form action="/utility_registeration" method="POST">
+            <h5 class="card-title">Utility Registeration</h5>
+            
+            <div class="mb-3 col-md-4">
+                <label for="Utility Type" class="form-label">Utility Type</label>
+                  <select name="utility_type" class="form-select" required>
+                      {% for i in db_utility %}
+                        <option value="{{i}}">{{i}}</option>
+                      {% endfor %}
+                  </select>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-3 row">
+                <label class="col-sm-2 form-label" for="Utility Cost">Utility Cost</label>
+                    <div class="col-sm-10">
+                    <input type="number" name="utility_cost" placeholder="Utility Cost" class="form-control" min="0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="Department" class="form-label">Department</label>
+                  <select name="department" class="form-select" required>
+                      {% for i in db_department %}
+                        <option value="{{i}}">{{i}}</option>
+                      {% endfor %}
+                  </select>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="currency" class="form-label">Currency</label>
+                  <select name="currency" class="form-select" required>
+                      {% for i in db_currency %}
+                        <option value="{{i}}">{{i}}</option>
+                      {% endfor %}
+                  </select>
+            </div>
+
+            <div class="mb-3 col-md-4">
+                <label for="Location" class="form-label">Location</label>
+                  <select name="location" class="form-select" required>
+                      {% for i in db_location %}
+                        <option value="{{i}}">{{i}}</option>
+                      {% endfor %}
+                  </select>
+              </div>
+            
+
+            <div class="mb-3 row">
+                <div class="col-sm-10 offset-sm-2">
+                    <input type="submit" class="btn btn-primary">
+                    <input type="reset" class="btn btn-primary">
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+{% endblock %}

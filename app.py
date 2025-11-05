@@ -90,6 +90,7 @@ with app.app_context():
     db_location=Location.location_array
     db_unit=Unit.unit_array
     db_currency=Currency.currency_array
+    db_utility=UtilityCost.utility_type_array
     db_department=Department.department_array
     db_category=Category.category_array
     db_subcategory=Subcategory.subcategory_array

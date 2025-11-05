@@ -447,7 +447,6 @@ class UtilityCost(db.Model):
     ]
     utility_type=db.Column(Enum(*utility_type_array, name="utility_type_enum"),nullable=False)
     total_cost=db.Column(db.Float,nullable=False)
-    consumption_amount=db.Column(db.Float) 
     location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
     department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department")) 
     currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
@@ -463,7 +462,6 @@ class UtilityCost(db.Model):
             "utility_cost_id":self.utility_cost_id,
             "utility_type":self.utility_type,
             "total_cost":self.total_cost,
-            "consumption_amount":self.consumption_amount,
             "location_name":self.location_name,
             "department_name":self.department_name,
             "currency_name":self.currency_name,

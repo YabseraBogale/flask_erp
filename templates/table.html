@@ -217,10 +217,13 @@
                     <li>
                         <a href="/rejected_listing"><i class="fa fa-sign-out">rejected listing</i></a>
                     </li>
+                {% elif session["department_name"]=="Finance" %}
+                    
+                    <li>
+                        <a href="/utility_registeration"><i class="fa fa-sign-out">utility registeration</i></a>
+                    </li>
 
                 {% endif %}
-
-                
 
                 <li>
                     <a href="/my_account"><i class="fa fa-sign-out">account</i></a>

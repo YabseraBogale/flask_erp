@@ -445,6 +445,7 @@ class UtilityCost(db.Model):
             "Electricity","Water","Natural Gas",
             "Internet","Telephone","Waste Removal"
     ]
+    utility_name=db.Column(db.String,nullable=False)
     utility_type=db.Column(Enum(*utility_type_array, name="utility_type_enum"),nullable=False)
     total_cost=db.Column(db.Float,nullable=False)
     location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
@@ -459,7 +460,9 @@ class UtilityCost(db.Model):
 
     def to_dict(self):
         return {
+        
             "utility_cost_id":self.utility_cost_id,
+            "utility_name":self.utility_name,
             "utility_type":self.utility_type,
             "total_cost":self.total_cost,
             "location_name":self.location_name,

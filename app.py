@@ -1014,12 +1014,14 @@ def utility_registeration():
             if request.method=="POST":
                 utility_type=request.form["utility_type"]
                 total_cost=request.form["total_cost"]
+                utility_name=request.form["utility_name"]
                 department_name=request.form["department"]
                 currency_name=request.form["currency"]
                 location_name=request.form["location"]
 
                 utility=UtilityCost(
                     utility_type=utility_type,
+                    utility_name=utility_name,
                     total_cost=total_cost,
                     department_name=department_name,
                     currency_name=currency_name,

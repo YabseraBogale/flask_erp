@@ -1112,6 +1112,8 @@ def login():
             employee_tin_number=request.form["employee_id"]
             password=request.form["password"]
             employee=db.session.query(Employee).filter(Employee.employee_tin_number==employee_tin_number).first()
+            if employee is None:
+                return redirect("/login")
             is_vaild=bcrypt.checkpw(password.encode("utf-8"),employee.password)
             if is_vaild==True and employee.employment_status=="Active":
                 login_user(employee)

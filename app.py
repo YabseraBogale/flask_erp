@@ -1010,7 +1010,7 @@ def vendor_info(vendor_tin):
 @login_required
 def utility_registeration():
     try:
-        if session["department_name"]=="Finance":
+        if session["department_name"]=="Finance" or session["department_name"]=="Administration":
             if request.method=="POST":
                 utility_type=request.form["utility_type"]
                 total_cost=request.form["total_cost"]

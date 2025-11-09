@@ -1,0 +1,47 @@
+{% extends "table.html" %}
+
+{% block title %}
+
+  <title>Utility Cost List</title>
+
+{% endblock %}
+
+{% block listing_name %}
+    Utility Cost List
+{% endblock %}
+
+{% block column %}
+    <th>Utility Id</th>
+    <th>Utility Name</th>
+    <th>Utility Type</th>
+    <th>Total Cost</th>
+    <th>Location Name</th>   
+    <th>Department Name</th>   
+    <th>Currency Name</th>                                          
+{% endblock %}
+
+{% block table_content %}
+    {% for i in utility_list_name %}
+        <tr>
+            
+            <td>
+                {{i[0]}}
+            </td>
+            
+            <td>
+                {{i[1]}}
+            </td>
+            
+            <td>
+                {{i[2]}}
+            </td>
+            
+            <td>
+                {{i[3]}}
+            </td>
+            
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}

@@ -1037,6 +1037,28 @@ def utility_registeration():
         db.session.rollback()
         return render_template("404.html")
 
+
+@app.route("/utility_list")
+@login_required
+def utility_list():
+    try:
+        if session["department_name"]=="Finance":
+            vendor=db.session.query(
+                
+                ).where(UtilityCost.regsistered_employee_tin_number==session["employee_tin_number"]).all()
+            return render_template("vendor_list.html",vendor_lst=vendor)
+        elif session["department_name"]=="Administration":
+            vendor=db.session.query(
+                Vendor.vendor_tin,Vendor.vendor_name,
+                Vendor.vendor_phonenumber,Vendor.vendor_email,Vendor.location
+                ).all()
+            return render_template("vendor_list.html",vendor_lst=vendor)
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
 @app.route("/vendor_listing")
 @login_required
 def vendor_listing():

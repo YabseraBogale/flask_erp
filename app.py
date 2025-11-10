@@ -1038,9 +1038,9 @@ def utility_registeration():
         return render_template("404.html")
 
 
-@app.route("/utility_list")
+@app.route("/utility_listing")
 @login_required
-def utility_list():
+def utility_listing():
     try:
         if session["department_name"]=="Finance" or session["department_name"]=="Administration":
             utility_list_name=db.session.query(

@@ -1043,7 +1043,7 @@ def utility_registeration():
 def utility_list():
     try:
         if session["department_name"]=="Finance" or session["department_name"]=="Administration":
-            utility=db.session.query(
+            utility_list_name=db.session.query(
                 UtilityCost.utility_cost_id,
                 UtilityCost.utility_name,
                 UtilityCost.utility_type,
@@ -1052,7 +1052,7 @@ def utility_list():
                 UtilityCost.department_name,
                 UtilityCost.currency_name
                 ).order_by(UtilityCost.utility_name.asc()).all()
-            return render_template("vendor_list.html",vendor_lst=vendor)
+            return render_template("utility_list.html",utility_list_name=utility_list_name)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))

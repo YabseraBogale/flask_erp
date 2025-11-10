@@ -1042,16 +1042,16 @@ def utility_registeration():
 @login_required
 def utility_list():
     try:
-        if session["department_name"]=="Finance":
-            vendor=db.session.query(
-                
-                ).where(UtilityCost.regsistered_employee_tin_number==session["employee_tin_number"]).all()
-            return render_template("vendor_list.html",vendor_lst=vendor)
-        elif session["department_name"]=="Administration":
-            vendor=db.session.query(
-                Vendor.vendor_tin,Vendor.vendor_name,
-                Vendor.vendor_phonenumber,Vendor.vendor_email,Vendor.location
-                ).all()
+        if session["department_name"]=="Finance" or session["department_name"]=="Administration":
+            utility=db.session.query(
+                UtilityCost.utility_cost_id,
+                UtilityCost.utility_name,
+                UtilityCost.utility_type,
+                UtilityCost.total_cost,
+                UtilityCost.location_name,
+                UtilityCost.department_name,
+                UtilityCost.currency_name
+                ).order_by(UtilityCost.utility_name.asc()).all()
             return render_template("vendor_list.html",vendor_lst=vendor)
         return render_template("404.html")
     except Exception as e:

@@ -8,6 +8,7 @@
   <div class="container">
   <form action="/customer_registeration" method="POST">
         <h5 class="card-title">Customer Registeration</h5>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="card-body">
             <div class="mb-3 row">
               <label class="col-sm-2 form-label" for="Customer Name">Customer Name</label>

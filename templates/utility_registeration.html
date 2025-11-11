@@ -7,7 +7,8 @@
 {% block content %}
  <div class="container">
         <form action="/utility_registeration" method="POST">
-            <h5 class="card-title">Utility Registeration</h5>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">  
+          <h5 class="card-title">Utility Registeration</h5>
             
             <div class="card-body">
                 <div class="mb-3 row">

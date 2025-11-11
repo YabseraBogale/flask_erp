@@ -7,6 +7,7 @@
 {% block content %}
     <div class="container">
         <form action="/sales_registeration" method="POST">
+           <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
             <h5 class="card-title">Sales Registeration</h5>
                 {% if negative %}
                     <h6 class="card-title" style="color: red;">Not Enough Item Quantity In Inventory</h6>

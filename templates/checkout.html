@@ -9,7 +9,7 @@
     <div class="container">
         <form action="/item_checkout" method="post">
             <h5 class="card-title">Item Checkout</h5>
-
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
             {% if negative %}
             <h6 class="card-title" style="color: red;">Not Enough Item Quantity In Inventory</h6>
             {% endif %}

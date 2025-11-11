@@ -7,6 +7,7 @@
 {% block content %}
 <div class="container">
     <form action="/purchase_order" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <h5 class="card-title">purchase order</h5>
         <div class="mb-3 col-md-4">
           <label for="Item Name" class="form-label">Item Name</label>

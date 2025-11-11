@@ -188,7 +188,8 @@ def employee_registeration():
                     db.session.rollback()
                     return render_template("404.html")
                 return redirect("/dashboard")
-            return render_template("employee_registeration.html",db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_department=db_department)
+            csrf_token = generate_csrf()
+            return render_template("employee_registeration.html",csrf_token=csrf_token,db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_department=db_department)
         return render_template("404.html")
     
     except Exception as e:
@@ -216,7 +217,8 @@ def employee_termination():
                 )
                 db.session.execute(stmt)
                 db.session.commit()        
-            return render_template("employee_termination.html")
+            csrf_token = generate_csrf()
+            return render_template("employee_termination.html",csrf_token=csrf_token )
         else:
             return render_template("404.html")
     except Exception as e:
@@ -474,7 +476,8 @@ def item_registeration():
                 db.session.add(item)
                 db.session.commit()
                 return redirect("/dashboard")
-            return render_template("item_registeration.html",db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_category=db_category,db_subcategory=db_subcategory)
+            csrf_token = generate_csrf()
+            return render_template("item_registeration.html",csrf_token=csrf_token,db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_category=db_category,db_subcategory=db_subcategory)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -594,8 +597,8 @@ def item_checkout():
                     unit_name=unit_name,employee_tin_number=session["employee_tin_number"])
                 db.session.add(checkout_item)
                 db.session.commit()
-                
-            return render_template("checkout.html",item_name_list=item_name_list,db_location=db_location,db_unit=db_unit,db_department=db_department)
+            csrf_token = generate_csrf()
+            return render_template("checkout.html",csrf_token=csrf_token,item_name_list=item_name_list,db_location=db_location,db_unit=db_unit,db_department=db_department)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -671,8 +674,8 @@ def item_checkin():
                 db.session.add(checkin_item)
                 db.session.commit()
                 return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_name=db_vendor_name)
-                        
-            return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_name=db_vendor_name)
+            csrf_token = generate_csrf()    
+            return render_template("checkin.html",csrf_token=csrf_token,item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_name=db_vendor_name)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -773,7 +776,8 @@ def sales_registeration():
                 item=db.session.query(Item).filter(Item.item_name==item_name).first()
 
                 if item.item_quantity-int(item_quantity)<0:
-                    return render_template("sales_registeration.html",negative=True,db_currency=db_currency,db_unit=db_unit)
+                    csrf_token = generate_csrf()
+                    return render_template("sales_registeration.html",csrf_token=csrf_token,negative=True,db_currency=db_currency,db_unit=db_unit)
 
                 stmt=(
                     update(
@@ -793,9 +797,8 @@ def sales_registeration():
 
                 db.session.add(sales)
                 db.session.commit()
-                return render_template("sales_registeration.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit)
-
-            return render_template("sales_registeration.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit)
+            csrf_token = generate_csrf()
+            return render_template("sales_registeration.html",csrf_token=csrf_token,item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit)
         else:
             return render_template("404.html")
         
@@ -820,7 +823,8 @@ def purchase_order():
             )
             db.session.add(purchase)
             db.session.commit()
-        return render_template("purchase_order.html",item_name_list=item_name_list)
+        csrf_token=generate_csrf()
+        return render_template("purchase_order.html",csrf_token=csrf_token,item_name_list=item_name_list)
     
     except Exception as e:
         logging.exception(str(e))
@@ -847,9 +851,8 @@ def customer_registeration():
                 
                 db.session.add(customer)
                 db.session.commit()
-                return render_template("customer_registeration.html",db_location=db_location)
-
-            return render_template("customer_registeration.html",db_location=db_location)
+            csrf_token=generate_csrf()
+            return render_template("customer_registeration.html",csrf_token=csrf_token,db_location=db_location)
         else:
             return render_template("404.html")
         
@@ -1032,7 +1035,8 @@ def utility_registeration():
                 )
                 db.session.add(utility)
                 db.session.commit()
-            return render_template("utility_registeration.html",db_utility=db_utility)
+            csrf_token=generate_csrf()
+            return render_template("utility_registeration.html",csrf_token=csrf_token,db_utility=db_utility)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -1103,9 +1107,8 @@ def vendor_regsisteration():
                 
                 db.session.add(vendor)
                 db.session.commit()
-                return render_template("vendor_regsisteration.html",db_location=db_location)
-
-            return render_template("vendor_regsisteration.html",db_location=db_location)
+            csrf_token=generate_csrf()
+            return render_template("vendor_regsisteration.html",csrf_token=csrf_token,db_location=db_location)
         else:
             return render_template("404.html")
         

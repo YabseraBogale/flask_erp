@@ -13,6 +13,7 @@ from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_wtf.csrf import CSRFProtect
 
 logging.basicConfig(
     filename='application.log', 
@@ -22,6 +23,7 @@ logging.basicConfig(
 
 app=Flask(__name__)
 
+csrf = CSRFProtect(app)
 company_email=os.getenv("company_email")
 company_email_password=os.getenv("company_email_password")
 

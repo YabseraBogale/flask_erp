@@ -13,7 +13,7 @@ from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect,generate_csrf
 
 logging.basicConfig(
     filename='application.log', 
@@ -1146,7 +1146,8 @@ def login():
                 session["department_name"]=employee.department_name
                 return redirect("/dashboard")
             return redirect("/login")
-        return render_template("login.html")
+        csrf_token = generate_csrf()
+        return render_template("login.html",csrf_token=csrf_token)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()

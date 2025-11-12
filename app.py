@@ -88,7 +88,6 @@ with app.app_context():
     # db.session.add(admin)        
     # db.session.commit()
 
-
     db_location=Location.location_array
     db_unit=Unit.unit_array
     db_currency=Currency.currency_array
@@ -913,7 +912,6 @@ def purchase_order_approval(purchase_order_id):
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/approved_listing")
 @login_required
 def approved_listing():
@@ -1042,7 +1040,6 @@ def utility_registeration():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
 
 @app.route("/utility_listing")
 @login_required
@@ -1175,6 +1172,5 @@ def dashboard():
         logging.exception(str(e))
         return render_template("404.html")
     
-
 if __name__=="__main__":
     app.run(debug=True)

@@ -1,10 +1,7 @@
-import uuid
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from sqlalchemy import Enum
-from sqlalchemy.dialects.postgresql import UUID
 from flask_login import UserMixin
-
 
 db=SQLAlchemy()
 
@@ -160,6 +157,7 @@ class Employee(db.Model,UserMixin):
     department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department"),nullable=False)
     location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
     currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
+
     emergencycontact=db.relationship("EmergencyContact",foreign_keys=[emergency_contact_fyida_id])
     location=db.relationship("Location",foreign_keys=[location_name])
     currency=db.relationship("Currency",foreign_keys=[currency_name])
@@ -205,6 +203,7 @@ class Vendor(db.Model):
     vendor_location=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
     regsistered_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     vendor_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
     location=db.relationship("Location",foreign_keys=[vendor_location])
     employee=db.relationship("Employee",foreign_keys=[regsistered_employee_tin_number])
    
@@ -241,6 +240,7 @@ class Item(db.Model):
     category_name=db.Column(Enum(*Category.category_array,name="category_enum"),db.ForeignKey("Category.category"),nullable=False)
     currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
     subcategory_name=db.Column(Enum(*Subcategory.subcategory_array,name="subcategory_enum"),db.ForeignKey("Subcategory.subcategory"),nullable=False)
+    
     unit=db.relationship("Unit",foreign_keys=[unit_name])
     location=db.relationship("Location",foreign_keys=[location_name])
     currency=db.relationship("Currency",foreign_keys=[currency_name])
@@ -285,7 +285,6 @@ class CheckOut(db.Model):
     department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department"),nullable=False)
     unit_name=db.Column(Enum(*Unit.unit_array,name="unit_enum"),db.ForeignKey("Unit.unit"),nullable=False)
     
-
     department=db.relationship("Department",foreign_keys=[department_name])
     location=db.relationship("Location",foreign_keys=[location_name])
     employee=db.relationship("Employee",foreign_keys=[employee_tin_number])
@@ -327,6 +326,7 @@ class CheckIn(db.Model):
     item_status = db.Column(Enum(
                 "New", "Used", "Good","Poor","Damaged", name="item_status_enum"),
                 default="New",nullable=False)
+    
     currency=db.relationship("Currency",foreign_keys=[currency_name])
     employee=db.relationship("Employee",foreign_keys=[employee_tin_number])
     reciving_employee=db.relationship("Employee",foreign_keys=[reciving_employee_tin_number])
@@ -361,6 +361,7 @@ class Customer(db.Model):
     customer_location=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
     regsistered_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     customer_registered_date=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
     location=db.relationship("Location",foreign_keys=[customer_location])
     employee=db.relationship("Employee",foreign_keys=[regsistered_employee_tin_number])
 
@@ -453,6 +454,7 @@ class UtilityCost(db.Model):
     currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
     recorded_by_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     recorded_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
     location=db.relationship("Location",foreign_keys=[location_name])
     department=db.relationship("Department",foreign_keys=[department_name])
     currency=db.relationship("Currency",foreign_keys=[currency_name])

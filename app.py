@@ -14,6 +14,7 @@ from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect,generate_csrf
+from flask_caching import Cache
 
 logging.basicConfig(
     filename='application.log', 
@@ -23,7 +24,12 @@ logging.basicConfig(
 
 app=Flask(__name__)
 
+
 csrf = CSRFProtect(app)
+
+cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
+cache.init_app(app)
+
 company_email=os.getenv("company_email")
 company_email_password=os.getenv("company_email_password")
 
@@ -226,6 +232,7 @@ def employee_termination():
         return render_template("404.html")
    
 @app.route("/terminated_employee_list")
+@cache.cached(timeout=600)
 @login_required
 def terminated_employee_list():
     try:

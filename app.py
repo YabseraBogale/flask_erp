@@ -232,8 +232,8 @@ def employee_termination():
         return render_template("404.html")
    
 @app.route("/terminated_employee_list")
-@cache.cached(timeout=600)
 @login_required
+@cache.cached(timeout=600)
 def terminated_employee_list():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
@@ -245,6 +245,7 @@ def terminated_employee_list():
 
 @app.route("/terminated_employee_list/employee/data")
 @login_required
+@cache.cached(timeout=600)
 def terminated_employee_list_data():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
@@ -277,6 +278,7 @@ def terminated_employee_list_data():
 
 @app.route("/terminated_employee_list/employee/data/<employee_tin_number>")
 @login_required
+@cache.cached(timeout=600)
 def terminated_employee_data(employee_tin_number):
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
@@ -341,6 +343,7 @@ def restate(employee_tin_number):
 
 @app.route("/all/employee/data")
 @login_required
+@cache.cached(timeout=600)
 def employee_data():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
@@ -372,6 +375,7 @@ def employee_data():
 
 @app.route("/employee_info_for_hr/<employee_tin_number>")
 @login_required
+@cache.cached(timeout=600)
 def employee_info_for_hr(employee_tin_number):
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
@@ -443,6 +447,7 @@ def account():
 
 @app.route("/employee_list")
 @login_required
+@cache.cached(timeout=600)
 def employee_list():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
@@ -504,6 +509,7 @@ def item_info(item_id):
     
 @app.route("/item_listing")
 @login_required
+@cache.cached(timeout=600)
 def item_listing():
     try:
         if session["department_name"]=="Store" or session["department_name"]=="Administration":
@@ -540,6 +546,7 @@ def checkin_info(checkin_id):
 
 @app.route("/checkout_list")
 @login_required
+@cache.cached(timeout=600)
 def checkout_list():
     try:
         if session["department_name"]=="Store":
@@ -614,6 +621,7 @@ def item_checkout():
 
 @app.route("/checkin_list")
 @login_required
+@cache.cached(timeout=600)
 def checkin_list():
     try:
         if session["department_name"]=="Store":
@@ -691,6 +699,7 @@ def item_checkin():
 
 @app.route("/customer_list")
 @login_required
+@cache.cached(timeout=600)
 def customer_list():
     try:
         if session["department_name"]=="Sales" or session["department_name"]=="Administration":
@@ -702,6 +711,7 @@ def customer_list():
 
 @app.route("/customer_list/list/<employee_tin_number>")
 @login_required
+@cache.cached(timeout=600)
 def customer_list_employee_tin_number(employee_tin_number):
     try:
         if session["department_name"]=="Sales" or session["department_name"]=="Administration":
@@ -729,6 +739,7 @@ def customer_list_employee_tin_number(employee_tin_number):
 
 @app.route("/sales_list")
 @login_required
+@cache.cached(timeout=600)
 def sales_list():
     try:
         if session["department_name"]=="Sales" or session["department_name"]=="Administration":
@@ -740,6 +751,7 @@ def sales_list():
 
 @app.route("/sales_list/list/<employee_tin_number>")
 @login_required
+@cache.cached(timeout=600)
 def sales_list_employee_tin_number(employee_tin_number):
     try:
         if session["department_name"]=="Sales" or session["department_name"]=="Administration":
@@ -869,6 +881,7 @@ def customer_registeration():
 
 @app.route("/pending_listing")
 @login_required
+@cache.cached(timeout=600)
 def pending_listing():
     try:
         if session["department_name"]=="Administration":
@@ -921,6 +934,7 @@ def purchase_order_approval(purchase_order_id):
 
 @app.route("/approved_listing")
 @login_required
+@cache.cached(timeout=600)
 def approved_listing():
     try:            
         if session["department_name"]=="Administration":
@@ -948,6 +962,7 @@ def approved_listing():
     
 @app.route("/rejected_listing")
 @login_required
+@cache.cached(timeout=600)
 def rejected_listing():
     try:
         if session["department_name"]=="Administration":
@@ -1050,6 +1065,7 @@ def utility_registeration():
 
 @app.route("/utility_listing")
 @login_required
+@cache.cached(timeout=600)
 def utility_listing():
     try:
         if session["department_name"]=="Finance" or session["department_name"]=="Administration":
@@ -1071,6 +1087,7 @@ def utility_listing():
 
 @app.route("/vendor_listing")
 @login_required
+@cache.cached(timeout=600)
 def vendor_listing():
     try:
         if session["department_name"]=="Procurement":

@@ -38,3 +38,28 @@ Configuration of system-wide settings.
 ## Why This ERP?
 
 Tailored for Ethiopian business workflows Scales with organizational growth Increases efficiency by integrating all major departments Enhances cross-department visibility and reduces errors
+
+
+## Database Tabel
+
+#### Location
+
+list of location 
+
+1) Addis Ababa
+2) Adama
+3) Dire Dawa
+4) Mekelle
+5) Gondar 
+6) Bahir Dar
+7) Hawassa
+8) Jimma 
+9) Harar 
+10) Dessie
+11) Shashamane
+12) Asella 
+13) Debre Markos
+14) Gambela
+15) Jijiga 
+16) Arba Minch
+17) Dilla

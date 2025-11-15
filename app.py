@@ -1179,6 +1179,7 @@ def login():
         db.session.rollback()
         return render_template("404.html")
 
+
 @app.route("/logout")
 def logout():
     try:

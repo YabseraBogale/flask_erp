@@ -82,3 +82,18 @@ list of location
 14) Sheet
 15) Bottle
 16) Can
+
+#### Category
+
+1) Food
+2) Furniture
+3) Safety Equipment
+4) Chemical
+5) Sanitary
+6) Spare Part
+7) Stationery
+8) Electronics
+9) Accessory
+10) Clothing
+11) Constraction Material
+12) Pad

@@ -63,3 +63,22 @@ list of location
 15) Jijiga 
 16) Arba Minch
 17) Dilla
+
+#### Unit
+
+1) Piece
+2) Dozen Package
+3) Gram
+4) Kilogram
+5) Ton
+6) Milliliter
+7) Liter
+8) Gallon
+9) Barrel
+10) Millimeter
+11) Centimeter
+12) Meter
+13) Roll
+14) Sheet
+15) Bottle
+16) Can

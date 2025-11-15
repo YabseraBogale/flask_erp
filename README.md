@@ -44,56 +44,63 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
 
 #### Location
 
-list of location 
-
-1) Addis Ababa
-2) Adama
-3) Dire Dawa
-4) Mekelle
-5) Gondar 
-6) Bahir Dar
-7) Hawassa
-8) Jimma 
-9) Harar 
-10) Dessie
-11) Shashamane
-12) Asella 
-13) Debre Markos
-14) Gambela
-15) Jijiga 
-16) Arba Minch
-17) Dilla
+ Addis Ababa
+ Adama
+ Dire Dawa
+ Mekelle
+ Gondar 
+ Bahir Dar
+ Hawassa
+ Jimma 
+ Harar 
+ Dessie
+ Shashamane
+ Asella 
+ Debre Markos
+ Gambela
+ Jijiga 
+ Arba Minch
+ Dilla
 
 #### Unit
 
-1) Piece
-2) Dozen Package
-3) Gram
-4) Kilogram
-5) Ton
-6) Milliliter
-7) Liter
-8) Gallon
-9) Barrel
-10) Millimeter
-11) Centimeter
-12) Meter
-13) Roll
-14) Sheet
-15) Bottle
-16) Can
+ Piece
+ Dozen Package
+ Gram
+ Kilogram
+ Ton
+ Milliliter
+ Liter
+ Gallon
+ Barrel
+ Millimeter
+ Centimeter
+ Meter
+ Roll
+ Sheet
+ Bottle
+ Can
 
 #### Category
 
-1) Food
-2) Furniture
-3) Safety Equipment
-4) Chemical
-5) Sanitary
-6) Spare Part
-7) Stationery
-8) Electronics
-9) Accessory
-10) Clothing
-11) Constraction Material
-12) Pad
+ Food
+ Furniture
+ Safety Equipment
+ Chemical
+ Sanitary
+ Spare Part
+ Stationery
+ Electronics
+ Accessory
+ Clothing
+ Constraction Material
+ Pad
+
+#### Department
+
+ Human Resources
+ Finance
+ Sales
+ Procurement
+ Administration
+ Store

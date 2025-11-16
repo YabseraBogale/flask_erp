@@ -1142,7 +1142,7 @@ def vendor_regsisteration():
 @login_required
 def finance():
     try:
-        if session["department_name"]=="Finance" or session["department_name"]=="Administration":
+        if session["department_name"]=="Finance":
             return render_template("finance.html")
         return render_template("404.html")
     except Exception as e:
@@ -1150,6 +1150,65 @@ def finance():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/store")
+@login_required
+def finance():
+    try:
+        if session["department_name"]=="Store":
+            return render_template("store.html")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+@app.route("/sales")
+@login_required
+def finance():
+    try:
+        if session["department_name"]=="Sales":
+            return render_template("sales.html")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+@app.route("/procurement")
+@login_required
+def finance():
+    try:
+        if session["department_name"]=="Procurement":
+            return render_template("procurement.html")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html") 
+
+@app.route("/human_resources")
+@login_required
+def finance():
+    try:
+        if session["department_name"]=="Human Resources":
+            return render_template("human_resources.html")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html") 
+
+@app.route("/administration")
+@login_required
+def finance():
+    try:
+        if session["department_name"]=="Administration":
+            return render_template("administration.html")
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html") 
 
 
 @app.route("/login",methods=["GET","POST"])
@@ -1157,7 +1216,18 @@ def finance():
 def login():
     try:
         if "logged_in" in session and session["logged_in"]==True:
-            return redirect("/dashboard")
+            if session["department_name"]=="Finance":
+                return redirect("/finance")
+            elif session["department_name"]=="Store":
+                return redirect("/store")
+            elif session["department_name"]=="Sales":
+                return redirect("/sales")
+            elif session["department_name"]=="Procurement":
+                return redirect("/procurement")
+            elif session["department_name"]=="Human Resources":
+                return redirect("/human_resources")
+            elif session["department_name"]=="Administration":
+                return redirect("/administration")
         elif request.method=="POST":
             employee_tin_number=request.form["employee_id"]
             password=request.form["password"]
@@ -1170,7 +1240,18 @@ def login():
                 session["employee_tin_number"]=employee.employee_tin_number
                 session["logged_in"]=True
                 session["department_name"]=employee.department_name
-                return redirect("/dashboard")
+                if session["department_name"]=="Finance":
+                    return redirect("/finance")
+                elif session["department_name"]=="Store":
+                    return redirect("/store")
+                elif session["department_name"]=="Sales":
+                    return redirect("/sales")
+                elif session["department_name"]=="Procurement":
+                    return redirect("/procurement")
+                elif session["department_name"]=="Human Resources":
+                    return redirect("/human_resources")
+                elif session["department_name"]=="Administration":
+                    return redirect("/administration")
             return redirect("/login")
         csrf_token = generate_csrf()
         return render_template("login.html",csrf_token=csrf_token)
@@ -1190,14 +1271,6 @@ def logout():
         logging.exception(str(e))
         return render_template("404.html")
 
-@app.route("/dashboard")
-@login_required
-def dashboard():
-    try:
-        return render_template("hr_dashboard.html")
-    except Exception as e:
-        logging.exception(str(e))
-        return render_template("404.html")
     
 if __name__=="__main__":
     app.run(debug=True)

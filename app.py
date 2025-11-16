@@ -1152,7 +1152,7 @@ def finance():
 
 @app.route("/store")
 @login_required
-def finance():
+def store():
     try:
         if session["department_name"]=="Store":
             return render_template("store.html")
@@ -1164,7 +1164,7 @@ def finance():
 
 @app.route("/sales")
 @login_required
-def finance():
+def sales():
     try:
         if session["department_name"]=="Sales":
             return render_template("sales.html")
@@ -1176,7 +1176,7 @@ def finance():
 
 @app.route("/procurement")
 @login_required
-def finance():
+def procurement():
     try:
         if session["department_name"]=="Procurement":
             return render_template("procurement.html")
@@ -1188,7 +1188,7 @@ def finance():
 
 @app.route("/human_resources")
 @login_required
-def finance():
+def human_resources():
     try:
         if session["department_name"]=="Human Resources":
             return render_template("human_resources.html")
@@ -1200,7 +1200,7 @@ def finance():
 
 @app.route("/administration")
 @login_required
-def finance():
+def administration():
     try:
         if session["department_name"]=="Administration":
             return render_template("administration.html")

@@ -43,67 +43,64 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
 ## Database Tabel
 
 #### Location
-
- Addis Ababa,
- Adama,
- Dire Dawa,
- Mekelle,
- Gondar,
- Bahir Dar,
- Hawassa,
- Jimma,
- Harar, 
- Dessie,
- Shashamane,
- Asella,
- Debre Markos,
- Gambela,
- Jijiga,
- Arba Minch,
- Dilla
+    Addis Ababa,
+    Adama,
+    Dire Dawa,
+    Mekelle,
+    Gondar,
+    Bahir Dar,
+    Hawassa,
+    Jimma,
+    Harar, 
+    Dessie,
+    Shashamane,
+    Asella,
+    Debre Markos,
+    Gambela,
+    Jijiga,
+    Arba Minch,
+    Dilla
 
 #### Unit
-
- Piece,
- Dozen Package,
- Gram,
- Kilogram,
- Ton,
- Milliliter,
- Liter,
- Gallon,
- Barrel,
- Millimeter,
- Centimeter,
- Meter,
- Roll,
- Sheet,
- Bottle,
- Can
+    Piece,
+    Dozen Package,
+    Gram,
+    Kilogram,
+    Ton,
+    Milliliter,
+    Liter,
+    Gallon,
+    Barrel,
+    Millimeter,
+    Centimeter,
+    Meter,
+    Roll,
+    Sheet,
+    Bottle,
+    Can
 
 #### Category
 
- Food,
- Furniture,
- Safety Equipment,
- Chemical,
- Sanitary,
- Spare Part,
- Stationery,
- Electronics,
- Accessory,
- Clothing,
- Constraction Material,
- Pad
+    Food,
+    Furniture,
+    Safety Equipment,
+    Chemical,
+    Sanitary,
+    Spare Part,
+    Stationery,
+    Electronics,
+    Accessory,
+    Clothing,
+    Constraction Material,
+    Pad
 
 #### Department
-
- Human Resources,
- Finance,
- Sales,
- Procurement,
- Administration,
- Store
+    Human Resources,
+    Finance,
+    Sales,
+    Procurement,
+    Administration,
+    Store
 
 #### Currency
 
@@ -114,7 +111,7 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
 
 #### Subcategory
 
- Fixed Assest,Moving Assest
+    Fixed Assest,Moving Assest
 
 #### EmergencyContact
 

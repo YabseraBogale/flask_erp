@@ -104,3 +104,26 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
  Procurement,
  Administration,
  Store
+
+#### Currency
+
+    USD,EUR,JPY,
+    GBP,CNY,CHF,
+    CAD,AUD,SGD,
+    HKD,ETH
+
+#### Subcategory
+
+ Fixed Assest,Moving Assest
+
+#### EmergencyContact
+
+    fyida_id,
+    firstname,
+    middlename,
+    lastname,
+    gender,
+    phonenumber,
+    email,
+    location_name
+    

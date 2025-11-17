@@ -127,3 +127,27 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     email,
     location_name
     
+#### Employee
+
+    employee_tin_number,
+    firstname,
+    middlename,
+    lastname,
+    gender,
+    phonenumber,
+    date_of_employement,
+    email,
+    fyida_id,
+    position,
+    job_description,
+    bank_account_number,
+    salary,
+    pension_balance,
+    password,
+    employment_status,
+    termination_reason,
+    termination_date,
+    emergency_contact_fyida_id,
+    department_name,
+    location_name,
+    currency_name

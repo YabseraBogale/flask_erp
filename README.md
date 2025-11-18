@@ -48,7 +48,7 @@ Running the web app locally
     pip install -r requirements.txt
 
 
-## Database Tabel
+## Database Table
 
 #### Location
     Addis Ababa,

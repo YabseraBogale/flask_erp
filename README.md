@@ -200,6 +200,7 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
 
 #### UtilityCost
 
+    utility_cost_id,
     utility_name,
     utility_type,
     total_cost,
@@ -208,4 +209,34 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     currency_name,
     recorded_by_employee_tin_number,
     recorded_at
+
+#### PurchaseOrder
+
+    purchase_order_id,
+    order_date,
+    order_status,
+    ordered_quantity,
+    purchase_reason,
+    item_name,
+    employee_tin_number
+
+#### CheckIn
+
+    checkin_id,
+    item_name,
+    vendor_name,
+    item_price,
+    item_quantity,
+    item_grr,
+    checkin_date,
+    item_description,
+    employee_tin_number,
+    reciving_employee_tin_number,
+    currency_name,
+    unit_name,
+    item_shelf_life,
+    item_status
+    
+
+
     

@@ -236,6 +236,21 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     unit_name,
     item_shelf_life,
     item_status
+
+#### CheckIn
+
+    checkout_id,
+    item_quantity,
+    item_siv,
+    checkout_date,
+    item_description,
+    item_name,
+    item_status,
+    employee_tin_number,
+    return_employee_tin_number,
+    location_name,
+    department_name,
+    unit_name
     
 
 

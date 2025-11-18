@@ -39,6 +39,14 @@ Configuration of system-wide settings.
 
 Tailored for Ethiopian business workflows Scales with organizational growth Increases efficiency by integrating all major departments Enhances cross-department visibility and reduces errors
 
+## Requirements
+
+    python >= 3.11
+    sqlite3
+
+Running the web app locally
+    pip install -r requirements.txt
+
 
 ## Database Tabel
 

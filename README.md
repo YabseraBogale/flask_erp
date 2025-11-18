@@ -186,3 +186,14 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     regsistered_employee_tin_number,
     customer_registered_date
     
+#### Sales
+
+    sales_id,  
+    sales_date,
+    item_name,
+    item_quantity,
+    total_price,
+    employee_tin_number,
+    customer_tin,
+    currency_name,
+    unit_name

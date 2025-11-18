@@ -197,3 +197,15 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     customer_tin,
     currency_name,
     unit_name
+
+#### UtilityCost
+
+    utility_name,
+    utility_type,
+    total_cost,
+    location_name,
+    department_name,
+    currency_name,
+    recorded_by_employee_tin_number,
+    recorded_at
+    

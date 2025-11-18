@@ -175,3 +175,14 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     vendor_location,
     regsistered_employee_tin_number,
     vendor_registered_date
+
+#### Customer
+
+    customer_tin,
+    customer_name,
+    customer_email,
+    customer_phonenumber,
+    customer_location,
+    regsistered_employee_tin_number,
+    customer_registered_date
+    

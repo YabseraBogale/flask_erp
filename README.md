@@ -148,3 +148,30 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     department_name,
     location_name,
     currency_name
+
+#### Item
+
+    item_id,
+    item_name,
+    item_description,
+    item_price,
+    item_quantity,
+    item_shelf_life,
+    created_at
+    updated_at,
+    unit_name,
+    created_by_employee_tin_number,
+    location_name,
+    category_name,
+    currency_name,
+    subcategory_name
+
+#### Vendor
+
+    vendor_tin,
+    vendor_name,
+    vendor_email,
+    vendor_phonenumber,
+    vendor_location,
+    regsistered_employee_tin_number,
+    vendor_registered_date

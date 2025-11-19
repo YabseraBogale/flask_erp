@@ -45,7 +45,12 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     sqlite3
 
 Running the web app locally
+
     pip install -r requirements.txt
+
+for auditing dependences
+
+    
 
 
 ## Database Table

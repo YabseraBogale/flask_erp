@@ -245,7 +245,7 @@ Running the web app locally
     item_shelf_life,
     item_status
 
-#### CheckIn
+#### CheckOut
 
     checkout_id,
     item_quantity,

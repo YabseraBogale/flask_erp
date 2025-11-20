@@ -48,9 +48,8 @@ Running the web app locally
 
     pip install -r requirements.txt
 
-for auditing dependences
-
-    
+for auditing dependences simply run
+    pip-audit
 
 
 ## Database Table

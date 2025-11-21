@@ -15,21 +15,21 @@ Empower your HR team with tools to effectively manage the workforce. The system 
 
 Maintain full control over your stock and physical resources with a robust inventory management system. It allows for detailed item registration and categorization, real-time stock monitoring, and accurate check-in/check-out tracking to ensure accountability. Shelf and location tracking further enhance organization by minimizing loss, misplacement, and operational inefficiencies.
 
-### Sales Management
+### Sales Management Module
 
 Increase revenue visibility and enhance customer engagement through a powerful sales management module. The system enables detailed customer registration and profiling, providing a clear understanding of customer behavior and purchase history. It streamlines item sales recording and processing, ensuring fast and accurate transactions. Monthly and periodic sales tracking offers actionable insights into performance trends, while built-in sales prediction capabilities help forecast future demand, optimize inventory, and support strategic decision-making.
 
-### Procurement Management
+### Procurement Management Module
 
 Ensure smooth communication and accurate tracking of supply-side operations.
 Vendor registration and management Recording of inbound items Purchase order tracking from request to fulfillment
 
-### Finance 
+### Finance Management Module
 
 Gain complete insight into the financial health of your business. Access to company-wide financial data
 Financial summaries, reports, and statements Supports decision-making through accurate financial visibility
 
-### Administration & System Control
+### Administration Management Module
 
 Centralized control for secure and efficient system operation.
 Full access to all modules User permission and role management
@@ -44,11 +44,11 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     python >= 3.11
     sqlite3
 
-Running the web app locally
+Running the web app locally:
 
     pip install -r requirements.txt
 
-for auditing dependences simply run
+for auditing dependences simply run to see:
     pip-audit
 
 

@@ -42,13 +42,17 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
 ## Requirements
 
     python >= 3.11
+    postgresql
     sqlite3
+    redis
+    
 
 Running the web app locally:
 
     pip install -r requirements.txt
 
 for auditing dependences simply run to see:
+
     pip-audit
 
 

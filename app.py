@@ -14,6 +14,7 @@ from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect,generate_csrf
+import redis
 from flask_caching import Cache
 
 logging.basicConfig(
@@ -25,25 +26,32 @@ logging.basicConfig(
 app=Flask(__name__)
 
 
-csrf = CSRFProtect(app)
 
-cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
-cache.init_app(app)
-
-company_email=os.getenv("company_email")
-company_email_password=os.getenv("company_email_password")
-
-salt = bcrypt.gensalt()
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config['SECRET_KEY']=os.getenv("SECRET_KEY")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False 
+
+app.config['CACHE_TYPE'] = 'redis'
+app.config['CACHE_REDIS_HOST'] = 'localhost'  
+app.config['CACHE_REDIS_PORT'] = 6379         
+app.config['CACHE_REDIS_DB'] = 0   
 
 # CRITICAL: Use SQLALCHEMY_ENGINE_OPTIONS to define a connection listener
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     # Recommended for SQLite with Flask's multi-threaded server
     "connect_args": {"check_same_thread": False}    
 }
+
+csrf = CSRFProtect(app)
+
+cache = Cache(app)
+
+
+company_email=os.getenv("company_email")
+company_email_password=os.getenv("company_email_password")
+
+salt = bcrypt.gensalt()
 
 limiter = Limiter(
     get_remote_address,

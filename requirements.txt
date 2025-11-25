@@ -43,6 +43,7 @@ pyasn1
 pyasn1_modules
 Pygments
 pyparsing
+redis
 requests
 requests-oauthlib
 rich

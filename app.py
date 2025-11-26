@@ -1289,6 +1289,9 @@ def logout():
         logging.exception(str(e))
         return render_template("404.html")
 
+@app.route("/")
+def index():
+    return redirect("/login")
 
     
 if __name__=="__main__":

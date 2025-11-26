@@ -7,8 +7,12 @@ def app():
     # 1. Update config for testing
     flask_app.config.update({
         "TESTING": True,
-        "WTF_CSRF_ENABLED": False,  # Disables CSRF so you don't need tokens
-        "SECRET_KEY":os.getenv("SECRET_KEY") # Fixes the "Secret Key Required" error
+        "WTF_CSRF_ENABLED": False,  
+        "SECRET_KEY":os.getenv("SECRET_KEY"),
+        "CACHE_TYPE":"redis",
+        "CACHE_REDIS_HOST":"localhost",
+        "CACHE_REDIS_PORT":"6379",
+        "CACHE_REDIS_DB":0
     })
 
     

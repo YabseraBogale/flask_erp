@@ -14,7 +14,6 @@ from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect,generate_csrf
-import redis
 from flask_caching import Cache
 
 logging.basicConfig(

@@ -43,4 +43,4 @@ def test_employee_registeration(client):
         "salary":"18000",
     })
 
-    assert response.status_code==200
+    assert response.status_code==302

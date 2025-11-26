@@ -1,5 +1,6 @@
 import pytest
 from app import app as flask_app  
+import os
 
 @pytest.fixture()
 def app():
@@ -7,7 +8,7 @@ def app():
     flask_app.config.update({
         "TESTING": True,
         "WTF_CSRF_ENABLED": False,  # Disables CSRF so you don't need tokens
-        "SECRET_KEY": "test_secret_key" # Fixes the "Secret Key Required" error
+        "SECRET_KEY":os.getenv("SECRET_KEY") # Fixes the "Secret Key Required" error
     })
 
     

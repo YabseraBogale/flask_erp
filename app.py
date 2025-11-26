@@ -148,7 +148,6 @@ def employee_registeration():
                     email=emergency_contact_email)
                 db.session.add(emergency_contact)
                 db.session.commit()
-                cache.clear()
 
                 firstname=request.form["firstname"]
                 lastname=request.form["lastname"]
@@ -182,7 +181,6 @@ def employee_registeration():
                 
                 db.session.add(employee)
                 db.session.commit()
-                cache.clear()
                 employee=db.session.query(Employee).filter(Employee.email==email).first()
                 subject="Well Come to Comapny Name"
                 body=f"This sent by bot for Comapny Name password. Employee id:{employee.employee_tin_number}  Your password: {password_to_send}"

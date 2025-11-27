@@ -44,3 +44,4 @@ def test_employee_registeration(client):
     })
 
     assert response.status_code==302
+

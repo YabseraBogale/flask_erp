@@ -20,6 +20,7 @@ Flask-WTF
 greenlet
 httplib2
 idna
+iniconfig
 itsdangerous
 Jinja2
 license-expression
@@ -36,6 +37,7 @@ pip-api
 pip-requirements-parser
 pip_audit
 platformdirs
+pluggy
 proto-plus
 protobuf
 py-serializable
@@ -43,6 +45,7 @@ pyasn1
 pyasn1_modules
 Pygments
 pyparsing
+pytest
 redis
 requests
 requests-oauthlib

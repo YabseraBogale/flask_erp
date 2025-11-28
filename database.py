@@ -484,6 +484,14 @@ class Budget(db.Model):
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_quantity=db.Column(db.Integer,nullable=False)
     unit_name=db.Column(Enum(*Unit.unit_array,name="unit_enum"),db.ForeignKey("Unit.unit"),nullable=False)
+    recorded_by_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    recorded_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+
+    department=db.relationship("Department",foreign_keys=[department_name])
+    item=db.relationship("Item",foreign_keys=[item_name])
+    unit=db.relationship("Unit",foreign_keys=[unit_name])
+    employee=db.relationship("Employee",foreign_keys=[recorded_by_employee_tin_number])
 
     def to_dict(self):
         return {
@@ -491,5 +499,7 @@ class Budget(db.Model):
             "department_name":self.department_name,
             "item_name":self.item_name,
             "item_quantity":self.item_quantity,
-            "unit_name":self.unit_name
+            "unit_name":self.unit_name,
+            "recorded_at":self.recorded_at,
+            "recorded_by_employee_tin_number":self.recorded_by_employee_tin_number,
         }

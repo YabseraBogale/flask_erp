@@ -68,7 +68,6 @@ class Department(db.Model):
             "department":self.department
         }
 
-
 class Currency(db.Model):
 
     __tablename__="Currency"
@@ -126,7 +125,6 @@ class EmergencyContact(db.Model):
             "email":self.email,
             "location_name":self.location_name
         }
-
 
 class Employee(db.Model,UserMixin):
 
@@ -207,7 +205,6 @@ class Vendor(db.Model):
     location=db.relationship("Location",foreign_keys=[vendor_location])
     employee=db.relationship("Employee",foreign_keys=[regsistered_employee_tin_number])
    
-
     def to_dict(self):
         return {
             
@@ -333,6 +330,7 @@ class CheckIn(db.Model):
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])
     vendor=db.relationship("Vendor",foreign_keys=[vendor_name])
+    
     def to_dict(self):
         return {
             "checkin_id":self.checkin_id,
@@ -348,7 +346,6 @@ class CheckIn(db.Model):
             "item_description":self.item_description,
             "vendor_name":self.vendor_name
         }
-
 
 class Customer(db.Model):
 
@@ -487,7 +484,6 @@ class Budget(db.Model):
     recorded_by_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     recorded_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
     
-
     department=db.relationship("Department",foreign_keys=[department_name])
     item=db.relationship("Item",foreign_keys=[item_name])
     unit=db.relationship("Unit",foreign_keys=[unit_name])

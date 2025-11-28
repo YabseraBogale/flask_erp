@@ -473,3 +473,23 @@ class UtilityCost(db.Model):
             "recorded_by_employee_tin_number":self.recorded_by_employee_tin_number,
             "recorded_at":self.recorded_at
         }
+
+
+class Budget(db.Model):
+
+    __tablename__="Budget"
+
+    budget_id=db.Column(db.Integer,primary_key=True,autoincrement=True,nullable=False)
+    department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department"),unique=True) 
+    item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
+    item_quantity=db.Column(db.Integer,nullable=False)
+    unit_name=db.Column(Enum(*Unit.unit_array,name="unit_enum"),db.ForeignKey("Unit.unit"),nullable=False)
+
+    def to_dict(self):
+        return {
+            "budget_id":self.budget_id,
+            "department_name":self.department_name,
+            "item_name":self.item_name,
+            "item_quantity":self.item_quantity,
+            "unit_name":self.unit_name
+        }

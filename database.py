@@ -480,9 +480,11 @@ class Budget(db.Model):
     department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department"),unique=True) 
     item_name=db.Column(db.String,db.ForeignKey("Item.item_name"),nullable=False)
     item_quantity=db.Column(db.Integer,nullable=False)
+    item_budget=db.Column(db.Integer,nullable=False)
     unit_name=db.Column(Enum(*Unit.unit_array,name="unit_enum"),db.ForeignKey("Unit.unit"),nullable=False)
     recorded_by_employee_tin_number=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     recorded_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    currency_name=db.Column(Enum(*Currency.currency_array,name="currency_enum"),db.ForeignKey("Currency.currency"),nullable=False)
     
     department=db.relationship("Department",foreign_keys=[department_name])
     item=db.relationship("Item",foreign_keys=[item_name])
@@ -498,4 +500,6 @@ class Budget(db.Model):
             "unit_name":self.unit_name,
             "recorded_at":self.recorded_at,
             "recorded_by_employee_tin_number":self.recorded_by_employee_tin_number,
+            "item_budget":self.item_budget,
+            "currency_name":self.currency_name
         }

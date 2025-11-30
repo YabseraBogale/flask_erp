@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}
+  <title>Budget Registeration</title>
+{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+    <form action="/budget_registeration" method="POST">
+        <h5 class="card-title">Budget Registeration</h5>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="mb-3 col-md-4">
+          <label for="Item Name" class="form-label">Item Name</label>
+            <select name="item_name" class="form-select" required>
+                {% for i in item_name_list %}
+                  <option value="{{i[0]}}">{{i[0]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3 col-md-4">
+                <label for="department" class="form-label">Department</label>
+                <select name="department" class="form-select" required>
+                     {% for i in db_department %}
+                        <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                </select>
+        </div>
+
+        <div class="card-body">
+          <div class="mb-3 row">
+            <label class="col-sm-2 form-label" for="Item Quantity">Item Quantity</label>
+              <div class="col-sm-10">
+                <input type="number" name="item_quantity" placeholder="Item Quantity" class="form-control" min="0" required>
+              </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="mb-3 row">
+            <label class="col-sm-2 form-label" for="Budget">Budget</label>
+              <div class="col-sm-10">
+                <input type="number" name="item_budget" placeholder="Budget" min="0" class="form-control" required>
+              </div>
+          </div>
+        </div>
+
+        <div class="mb-3 col-md-4">
+          <label for="currency" class="form-label">Currency</label>
+            <select name="currency" class="form-select" required>
+              {% for i in db_currency %}
+                  <option value="{{i[0]}}">{{i}}</option>
+                {% endfor %}
+          </select>
+        </div>
+
+
+        <div class="card-body">
+          <div class="mb-3 row">
+            <label class="col-sm-2 form-label" for="Item Quantity">Item Quantity</label>
+              <div class="col-sm-10">
+                <input type="number" name="item_quantity" placeholder="Item Quantity" min="0" class="form-control" required>
+              </div>
+          </div>
+        </div>
+        
+        <div class="mb-3 col-md-4">
+          <label for="unit" class="form-label">Unit Of Measurment</label>
+            <select name="unit" class="form-select" required>
+                {% for i in db_unit %}
+                  <option value="{{i[0]}}">{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3 row">
+          <div class="col-sm-10 offset-sm-2">
+            <input type="submit" class="btn btn-primary">
+            <input type="reset" class="btn btn-primary">
+          </div>
+        </div>  
+
+    </form>
+
+  </div>
+{% endblock %}
+

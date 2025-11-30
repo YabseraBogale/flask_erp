@@ -1,0 +1,57 @@
+{% extends "table.html" %}
+
+{% block title %}
+
+  <title>Budget Lisiting</title>
+
+{% endblock %}
+
+{% block listing_name %}
+
+    Lisiting
+
+{% endblock %}
+
+{% block column %}
+
+    <th>Item Name</th> 
+    <th>Department</th>                                              
+    <th>Item Buget</th>
+    <th>Item Quantity</th>
+    <th>Item Unit</th>
+
+{% endblock %}
+
+{% block table_content %}
+    {% for i in budget_list_name %}
+        <tr>
+            
+            <td>
+                {{i[0]}}
+            </td>
+            
+            <td>
+                {{i[1]}}
+            </td>
+            
+            <td>
+                {{i[2]}}
+            </td>
+            
+            <td>
+                {{i[3]}}
+            </td>
+            
+            <td>
+                {{i[4]}}
+            </td>
+
+            <td>
+                <a href="/checkin_info//{{i[5]}}" class="btn btn-primary">View</a>
+            </td>
+            
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}

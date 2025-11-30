@@ -1194,7 +1194,20 @@ def budget_registeration():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/budget_list_name")
+@login_required
+def budget_list_name():
+    try:
+        if session["department_name"]=="Finance":
+            
+            return render_template("budget_list.html")
+        else:
+            return render_template("404.html") 
 
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
 
 @app.route("/finance")
 @login_required

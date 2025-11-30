@@ -9,7 +9,7 @@ from flask_login import LoginManager, login_user, login_required, current_user, 
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
-from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder,Vendor,UtilityCost
+from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder,Vendor,UtilityCost,Budget
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -1155,7 +1155,47 @@ def vendor_regsisteration():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+@app.route("/budget_registeration",methods=["GET","POST"])
+@login_required
+def budget_registeration():
     
+    try:
+        if session["department_name"]=="Finance":
+            csrf_token=generate_csrf()
+            if request.method=="POST":
+                item_name=request.form["item_name"]
+                department=request.form["department"]
+                item_quantity=request.form["item_quantity"]
+                item_budget=request.form["item_budget"]
+                currency=request.form["currency"]
+                unit=request.form["unit"]
+
+                budget=Budget(
+                    item_name=item_name,
+                    department_name=department,
+                    item_quantity=item_quantity,
+                    item_budget=item_budget,
+                    unit_name=unit,
+                    currency_name=currency,
+                    recorded_by_employee_tin_number=session["employee_tin_number"]
+
+                )
+                db.session.add(budget)
+                db.session.commit()
+                cache.clear()
+                return render_template("budget_registeration.html",csrf_token=csrf_token)
+            return render_template("budget_registeration.html",csrf_token=csrf_token)
+        else:
+            return render_template("404.html") 
+        
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+
 @app.route("/finance")
 @login_required
 def finance():

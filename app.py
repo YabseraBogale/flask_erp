@@ -1194,13 +1194,21 @@ def budget_registeration():
         db.session.rollback()
         return render_template("404.html")
 
-@app.route("/budget_list_name")
+@app.route("/budget_list")
 @login_required
-def budget_list_name():
+def budget_list():
     try:
         if session["department_name"]=="Finance":
+            budget_list_name=db.session.query(
+                Budget.item_name,
+                Budget.department_name,
+                Budget.item_budget,
+                Budget.item_quantity,
+                Budget.currency_name,
+                Budget.unit_name
+                ).order_by(Budget.recorded_at.desc()).all()
             
-            return render_template("budget_list.html")
+            return render_template("budget_list.html",budget_list_name=budget_list_name)
         else:
             return render_template("404.html") 
 

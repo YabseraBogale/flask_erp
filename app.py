@@ -24,9 +24,6 @@ logging.basicConfig(
 
 app=Flask(__name__)
 
-
-
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config['SECRET_KEY']=os.getenv("SECRET_KEY")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False 
@@ -45,7 +42,6 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
 csrf = CSRFProtect(app)
 
 cache = Cache(app)
-
 
 company_email=os.getenv("company_email")
 company_email_password=os.getenv("company_email_password")
@@ -1179,7 +1175,6 @@ def budget_registeration():
                     unit_name=unit,
                     currency_name=currency,
                     recorded_by_employee_tin_number=session["employee_tin_number"]
-
                 )
                 db.session.add(budget)
                 db.session.commit()
@@ -1216,6 +1211,21 @@ def budget_list():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+
+@app.route("/finanical_data")
+@login_required
+def finanical_data():
+    try:
+        if session["department_name"]=="Finance":
+            return render_template("finanical_data.html")
+        else:
+            return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
 
 @app.route("/finance")
 @login_required
@@ -1289,7 +1299,6 @@ def administration():
         db.session.rollback()
         return render_template("404.html") 
 
-
 @app.route("/login",methods=["GET","POST"])
 @limiter.limit("5 per minute")
 def login():
@@ -1339,7 +1348,6 @@ def login():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/logout")
 def logout():
     try:
@@ -1354,7 +1362,6 @@ def logout():
 def index():
     return redirect("/login")
 
-    
 if __name__=="__main__":
     
     app.run(debug=True)

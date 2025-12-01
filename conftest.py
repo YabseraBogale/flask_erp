@@ -14,11 +14,8 @@ def app():
         "CACHE_REDIS_PORT":"6379",
         "CACHE_REDIS_DB":0
     })
-
     
     yield flask_app
-
-   
 
 @pytest.fixture()
 def client(app):

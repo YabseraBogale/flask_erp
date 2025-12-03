@@ -143,7 +143,6 @@ class Employee(db.Model,UserMixin):
     job_description=db.Column(db.String,nullable=False)
     bank_account_number=db.Column(db.Integer,nullable=False)
     salary=db.Column(db.Float,nullable=False)
-    pension_balance=db.Column(db.Float)
     password=db.Column(db.String,nullable=False)
     employment_status = db.Column(Enum(
                 "Active", "Resigned", "Terminated",
@@ -182,7 +181,6 @@ class Employee(db.Model,UserMixin):
             "employment_status":self.employment_status,
             "termination_date":self.termination_date,
             "termination_reason":self.termination_reason,
-            "pension_balance":self.pension_balance,
             "currency_name":self.currency_name
         }
 

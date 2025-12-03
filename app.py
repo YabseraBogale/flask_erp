@@ -1220,6 +1220,7 @@ def budget_list():
 def finanical_data():
     try:
         if session["department_name"]=="Finance":
+
             return render_template("finanical_data.html")
         else:
             return render_template("404.html")

@@ -1198,7 +1198,9 @@ def budget_list():
                 Budget.item_name,
                 Budget.department_name,
                 Budget.item_budget,
+                Budget.item_budget_deduct,
                 Budget.item_quantity,
+                Budget.item_quantity_deduct,
                 Budget.currency_name,
                 Budget.unit_name
                 ).order_by(Budget.recorded_at.desc()).all()

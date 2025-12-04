@@ -1238,7 +1238,6 @@ def budget_list():
         db.session.rollback()
         return render_template("404.html")
 
-
 @app.route("/finanical_data")
 @login_required
 @cache.cached(timeout=600)
@@ -1291,7 +1290,6 @@ def finanical_data():
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
 
 @app.route("/finance")
 @login_required

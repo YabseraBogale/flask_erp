@@ -672,17 +672,33 @@ def item_checkin():
                 currency=request.form["currency"]
                 item_shelf_life=request.form["item_shelf_life"]
                 item_shelf_life=datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
-                stmt=(
-                    update(Item)
-                    .where(Item.item_name==item_name)
-                    .values(item_quantity=Item.item_quantity+float(item_quantity),
-                            item_price=(Item.item_price+float(item_quantity))/2
+                item=db.session.query(Item).where(Item.item_name==item_name).first()
+
+                if item.item_quantity==0:
+                    stmt=(
+                        update(Item)
+                        .where(Item.item_name==item_name)
+                        .values(item_quantity=float(item_quantity),
+                                item_price=float(item_quantity)
+                        )
                     )
-                )
-                
-                db.session.execute(stmt)
-                db.session.commit()
-                cache.clear()
+                    
+                    db.session.execute(stmt)
+                    db.session.commit()
+                    cache.clear()
+                else:
+                    stmt=(
+                        update(Item)
+                        .where(Item.item_name==item_name)
+                        .values(item_quantity=Item.item_quantity+float(item_quantity),
+                                item_price=(Item.item_price+float(item_quantity))/2
+                        )
+                    )
+                    
+                    db.session.execute(stmt)
+                    db.session.commit()
+                    cache.clear()
+
                 checkin_item=CheckIn(
                         item_name=item_name,reciving_employee_id=reciving_employee_id,
                         employee_tin_number=session["employee_tin_number"],item_price=item_price,

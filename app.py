@@ -1245,8 +1245,46 @@ def budget_list():
 def finanical_data():
     try:
         if session["department_name"]=="Finance":
+            employee=db.session.query(
+                Employee.employee_tin_number,
+                Employee.firstname,
+                Employee.lastname,
+                Employee.salary
+            ).all()
+            employee_dict=[]
+            for i in employee:
+                salary=i[3]
+                firstname=i[1]
+                fathername=i[2]
+                pension=i[3]*0.07
+                income_tax=0
+                net_salary=0
 
-            return render_template("finanical_data.html")
+                if salary<=4000 or salary>=2001:
+                    income_tax=(0.15*salary)-300
+                    net_salary=salary-(income_tax+pension)
+                elif salary<=7000 or salary>=4001:
+                    income_tax=(0.2*salary)-500
+                    net_salary=salary-(income_tax+pension)
+                elif salary<=10000 or salary>=7001:
+                    income_tax=(0.25*salary)-850
+                    net_salary=salary-(income_tax+pension)
+                elif salary<=14000 or salary>=10001:
+                    income_tax=(0.3*salary)-1350
+                    net_salary=salary-(income_tax+pension)
+                elif salary>=14001:
+                    income_tax=(0.35*salary)-2050
+                    net_salary=salary-(income_tax+pension)
+                    
+                employee_dict.append({
+                    "employee_tin_number":i[0],
+                    "name":firstname+fathername,
+                    "gross_salary":salary,
+                    "pension":pension,
+                    "net_salary":net_salary,
+                    "income_tax":income_tax
+                })
+            return render_template("finanical_data.html",employee_dict=employee_dict)
         else:
             return render_template("404.html")
     except Exception as e:

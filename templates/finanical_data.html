@@ -17,35 +17,39 @@
     <th>Tin Number</th>
     <th>Employee Name</th> 
     <th>Gross Salary</th>                                              
-    <th>Tax Deducation</th>
-    <th>Pension</th>
+    <th>Income Tax</th>
+    <th>Pension (7%)</th>
+    <th>Net Salary</th>
 
 {% endblock %}
 
 {% block table_content %}
-    {% for i in budget_list_name %}
+    {% for i in employee_dict %}
         <tr>
-            
             <td>
-                {{i[0]}}
+                {{i["employee_tin_number"]}}
             </td>
-            
+
             <td>
-                {{i[1]}}
+                {{i["name"]}}
             </td>
-            
+
             <td>
-                {{i[2]}}
+                {{i["gross_salary"]}}
             </td>
-            
+
             <td>
-                {{i[3]}} {{i[4]}}
+                {{i["income_tax"]}}
             </td>
-            
+
             <td>
-                {{i[5]}}
+                {{i["pension"]}}
             </td>
-            
+
+            <td>
+                {{i["net_salary"]}}
+            </td>
+
         </tr>
 
     {% endfor %}

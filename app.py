@@ -1253,7 +1253,7 @@ def finanical_data():
                 Employee.firstname,
                 Employee.lastname,
                 Employee.salary
-            ).all()
+            ).where(Employee.employment_status=="Active").all()
             employee_dict=[]
             for i in employee:
                 salary=i[3]

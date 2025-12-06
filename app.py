@@ -1219,6 +1219,7 @@ def budget_registeration():
 
 @app.route("/budget_list")
 @login_required
+@cache.cached(timeout=600)
 def budget_list():
     try:
         if session["department_name"]=="Finance":
@@ -1230,7 +1231,9 @@ def budget_list():
                 Budget.item_quantity,
                 Budget.item_quantity_deduct,
                 Budget.currency_name,
-                Budget.unit_name
+                Budget.unit_name,
+                Budget.date_from,
+                Budget.date_to
                 ).order_by(Budget.recorded_at.desc()).all()
             
             return render_template("budget_list.html",budget_list_name=budget_list_name)

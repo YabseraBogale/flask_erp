@@ -21,7 +21,8 @@
     <th>Item Quantity</th>
     <th>Item Quantity Deduct</th>
     <th>Item Unit</th>
-
+    <th>Date From</th>
+    <th>Date To</th>
 {% endblock %}
 
 {% block table_content %}
@@ -56,6 +57,13 @@
                 {{i[7]}}
             </td>
             
+            <td>
+                {{i[8]}}
+            </td>
+
+            <td>
+                {{i[9]}}
+            </td>
         </tr>
 
     {% endfor %}

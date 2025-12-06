@@ -1190,6 +1190,8 @@ def budget_registeration():
                 item_budget=request.form["item_budget"]
                 currency=request.form["currency"]
                 unit=request.form["unit"]
+                date_from=datetime.strptime(request.form["date_from"], "%Y-%m-%d").date()
+                date_to=datetime.strptime(request.form["date_to"], "%Y-%m-%d").date()
 
                 budget=Budget(
                     item_name=item_name,
@@ -1198,6 +1200,8 @@ def budget_registeration():
                     item_budget=item_budget,
                     unit_name=unit,
                     currency_name=currency,
+                    date_from=date_from,
+                    date_to=date_to,
                     recorded_by_employee_tin_number=session["employee_tin_number"]
                 )
                 db.session.add(budget)

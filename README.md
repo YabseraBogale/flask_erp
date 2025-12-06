@@ -48,13 +48,13 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     
 
 Running the web app locally:
-
+```
     pip install -r requirements.txt
-
+```
 for auditing dependences simply run to see:
-
+```
     pip-audit
-
+```
 
 ## Database Table
 

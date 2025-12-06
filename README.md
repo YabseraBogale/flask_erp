@@ -267,7 +267,19 @@ for auditing dependences simply run to see:
     location_name,
     department_name,
     unit_name
-    
 
+#### Budget
 
-    
+    budget_id,
+    department_name,
+    item_name,
+    item_quantity,
+    item_budget,
+    item_quantity_deduct,
+    item_budget_deduct,
+    unit_name,
+    recorded_by_employee_tin_number,
+    recorded_at,
+    currency_name,
+    date_from,
+    date_to

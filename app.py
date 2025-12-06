@@ -1419,6 +1419,7 @@ def login():
 @app.route("/logout")
 def logout():
     try:
+        cache.clear()
         logout_user()
         session.clear()
         return redirect("/login")

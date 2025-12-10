@@ -8,7 +8,12 @@
 
 {% block listing_name %}
 
-    Lisiting
+    <p>Lisiting</p>
+    <p>Number of Employee: {{total_employee_info["number_of_employee"]}}</p>
+    <p>Total Gross Salary: {{total_employee_info["total_gross_salary"]}}</p>
+    <p>Total Net Income Tax: {{total_employee_info["total_income_tax"]}}</p>
+    <p>Total Pension: {{total_employee_info["total_pension"]}}</p>
+    <p>Total Net Salary: {{total_employee_info["total_net_salary"]}}</p>
 
 {% endblock %}
 
@@ -66,39 +71,3 @@
     
 {% endblock %}
 
-<table>
-    <tr>
-        <td>
-            Number of Employee
-        </td>
-        <td>
-            Total Gross Salary
-        </td>
-        <td>
-            Total Net Income Tax
-        </td>
-        <td>
-            Total Pension
-        </td>
-        <td>
-            Total Net Salary
-        </td>
-    </tr>
-    <tr>
-        <td>
-            {{total_employee_info["number_of_employee"]}}
-        </td>
-        <td>
-            {{total_employee_info["total_gross_salary"]}}
-        </td>
-        <td>
-            {{total_employee_info["total_income_tax"]}}
-        </td>
-        <td>
-            {{total_employee_info["total_pension"]}}
-        </td>
-        <td>
-            {{total_employee_info["total_net_salary"]}}
-        </td>
-    </tr>
-</table>

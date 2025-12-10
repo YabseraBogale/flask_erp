@@ -1324,81 +1324,74 @@ def finanical_data():
                     Employee.salary,
                     Employee.department_name
                 ).where(Employee.employment_status=="Active" and Employee.department_name==department).all()
-            else:
-                employee=db.session.query(
-                    Employee.employee_tin_number,
-                    Employee.firstname,
-                    Employee.lastname,
-                    Employee.salary,
-                    Employee.department_name
-                ).where(Employee.employment_status=="Active").all()
-            employee_dict=[]
-            total_pension=0
-            total_income_tax=0
-            total_net_salary=0
-            total_gross_salary=0
-            for i in employee:
-                salary=i[3]
-                firstname=i[1]
-                fathername=i[2]
-                pension=i[3]*0.07
-                total_pension+=pension
-                income_tax=0
-                net_salary=0
+                employee_dict=[]
+                total_pension=0
+                total_income_tax=0
+                total_net_salary=0
+                total_gross_salary=0
+                for i in employee:
+                    salary=i[3]
+                    firstname=i[1]
+                    fathername=i[2]
+                    pension=i[3]*0.07
+                    total_pension+=pension
+                    income_tax=0
+                    net_salary=0
 
-                if salary<=4000 or salary>=2001:
-                    income_tax=(0.15*salary)-300
-                    net_salary=salary-(income_tax+pension)
-                    total_income_tax+=income_tax
-                    total_net_salary+=net_salary
-                    total_gross_salary+=salary
-                elif salary<=7000 or salary>=4001:
-                    income_tax=(0.2*salary)-500
-                    net_salary=salary-(income_tax+pension)
-                    total_income_tax+=income_tax
-                    total_net_salary+=net_salary
-                    total_gross_salary+=salary
-                elif salary<=10000 or salary>=7001:
-                    income_tax=(0.25*salary)-850
-                    net_salary=salary-(income_tax+pension)
-                    total_income_tax+=income_tax
-                    total_net_salary+=net_salary
-                    total_gross_salary+=salary
-                elif salary<=14000 or salary>=10001:
-                    income_tax=(0.3*salary)-1350
-                    net_salary=salary-(income_tax+pension)
-                    total_income_tax+=income_tax
-                    total_net_salary+=net_salary
-                    total_gross_salary+=salary
-                elif salary>=14001:
-                    income_tax=(0.35*salary)-2050
-                    net_salary=salary-(income_tax+pension)
-                    total_income_tax+=income_tax
-                    total_net_salary+=net_salary
-                    total_gross_salary+=salary
-                    
-                employee_dict.append({
-                    "employee_tin_number":i[0],
-                    "name":firstname+" "+fathername,
-                    "gross_salary":salary,
-                    "pension":"{:.2f}".format(pension),
-                    "net_salary":"{:.2f}".format(net_salary),
-                    "income_tax":"{:.2f}".format(income_tax),
-                    "department":i[4]
-                })
-            total_employee_info={
-                "total_pension":"{:.2f}".format(total_pension),
-                "total_income_tax":"{:.2f}".format(total_income_tax),
-                "total_net_salary":"{:.2f}".format(total_net_salary),
-                "total_gross_salary":"{:.2f}".format(total_gross_salary),
-                "number_of_employee":len(employee)
-            }
-            return render_template("finanical_data.html",
-                                   employee_dict=employee_dict,
-                                   db_department=db_department,
-                                   csrf_token=csrf_token,
-                                   total_employee_info=total_employee_info
-                                   )
+                    if salary<=4000 or salary>=2001:
+                        income_tax=(0.15*salary)-300
+                        net_salary=salary-(income_tax+pension)
+                        total_income_tax+=income_tax
+                        total_net_salary+=net_salary
+                        total_gross_salary+=salary
+                    elif salary<=7000 or salary>=4001:
+                        income_tax=(0.2*salary)-500
+                        net_salary=salary-(income_tax+pension)
+                        total_income_tax+=income_tax
+                        total_net_salary+=net_salary
+                        total_gross_salary+=salary
+                    elif salary<=10000 or salary>=7001:
+                        income_tax=(0.25*salary)-850
+                        net_salary=salary-(income_tax+pension)
+                        total_income_tax+=income_tax
+                        total_net_salary+=net_salary
+                        total_gross_salary+=salary
+                    elif salary<=14000 or salary>=10001:
+                        income_tax=(0.3*salary)-1350
+                        net_salary=salary-(income_tax+pension)
+                        total_income_tax+=income_tax
+                        total_net_salary+=net_salary
+                        total_gross_salary+=salary
+                    elif salary>=14001:
+                        income_tax=(0.35*salary)-2050
+                        net_salary=salary-(income_tax+pension)
+                        total_income_tax+=income_tax
+                        total_net_salary+=net_salary
+                        total_gross_salary+=salary
+                        
+                    employee_dict.append({
+                        "employee_tin_number":i[0],
+                        "name":firstname+" "+fathername,
+                        "gross_salary":salary,
+                        "pension":"{:.2f}".format(pension),
+                        "net_salary":"{:.2f}".format(net_salary),
+                        "income_tax":"{:.2f}".format(income_tax),
+                        "department":i[4]
+                    })
+                total_employee_info={
+                    "total_pension":"{:.2f}".format(total_pension),
+                    "total_income_tax":"{:.2f}".format(total_income_tax),
+                    "total_net_salary":"{:.2f}".format(total_net_salary),
+                    "total_gross_salary":"{:.2f}".format(total_gross_salary),
+                    "number_of_employee":len(employee)
+                }
+                return render_template("finanical_data.html",
+                                    employee_dict=employee_dict,
+                                    db_department=db_department,
+                                    csrf_token=csrf_token,
+                                    total_employee_info=total_employee_info
+                                    )
+            return render_template("404.html")
         else:
             return render_template("404.html")
     except Exception as e:

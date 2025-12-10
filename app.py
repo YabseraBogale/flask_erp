@@ -1250,7 +1250,7 @@ def budget_list():
 @cache.cached(timeout=600)
 def finanical_data():
     try:
-        if session["department_name"]=="Finance":
+        if session["department_name"]=="Finance" or session["Administration"]:
             employee=db.session.query(
                 Employee.employee_tin_number,
                 Employee.firstname,

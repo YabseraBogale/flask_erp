@@ -1258,29 +1258,43 @@ def finanical_data():
                 Employee.salary
             ).where(Employee.employment_status=="Active").all()
             employee_dict=[]
+            total_pension=0
+            total_income_tax=0
+            total_net_salary=0
             for i in employee:
                 salary=i[3]
                 firstname=i[1]
                 fathername=i[2]
                 pension=i[3]*0.07
+                total_pension+=pension
                 income_tax=0
                 net_salary=0
 
                 if salary<=4000 or salary>=2001:
                     income_tax=(0.15*salary)-300
                     net_salary=salary-(income_tax+pension)
+                    total_income_tax+=income_tax
+                    total_net_salary+=net_salary
                 elif salary<=7000 or salary>=4001:
                     income_tax=(0.2*salary)-500
                     net_salary=salary-(income_tax+pension)
+                    total_income_tax+=income_tax
+                    total_net_salary+=net_salary
                 elif salary<=10000 or salary>=7001:
                     income_tax=(0.25*salary)-850
                     net_salary=salary-(income_tax+pension)
+                    total_income_tax+=income_tax
+                    total_net_salary+=net_salary
                 elif salary<=14000 or salary>=10001:
                     income_tax=(0.3*salary)-1350
                     net_salary=salary-(income_tax+pension)
+                    total_income_tax+=income_tax
+                    total_net_salary+=net_salary
                 elif salary>=14001:
                     income_tax=(0.35*salary)-2050
                     net_salary=salary-(income_tax+pension)
+                    total_income_tax+=income_tax
+                    total_net_salary+=net_salary
                     
                 employee_dict.append({
                     "employee_tin_number":i[0],
@@ -1288,7 +1302,10 @@ def finanical_data():
                     "gross_salary":salary,
                     "pension":pension,
                     "net_salary":net_salary,
-                    "income_tax":income_tax
+                    "income_tax":income_tax,
+                    "total_pension":total_pension,
+                    "total_income_tax":total_income_tax,
+                    "total_net_salary":total_net_salary
                 })
             return render_template("finanical_data.html",employee_dict=employee_dict)
         else:

@@ -55,3 +55,31 @@
     {% endfor %}
 
 {% endblock %}
+
+{% block column %}
+
+    <th>Total Pension</th>
+    <th>Total Income Tax</th> 
+    <th>Total Net Salary</th>                                              
+    
+{% endblock %}
+
+{% block table_content %}
+ {% for i in employee_dict %}
+        <tr>
+            <td>
+                {{i["total_pension"]}}
+            </td>
+
+            <td>
+                {{i["total_income_tax"]}}
+            </td>
+
+            <td>
+                {{i["total_net_salary"]}}
+            </td>
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}

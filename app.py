@@ -1247,6 +1247,7 @@ def budget_list():
 
 @app.route("/finanical_data")
 @login_required
+@cache.cached(timeout=600)
 def finanical_data():
     try:
         if session["department_name"]=="Finance" or session["department_name"]=="Administration":

@@ -27,15 +27,15 @@
     {% for i in employee_dict %}
         <tr>
             <td>
-                {{"{:.2f}".format(i["employee_tin_number"])}}
+                {{i["employee_tin_number"]}}
             </td>
 
             <td>
-                {{"{:.2f}".format(i["name"])}}
+                {{i["name"]}}
             </td>
 
             <td>
-                {{"{:.2f}".format(i["gross_salary"])}}
+                {{i["gross_salary"]}}
             </td>
 
             <td>

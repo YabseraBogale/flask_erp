@@ -24,60 +24,6 @@
 {% endblock %}
 
 {% block table_content %}
-    {% for i in employee_dict %}
-        <tr>
-            <td>
-                {{i["employee_tin_number"]}}
-            </td>
-
-            <td>
-                {{i["name"]}}
-            </td>
-
-            <td>
-                {{i["gross_salary"]}}
-            </td>
-
-            <td>
-                {{"{:.2f}".format(i["income_tax"])}}
-            </td>
-
-            <td>
-                {{"{:.2f}".format(i["pension"])}}
-            </td>
-
-            <td>
-                {{"{:.2f}".format(i["net_salary"])}}
-            </td>
-
-        </tr>
-
-    {% endfor %}
-
-{% endblock %}
-
-{% block column %}
-
-    <th>Total Gross Salary</th>
-    <th>Total Pension</th>
-    <th>Total Income Tax</th> 
-    <th>Total Net Salary</th>                                              
     
 {% endblock %}
 
-{% block table_content %}
-    <tr>
-        <td>
-            {{total_gross_salary}}
-        </td>
-        <td>
-            {{total_pension}}
-        </td>
-        <td>
-            {{total_income_tax}}
-        </td>
-        <td>
-            {{total_net_salary}}
-        </td>
-    </tr>
-{% endblock %}

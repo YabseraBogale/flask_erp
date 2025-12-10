@@ -1309,18 +1309,19 @@ def budget_list():
         db.session.rollback()
         return render_template("404.html")
 
-@app.route("/finanical_data")
+@app.route("/finanical_data_department/<department>")
 @login_required
 @cache.cached(timeout=600)
-def finanical_data():
+def finanical_data_department(department):
     try:
         if session["department_name"]=="Finance" or session["department_name"]=="Administration":
             employee=db.session.query(
                 Employee.employee_tin_number,
                 Employee.firstname,
                 Employee.lastname,
-                Employee.salary
-            ).where(Employee.employment_status=="Active").all()
+                Employee.salary,
+                Employee.department_name
+            ).where(Employee.employment_status=="Active" and Employee.department_name==department).all()
             employee_dict=[]
             total_pension=0
             total_income_tax=0
@@ -1370,24 +1371,39 @@ def finanical_data():
                     "employee_tin_number":i[0],
                     "name":firstname+" "+fathername,
                     "gross_salary":salary,
-                    "pension":pension,
-                    "net_salary":net_salary,
-                    "income_tax":income_tax,
+                    "pension":"{:.2f}".format(pension),
+                    "net_salary":"{:.2f}".format(net_salary),
+                    "income_tax":"{:.2f}".format(income_tax),
+                    "total_pension":"{:.2f}".format(total_pension),
+                    "total_income_tax":"{:.2f}".format(total_income_tax),
+                    "total_net_salary":"{:.2f}".format(total_net_salary),
+                    "total_gross_salary":"{:.2f}".format(total_gross_salary),
+                    "department":i[4]
                     
                 })
-            return render_template("finanical_data.html",
-                                   employee_dict=employee_dict,
-                                   total_pension=total_pension,
-                                   total_income_tax=total_income_tax,
-                                   total_net_salary=total_net_salary,
-                                   total_gross_salary=total_gross_salary
-                                   )
+            return jsonify(employee_dict=employee_dict)
         else:
             return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+@app.route("/finanical_data")
+@login_required
+@cache.cached(timeout=600)
+def finanical_data():
+    try:
+        if session["department_name"]=="Finance" or session["department_name"]=="Administration":
+            return render_template("finanical_data.html",
+                                   db_department=db_department)
+        return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
 
 @app.route("/finance")
 @login_required

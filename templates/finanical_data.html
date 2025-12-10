@@ -66,3 +66,39 @@
     
 {% endblock %}
 
+<table>
+    <tr>
+        <td>
+            Number of Employee
+        </td>
+        <td>
+            Total Gross Salary
+        </td>
+        <td>
+            Total Net Income Tax
+        </td>
+        <td>
+            Total Pension
+        </td>
+        <td>
+            Total Net Salary
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{total_employee_info["number_of_employee"]}}
+        </td>
+        <td>
+            {{total_employee_info["total_gross_salary"]}}
+        </td>
+        <td>
+            {{total_employee_info["total_income_tax"]}}
+        </td>
+        <td>
+            {{total_employee_info["total_pension"]}}
+        </td>
+        <td>
+            {{total_employee_info["total_net_salary"]}}
+        </td>
+    </tr>
+</table>

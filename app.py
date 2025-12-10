@@ -1337,7 +1337,6 @@ def finanical_data():
             total_income_tax=0
             total_net_salary=0
             total_gross_salary=0
-            
             for i in employee:
                 salary=i[3]
                 firstname=i[1]
@@ -1385,17 +1384,20 @@ def finanical_data():
                     "pension":"{:.2f}".format(pension),
                     "net_salary":"{:.2f}".format(net_salary),
                     "income_tax":"{:.2f}".format(income_tax),
-                    "total_pension":"{:.2f}".format(total_pension),
-                    "total_income_tax":"{:.2f}".format(total_income_tax),
-                    "total_net_salary":"{:.2f}".format(total_net_salary),
-                    "total_gross_salary":"{:.2f}".format(total_gross_salary),
                     "department":i[4]
-                    
                 })
+            total_employee_info={
+                "total_pension":"{:.2f}".format(total_pension),
+                "total_income_tax":"{:.2f}".format(total_income_tax),
+                "total_net_salary":"{:.2f}".format(total_net_salary),
+                "total_gross_salary":"{:.2f}".format(total_gross_salary),
+                "number_of_employee":len(employee)
+            }
             return render_template("finanical_data.html",
                                    employee_dict=employee_dict,
                                    db_department=db_department,
-                                   csrf_token=csrf_token
+                                   csrf_token=csrf_token,
+                                   total_employee_info=total_employee_info
                                    )
         else:
             return render_template("404.html")

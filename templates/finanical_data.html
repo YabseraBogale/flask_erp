@@ -16,6 +16,14 @@
 
     <th>Tin Number</th>
     <th>Employee Name</th> 
+    <th>
+         Department
+        <select name="department" id="department" class="form-select">
+            {% for i in db_department %}
+                <option value="{{i}}">{{i}}</option>
+            {% endfor %}
+        </select>
+    </th>
     <th>Gross Salary</th>                                              
     <th>Income Tax</th>
     <th>Pension (7%)</th>
@@ -24,6 +32,27 @@
 {% endblock %}
 
 {% block table_content %}
-    
+    <script>
+        let department=document.getElementById("department")
+        console.log(department.innerText);
+        
+        department.addEventListener('change',function(){
+            fetch("/finanical_data_department/"+department.innerText)
+            .then(response =>{
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data =>{
+                console.log(data);
+                
+            })
+            .catch(err =>{
+                console.log(err)
+            })
+        })
+        
+    </script>
 {% endblock %}
 

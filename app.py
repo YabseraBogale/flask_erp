@@ -1337,6 +1337,7 @@ def finanical_data():
             total_income_tax=0
             total_net_salary=0
             total_gross_salary=0
+            
             for i in employee:
                 salary=i[3]
                 firstname=i[1]

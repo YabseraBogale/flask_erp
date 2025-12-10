@@ -37,6 +37,32 @@
 {% endblock %}
 
 {% block table_content %}
+
+    {% for i in employee_dict %}
+        <tr>
+            <td>
+                {{i["employee_tin_number"]}}
+            </td>
+            <td>
+                {{i["name"]}}
+            </td>
+            <td>
+                {{i["department"]}}
+            </td>
+            <td>
+                {{i["gross_salary"]}}
+            </td>
+            <td>
+                {{i["income_tax"]}}
+            </td>
+            <td>
+                {{i["pension"]}}
+            </td>
+            <td>
+                {{i["net_salary"]}}
+            </td>
+        </tr>
+    {% endfor %}
     
 {% endblock %}
 

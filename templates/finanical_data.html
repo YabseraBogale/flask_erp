@@ -17,17 +17,22 @@
     <th>Tin Number</th>
     <th>Employee Name</th> 
     <th>
-         Department
-        <select name="department" id="department" class="form-select">
-            {% for i in db_department %}
-                <option value="{{i}}">{{i}}</option>
-            {% endfor %}
-        </select>
+        <form action="/finanical_data" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            Department
+            <select name="department" id="department" class="form-select">
+                {% for i in db_department %}
+                    <option value="{{i}}">{{i}}</option>
+                {% endfor %}
+            </select>
+        
     </th>
     <th>Gross Salary</th>                                              
     <th>Income Tax</th>
     <th>Pension (7%)</th>
     <th>Net Salary</th>
+    <input type="submit" value="search">
+    </form>
 
 {% endblock %}
 

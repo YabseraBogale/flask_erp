@@ -1309,19 +1309,29 @@ def budget_list():
         db.session.rollback()
         return render_template("404.html")
 
-@app.route("/finanical_data")
+@app.route("/finanical_data",methods=["GET","POST"])
 @login_required
-
 def finanical_data():
     try:
         if session["department_name"]=="Finance" or session["department_name"]=="Administration":
-            employee=db.session.query(
-                Employee.employee_tin_number,
-                Employee.firstname,
-                Employee.lastname,
-                Employee.salary,
-                Employee.department_name
-            ).where(Employee.employment_status=="Active" and Employee.department_name==department).all()
+            csrf_token=generate_csrf()
+            if request.method=="POST":
+                department=request.form["department"]
+                employee=db.session.query(
+                    Employee.employee_tin_number,
+                    Employee.firstname,
+                    Employee.lastname,
+                    Employee.salary,
+                    Employee.department_name
+                ).where(Employee.employment_status=="Active" and Employee.department_name==department).all()
+            else:
+                employee=db.session.query(
+                    Employee.employee_tin_number,
+                    Employee.firstname,
+                    Employee.lastname,
+                    Employee.salary,
+                    Employee.department_name
+                ).where(Employee.employment_status=="Active").all()
             employee_dict=[]
             total_pension=0
             total_income_tax=0
@@ -1383,7 +1393,8 @@ def finanical_data():
                 })
             return render_template("finanical_data.html",
                                    employee_dict=employee_dict,
-                                   db_department=db_department
+                                   db_department=db_department,
+                                   csrf_token=csrf_token
                                    )
         else:
             return render_template("404.html")

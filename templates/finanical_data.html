@@ -56,3 +56,28 @@
 
 {% endblock %}
 
+{% block column %}
+
+    <th>Total Gross Salary</th>
+    <th>Total Pension</th>
+    <th>Total Income Tax</th> 
+    <th>Total Net Salary</th>                                              
+    
+{% endblock %}
+
+{% block table_content %}
+    <tr>
+        <td>
+            {{total_gross_salary}}
+        </td>
+        <td>
+            {{total_pension}}
+        </td>
+        <td>
+            {{total_income_tax}}
+        </td>
+        <td>
+            {{total_net_salary}}
+        </td>
+    </tr>
+{% endblock %}

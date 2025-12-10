@@ -196,7 +196,12 @@ def employee_registeration():
                     return render_template("404.html")
                 return redirect("/dashboard")
             csrf_token = generate_csrf()
-            return render_template("employee_registeration.html",csrf_token=csrf_token,db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_department=db_department)
+            return render_template("employee_registeration.html",
+                                   csrf_token=csrf_token,
+                                   db_location=db_location,
+                                   db_unit=db_unit,
+                                   db_currency=db_currency,
+                                   db_department=db_department)
         return render_template("404.html")
     
     except Exception as e:
@@ -226,7 +231,8 @@ def employee_termination():
                 db.session.commit()
                 cache.clear()        
             csrf_token = generate_csrf()
-            return render_template("employee_termination.html",csrf_token=csrf_token )
+            return render_template("employee_termination.html",
+                                   csrf_token=csrf_token )
         else:
             return render_template("404.html")
     except Exception as e:
@@ -240,7 +246,8 @@ def employee_termination():
 def terminated_employee_list():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
-            return render_template("terminated_employee_list.html",db_department=db_department)
+            return render_template("terminated_employee_list.html",
+                                   db_department=db_department)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
@@ -312,7 +319,9 @@ def terminated_employee_data(employee_tin_number):
                 "termination_reason":employee.termination_reason,
                 "employment_status":employee.employment_status,
             }
-            return render_template("my_account.html",employee=employee,termaination=True)
+            return render_template("my_account.html",
+                                   employee=employee,
+                                   termaination=True)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -407,7 +416,8 @@ def employee_info_for_hr(employee_tin_number):
                 "job_description":employee.job_description,
                 "position":employee.position
             }
-            return render_template("my_account.html",employee=employee)
+            return render_template("my_account.html",
+                                   employee=employee)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -443,7 +453,8 @@ def account():
             "position":employee.position
         }
 
-        return render_template("my_account.html",employee=employee)
+        return render_template("my_account.html",
+                               employee=employee)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
@@ -455,7 +466,8 @@ def account():
 def employee_list():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
-            return render_template("employee_list.html",db_department=db_department)
+            return render_template("employee_list.html",
+                                   db_department=db_department)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
@@ -493,7 +505,13 @@ def item_registeration():
                 cache.clear()
                 return redirect("/dashboard")
             csrf_token = generate_csrf()
-            return render_template("item_registeration.html",csrf_token=csrf_token,db_location=db_location,db_unit=db_unit,db_currency=db_currency,db_category=db_category,db_subcategory=db_subcategory)
+            return render_template("item_registeration.html",
+                                   csrf_token=csrf_token,
+                                   db_location=db_location,
+                                   db_unit=db_unit,
+                                   db_currency=db_currency,
+                                   db_category=db_category,
+                                   db_subcategory=db_subcategory)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -522,7 +540,8 @@ def item_listing():
                 Item.item_name,Item.item_price,Item.item_quantity,
                 Item.unit_name,Item.item_shelf_life,Item.item_id
             ).order_by(Item.item_shelf_life.asc()).all()
-            return render_template("item_list.html",item_list=item_list)
+            return render_template("item_list.html",
+                                   item_list=item_list)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -560,14 +579,16 @@ def checkout_list():
                 CheckOut.item_siv,CheckOut.unit_name,CheckOut.checkout_id
                 ).order_by(CheckOut.checkout_date.asc()).where(
                     CheckOut.employee_tin_number==session["employee_tin_number"]).all()
-            return render_template("checkout_list.html",checkout_list_name=checkout_list_name)
+            return render_template("checkout_list.html",
+                                   checkout_list_name=checkout_list_name)
         
         elif session["department_name"]=="Administration":
             checkout_list_name=db.session.query(
                 CheckOut.item_name,CheckOut.item_status,CheckOut.item_quantity,
                 CheckOut.item_siv,CheckOut.unit_name,CheckOut.checkout_id
                 ).order_by(CheckOut.checkout_date.asc()).all()
-            return render_template("checkout_list.html",checkout_list_name=checkout_list_name)
+            return render_template("checkout_list.html",
+                                   checkout_list_name=checkout_list_name)
         
         return render_template("404.html")
     except Exception as e:
@@ -625,7 +646,12 @@ def item_checkout():
                 db.session.commit()
                 cache.clear()
             csrf_token = generate_csrf()
-            return render_template("checkout.html",csrf_token=csrf_token,item_name_list=item_name_list,db_location=db_location,db_unit=db_unit,db_department=db_department)
+            return render_template("checkout.html",
+                                   csrf_token=csrf_token,
+                                   item_name_list=item_name_list,
+                                   db_location=db_location,
+                                   db_unit=db_unit,
+                                   db_department=db_department)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -644,14 +670,16 @@ def checkin_list():
                 CheckIn.item_grr,CheckIn.unit_name
                 ).where(
                     CheckIn.employee_tin_number==session["employee_tin_number"]).all()
-            return render_template("checkin_list.html",checkin_list_name=checkin_list_name)
+            return render_template("checkin_list.html",
+                                   checkin_list_name=checkin_list_name)
         
         elif session["department_name"]=="Administration":
             checkin_list_name=db.session.query(
             CheckIn.item_name,CheckIn.item_price,CheckIn.item_quantity,
             CheckIn.item_grr,CheckIn.unit_name,CheckIn.checkin_id
             ).order_by(CheckIn.checkin_date.asc()).all()
-            return render_template("checkin_list.html",checkin_list_name=checkin_list_name)
+            return render_template("checkin_list.html",
+                                   checkin_list_name=checkin_list_name)
         return render_template("404.html")
     
     except Exception as e:
@@ -718,9 +746,18 @@ def item_checkin():
                 db.session.add(checkin_item)
                 db.session.commit()
                 cache.clear()
-                return render_template("checkin.html",item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_name=db_vendor_name)
+                return render_template("checkin.html",
+                                       item_name_list=item_name_list,
+                                       db_currency=db_currency,
+                                       db_unit=db_unit,
+                                       db_vendor_name=db_vendor_name)
             csrf_token = generate_csrf()    
-            return render_template("checkin.html",csrf_token=csrf_token,item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit,db_vendor_name=db_vendor_name)
+            return render_template("checkin.html",
+                                   csrf_token=csrf_token,
+                                   item_name_list=item_name_list,
+                                   db_currency=db_currency,
+                                   db_unit=db_unit,
+                                   db_vendor_name=db_vendor_name)
         else:
             return render_template("404.html")
     except Exception as e:
@@ -826,7 +863,11 @@ def sales_registeration():
 
                 if item.item_quantity-int(item_quantity)<0:
                     csrf_token = generate_csrf()
-                    return render_template("sales_registeration.html",csrf_token=csrf_token,negative=True,db_currency=db_currency,db_unit=db_unit)
+                    return render_template("sales_registeration.html",
+                                           csrf_token=csrf_token,
+                                           negative=True,
+                                           db_currency=db_currency,
+                                           db_unit=db_unit)
 
                 stmt=(
                     update(
@@ -848,7 +889,11 @@ def sales_registeration():
                 db.session.commit()
                 cache.clear()
             csrf_token = generate_csrf()
-            return render_template("sales_registeration.html",csrf_token=csrf_token,item_name_list=item_name_list,db_currency=db_currency,db_unit=db_unit)
+            return render_template("sales_registeration.html",
+                                   csrf_token=csrf_token,
+                                   item_name_list=item_name_list,
+                                   db_currency=db_currency,
+                                   db_unit=db_unit)
         else:
             return render_template("404.html")
         
@@ -875,7 +920,9 @@ def purchase_order():
             db.session.commit()
             cache.clear()
         csrf_token=generate_csrf()
-        return render_template("purchase_order.html",csrf_token=csrf_token,item_name_list=item_name_list)
+        return render_template("purchase_order.html",
+                               csrf_token=csrf_token,
+                               item_name_list=item_name_list)
     
     except Exception as e:
         logging.exception(str(e))
@@ -904,7 +951,9 @@ def customer_registeration():
                 db.session.commit()
                 cache.clear()
             csrf_token=generate_csrf()
-            return render_template("customer_registeration.html",csrf_token=csrf_token,db_location=db_location)
+            return render_template("customer_registeration.html",
+                                   csrf_token=csrf_token,
+                                   db_location=db_location)
         else:
             return render_template("404.html")
         
@@ -925,7 +974,8 @@ def pending_listing():
                             ).where(
                                 PurchaseOrder.order_status== "Pending"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
-            return render_template("pending_list_all.html",pending_list_name=pending_list_name)
+            return render_template("pending_list_all.html",
+                                   pending_list_name=pending_list_name)
 
         elif session["department_name"]=="Procurement":
             pending_list_name=db.session.query(
@@ -935,7 +985,8 @@ def pending_listing():
                                 PurchaseOrder.employee_tin_number==session["employee_tin_number"]
                                 and PurchaseOrder.order_status== "Pending"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
-            return render_template("pending_list.html",pending_list_name=pending_list_name)
+            return render_template("pending_list.html",
+                                   pending_list_name=pending_list_name)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -961,7 +1012,8 @@ def purchase_order_approval(purchase_order_id):
             db.session.execute(stmt)
             db.session.commit()
             cache.clear()
-        return render_template("purchase_order_info.html",purchase_order_data=purchase_order_data)
+        return render_template("purchase_order_info.html",
+                               purchase_order_data=purchase_order_data)
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
@@ -979,7 +1031,8 @@ def approved_listing():
                             ).where(
                                 PurchaseOrder.order_status== "Approved"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
-            return render_template("approved_list.html",approved_list_name=approved_list_name)
+            return render_template("approved_list.html",
+                                   approved_list_name=approved_list_name)
         elif session["department_name"]=="Procurement":
             approved_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
@@ -988,7 +1041,8 @@ def approved_listing():
                                 PurchaseOrder.employee_tin_number==session["employee_tin_number"]
                                 and PurchaseOrder.order_status== "Approved"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
-            return render_template("approved_list.html",approved_list_name=approved_list_name)
+            return render_template("approved_list.html",
+                                   approved_list_name=approved_list_name)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -1008,7 +1062,8 @@ def rejected_listing():
                                         PurchaseOrder.employee_tin_number==session["employee_tin_number"]
                                         and PurchaseOrder.order_status== "Decline"
                                     ).order_by(PurchaseOrder.order_date.asc()).all()
-            return render_template("rejected_list.html",rejected_list_name=rejected_list_name)
+            return render_template("rejected_list.html",
+                                   rejected_list_name=rejected_list_name)
         elif session["department_name"]=="Procurement":
             rejected_list_name=db.session.query(
                                 PurchaseOrder.employee_tin_number,PurchaseOrder.item_name,
@@ -1017,7 +1072,8 @@ def rejected_listing():
                                 PurchaseOrder.employee_tin_number==session["employee_tin_number"]
                                 and PurchaseOrder.order_status== "Decline"
                             ).order_by(PurchaseOrder.order_date.asc()).all()
-            return render_template("rejected_list.html",rejected_list_name=rejected_list_name)
+            return render_template("rejected_list.html",
+                                   rejected_list_name=rejected_list_name)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -1058,8 +1114,10 @@ def vendor_info(vendor_tin):
                 db.session.execute(stmt)
                 db.session.commit()
                 cache.clear()
-                return render_template("vendor_info.html",vendor=vendor)
-            return render_template("vendor_info.html",vendor=vendor)
+                return render_template("vendor_info.html",
+                                       vendor=vendor)
+            return render_template("vendor_info.html",
+                                   vendor=vendor)
         
         return render_template("404.html")
     except Exception as e:
@@ -1093,7 +1151,9 @@ def utility_registeration():
                 db.session.commit()
                 cache.clear()
             csrf_token=generate_csrf()
-            return render_template("utility_registeration.html",csrf_token=csrf_token,db_utility=db_utility)
+            return render_template("utility_registeration.html",
+                                   csrf_token=csrf_token,
+                                   db_utility=db_utility)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -1115,7 +1175,8 @@ def utility_listing():
                 UtilityCost.department_name,
                 UtilityCost.currency_name
                 ).order_by(UtilityCost.utility_name.asc()).all()
-            return render_template("utility_list.html",utility_list_name=utility_list_name)
+            return render_template("utility_list.html",
+                                   utility_list_name=utility_list_name)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -1138,7 +1199,8 @@ def vendor_listing():
                 Vendor.vendor_tin,Vendor.vendor_name,
                 Vendor.vendor_phonenumber,Vendor.vendor_email,Vendor.location
                 ).all()
-            return render_template("vendor_list.html",vendor_lst=vendor)
+            return render_template("vendor_list.html",
+                                   vendor_lst=vendor)
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
@@ -1167,7 +1229,9 @@ def vendor_regsisteration():
                 db.session.commit()
                 cache.clear()
             csrf_token=generate_csrf()
-            return render_template("vendor_regsisteration.html",csrf_token=csrf_token,db_location=db_location)
+            return render_template("vendor_regsisteration.html",
+                                   csrf_token=csrf_token,
+                                   db_location=db_location)
         else:
             return render_template("404.html")
         
@@ -1261,6 +1325,7 @@ def finanical_data():
             total_pension=0
             total_income_tax=0
             total_net_salary=0
+            total_gross_salary=0
             for i in employee:
                 salary=i[3]
                 firstname=i[1]
@@ -1275,26 +1340,31 @@ def finanical_data():
                     net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
+                    total_gross_salary+=salary
                 elif salary<=7000 or salary>=4001:
                     income_tax=(0.2*salary)-500
                     net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
+                    total_gross_salary+=salary
                 elif salary<=10000 or salary>=7001:
                     income_tax=(0.25*salary)-850
                     net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
+                    total_gross_salary+=salary
                 elif salary<=14000 or salary>=10001:
                     income_tax=(0.3*salary)-1350
                     net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
+                    total_gross_salary+=salary
                 elif salary>=14001:
                     income_tax=(0.35*salary)-2050
                     net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
+                    total_gross_salary+=salary
                     
                 employee_dict.append({
                     "employee_tin_number":i[0],
@@ -1303,11 +1373,15 @@ def finanical_data():
                     "pension":pension,
                     "net_salary":net_salary,
                     "income_tax":income_tax,
-                    "total_pension":total_pension,
-                    "total_income_tax":total_income_tax,
-                    "total_net_salary":total_net_salary
+                    
                 })
-            return render_template("finanical_data.html",employee_dict=employee_dict)
+            return render_template("finanical_data.html",
+                                   employee_dict=employee_dict,
+                                   total_pension=total_pension,
+                                   total_income_tax=total_income_tax,
+                                   total_net_salary=total_net_salary,
+                                   total_gross_salary=total_gross_salary
+                                   )
         else:
             return render_template("404.html")
     except Exception as e:

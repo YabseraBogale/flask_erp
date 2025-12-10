@@ -1323,7 +1323,7 @@ def finanical_data():
                     Employee.lastname,
                     Employee.salary,
                     Employee.department_name
-                ).where(Employee.employment_status=="Active" and Employee.department_name==department).all()
+                ).where(Employee.department_name==department and Employee.employment_status=="Active").all()
                 employee_dict=[]
                 total_pension=0
                 total_income_tax=0
@@ -1391,7 +1391,12 @@ def finanical_data():
                                     csrf_token=csrf_token,
                                     total_employee_info=total_employee_info
                                     )
-            return render_template("404.html")
+            return render_template("finanical_data.html",
+                                    employee_dict=[],
+                                    db_department=db_department,
+                                    csrf_token=csrf_token,
+                                    total_employee_info={}
+                                    )
         else:
             return render_template("404.html")
     except Exception as e:

@@ -1271,34 +1271,34 @@ def finanical_data():
                 net_salary=0
 
                 if salary<=4000 or salary>=2001:
-                    income_tax=round((0.15*salary)-300,2)
-                    net_salary=round(salary-(income_tax+pension),2)
+                    income_tax=(0.15*salary)-300
+                    net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
                 elif salary<=7000 or salary>=4001:
-                    income_tax=round((0.2*salary)-500,2)
-                    net_salary=round(salary-(income_tax+pension),2)
+                    income_tax=(0.2*salary)-500
+                    net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
                 elif salary<=10000 or salary>=7001:
-                    income_tax=round((0.25*salary)-850,2)
-                    net_salary=round(salary-(income_tax+pension),2)
+                    income_tax=(0.25*salary)-850
+                    net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
                 elif salary<=14000 or salary>=10001:
-                    income_tax=round((0.3*salary)-1350,2)
-                    net_salary=round(salary-(income_tax+pension),2)
+                    income_tax=(0.3*salary)-1350
+                    net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
                 elif salary>=14001:
-                    income_tax=round((0.35*salary)-2050,2)
-                    net_salary=round(salary-(income_tax+pension),2)
+                    income_tax=(0.35*salary)-2050
+                    net_salary=salary-(income_tax+pension)
                     total_income_tax+=income_tax
                     total_net_salary+=net_salary
                     
                 employee_dict.append({
                     "employee_tin_number":i[0],
-                    "name":firstname+fathername,
+                    "name":firstname+" "+fathername,
                     "gross_salary":salary,
                     "pension":pension,
                     "net_salary":net_salary,

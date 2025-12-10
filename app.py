@@ -1309,10 +1309,10 @@ def budget_list():
         db.session.rollback()
         return render_template("404.html")
 
-@app.route("/finanical_data_department/<department>")
+@app.route("/finanical_data")
 @login_required
-@cache.cached(timeout=600)
-def finanical_data_department(department):
+
+def finanical_data():
     try:
         if session["department_name"]=="Finance" or session["department_name"]=="Administration":
             employee=db.session.query(
@@ -1381,29 +1381,16 @@ def finanical_data_department(department):
                     "department":i[4]
                     
                 })
-            return jsonify(employee_dict=employee_dict)
+            return render_template("finanical_data.html",
+                                   employee_dict=employee_dict,
+                                   db_department=db_department
+                                   )
         else:
             return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
-
-@app.route("/finanical_data")
-@login_required
-@cache.cached(timeout=600)
-def finanical_data():
-    try:
-        if session["department_name"]=="Finance" or session["department_name"]=="Administration":
-            return render_template("finanical_data.html",
-                                   db_department=db_department)
-        return render_template("404.html")
-    except Exception as e:
-        logging.exception(str(e))
-        db.session.rollback()
-        return render_template("404.html")
-
-
 
 @app.route("/finance")
 @login_required

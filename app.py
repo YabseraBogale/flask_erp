@@ -1338,25 +1338,25 @@ def finanical_data():
                     income_tax=0
                     net_salary=0
 
-                    if salary<=4000 or salary>=2001:
+                    if salary<=4000 and salary>=2001:
                         income_tax=(0.15*salary)-300
                         net_salary=salary-(income_tax+pension)
                         total_income_tax+=income_tax
                         total_net_salary+=net_salary
                         total_gross_salary+=salary
-                    elif salary<=7000 or salary>=4001:
+                    elif salary<=7000 and salary>=4001:
                         income_tax=(0.2*salary)-500
                         net_salary=salary-(income_tax+pension)
                         total_income_tax+=income_tax
                         total_net_salary+=net_salary
                         total_gross_salary+=salary
-                    elif salary<=10000 or salary>=7001:
+                    elif salary<=10000 and salary>=7001:
                         income_tax=(0.25*salary)-850
                         net_salary=salary-(income_tax+pension)
                         total_income_tax+=income_tax
                         total_net_salary+=net_salary
                         total_gross_salary+=salary
-                    elif salary<=14000 or salary>=10001:
+                    elif salary<=14000 and salary>=10001:
                         income_tax=(0.3*salary)-1350
                         net_salary=salary-(income_tax+pension)
                         total_income_tax+=income_tax

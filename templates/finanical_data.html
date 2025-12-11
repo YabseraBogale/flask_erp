@@ -25,6 +25,7 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
             Department
             <select name="department" id="department" class="form-select">
+                <option value="All">All</option>
                 {% for i in db_department %}
                     <option value="{{i}}">{{i}}</option>
                 {% endfor %}

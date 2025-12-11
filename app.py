@@ -1317,13 +1317,22 @@ def finanical_data():
             csrf_token=generate_csrf()
             if request.method=="POST":
                 department=request.form["department"]
-                employee=db.session.query(
-                    Employee.employee_tin_number,
-                    Employee.firstname,
-                    Employee.lastname,
-                    Employee.salary,
-                    Employee.department_name
-                ).where(Employee.department_name==department and Employee.employment_status=="Active").all()
+                if department=="All":
+                    employee=db.session.query(
+                        Employee.employee_tin_number,
+                        Employee.firstname,
+                        Employee.lastname,
+                        Employee.salary,
+                        Employee.department_name
+                    ).where(Employee.employment_status=="Active").all()
+                else:
+                    employee=db.session.query(
+                        Employee.employee_tin_number,
+                        Employee.firstname,
+                        Employee.lastname,
+                        Employee.salary,
+                        Employee.department_name
+                    ).where(Employee.department_name==department and Employee.employment_status=="Active").all()
                 employee_dict=[]
                 total_pension=0
                 total_income_tax=0

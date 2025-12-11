@@ -250,6 +250,7 @@
                                
                                 <div class="card-body">
                                     <div class="table-responsive">
+                                        
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -261,7 +262,11 @@
                                                 {% block table_content %}
                                                 {% endblock %}
                                             </tbody>
+
                                         </table>
+                                        
+                                        {% block export_table %}
+                                        {% endblock %}
                                     </div>
                                 </div>
                             </div>

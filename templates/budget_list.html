@@ -69,3 +69,22 @@
     {% endfor %}
 
 {% endblock %}
+
+
+{% block export_table %}
+<p><button id="export_button">Export to Excel</button></p>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<script>
+document.getElementById("export_button").addEventListener("click", function () {
+
+	const table_html = document.getElementById("table");
+
+	// Create a spreadsheet from the HTML table
+	const workbook = XLSX.utils.table_to_book(table_html);
+
+	// Trigger the download of the Excel file
+	XLSX.writeFile(workbook, "employee_data.xlsx");
+
+});
+</script>
+{% endblock %}

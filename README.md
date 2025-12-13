@@ -42,7 +42,6 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
 ## Requirements
 
     python >= 3.11
-    postgresql
     sqlite3
     redis
     
@@ -283,3 +282,9 @@ for auditing dependences simply run to see:
     currency_name,
     date_from,
     date_to
+
+## Routes
+
+    route("/employee_registeration",methods=["GET","POST"])
+    route("/employee_termination",methods=["GET","POST"])
+    route("/terminated_employee_list")

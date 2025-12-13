@@ -285,7 +285,7 @@ for auditing dependences simply run to see:
 
 ## Routes
 
-    / redirect to login
+    / redirect to /login
 
     /my_account
     /employee_list

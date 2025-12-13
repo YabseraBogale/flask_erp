@@ -285,6 +285,57 @@ for auditing dependences simply run to see:
 
 ## Routes
 
-    route("/employee_registeration",methods=["GET","POST"])
-    route("/employee_termination",methods=["GET","POST"])
-    route("/terminated_employee_list")
+    / redirect to login
+
+    /my_account
+    /employee_list
+    /finance
+    /store
+    /sales
+    /procurement
+    /human_resources
+    /administration
+
+    /all/employee/data
+    /customer_list
+    /pending_listing
+    /sales_list
+    /approved_listing
+    /rejected_listing
+    /item_listing
+    /utility_listing
+    /vendor_listing
+    /checkout_list
+    /checkin_list
+    /budget_list
+    /terminated_employee_list
+    /terminated_employee_list/employee/data
+
+    /employee_registeration, methods=["GET","POST"]
+    /employee_termination, methods=["GET","POST"]
+    /restate/<employee_tin_number>, methods=["GET","POST"]
+    /item_regsisteration, methods=["GET","POST"]
+    /item_checkout, methods=["GET","POST"]
+    /item_checkin, methods=["GET","POST"]
+    /sales_registeration, methods=["GET","POST"]
+    /purchase_order, methods=["GET","POST"]
+    /customer_registeration, methods=["GET","POST"]
+    /purchase_order_approval/<purchase_order_id>, methods=["GET","POST"]
+    /vendor_info/<vendor_tin>, methods=["GET","POST"]
+    /utility_registeration, methods=["GET","POST"]
+    /vendor_regsisteration, methods=["GET","POST"]
+    /budget_registeration, methods=["GET","POST"]
+    /finanical_data, methods=["GET","POST"]
+    /login, methods=["GET","POST"]
+
+    /terminated_employee_list/employee/data/<employee_tin_number>
+    /employee_info_for_hr/<employee_tin_number>
+    /item_info/<item_id>
+    /checkout_info/<checkout_id>
+    /checkin_info/<checkin_id>
+    /customer_list/list/<employee_tin_number>
+    /sales_list/list/<employee_tin_number>  
+    
+    /logout
+
+    

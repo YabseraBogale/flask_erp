@@ -509,3 +509,27 @@ class Budget(db.Model):
             "date_from":self.date_from,
             "date_to":self.date_to
         }
+
+class SalaryHistroy(db.Model):
+
+    __tablename__="SalaryHistroy"
+    
+    salary_update=db.Column(db.Float,nullable=False)
+    salary_before=db.Column(db.Float,nullable=False)
+    recorded_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+    update_by=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    employee_updated=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
+    department_name=db.Column(Enum(*Department.department_array,name="department_enum"),db.ForeignKey("Department.department"),unique=True)
+    
+    department=db.relationship("Department",foreign_keys=[department_name])
+    employee=db.relationship("Employee",foreign_keys=[update_by,employee_updated])
+
+    def to_dict(self):
+        return {
+            "update_by":self.update_by,
+            "salary_update":self.salary_update,
+            "salary_before":self.salary_before,
+            "recorded_at":self.recorded_at,
+            "employee_updated":self.employee_updated,
+        }

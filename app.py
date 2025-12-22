@@ -1430,7 +1430,6 @@ def bouns_registeration():
                 )
                 db.session.add(bonus_db)
                 db.session.commit()
-
                 return render_template("bonus_registeration.html",csrf_token=csrf_token)
             else:
                 return render_template("bonus_registeration.html",csrf_token=csrf_token)

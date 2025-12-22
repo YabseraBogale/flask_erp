@@ -1413,6 +1413,23 @@ def finanical_data():
         db.session.rollback()
         return render_template("404.html")
 
+@app.route("/bouns_registeration",methods=["GET","POST"])
+def bouns_registeration():
+    try:
+        if session["department_name"]=="Finance":
+            if request.method=="POST":
+
+                return render_template("bonus_registeration.html")
+            else:
+                return render_template("bonus_registeration.html")
+        else:
+            return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+    
+
 @app.route("/finance")
 @login_required
 def finance():

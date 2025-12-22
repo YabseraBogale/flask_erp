@@ -9,7 +9,7 @@ from flask_login import LoginManager, login_user, login_required, current_user, 
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
-from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder,Vendor,UtilityCost,Budget
+from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder,Vendor,UtilityCost,Budget,Bonus
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -1417,11 +1417,23 @@ def finanical_data():
 def bouns_registeration():
     try:
         if session["department_name"]=="Finance":
+            csrf_token=generate_csrf()
             if request.method=="POST":
+                bonus_reason=request.form["bonus_reason"]
+                bonus=request.form["bonus"]
+                employee_given=request.form["employee_given"]
+                bonus_db=Bonus(
+                    bonus_reason=bonus_reason,
+                    bonus=bonus,
+                    employee_given=employee_given,
+                    recorded_by=session["employee_tin_number"]
+                )
+                db.session.add(bonus_db)
+                db.session.commit()
 
-                return render_template("bonus_registeration.html")
+                return render_template("bonus_registeration.html",csrf_token=csrf_token)
             else:
-                return render_template("bonus_registeration.html")
+                return render_template("bonus_registeration.html",csrf_token=csrf_token)
         else:
             return render_template("404.html")
     except Exception as e:

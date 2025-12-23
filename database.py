@@ -517,7 +517,7 @@ class SalaryHistroy(db.Model):
     salary_update=db.Column(db.Float,nullable=False)
     salary_before=db.Column(db.Float,nullable=False)
     recorded_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
-    
+    update_reason=db.Column(db.String,nullable=False)
     update_by=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     employee_updated=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     
@@ -530,6 +530,7 @@ class SalaryHistroy(db.Model):
             "salary_before":self.salary_before,
             "recorded_at":self.recorded_at,
             "employee_updated":self.employee_updated,
+            "update_reason":self.update_reason
         }
 
 class Bonus(db.Model):

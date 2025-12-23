@@ -431,6 +431,7 @@ def update_employee_salary():
             csrf_token=generate_csrf()
             if request.method=="POST":
                 salary_update=request.form["salary_update"]
+                update_reason=request.form["update_reason"]
                 update_by=session["employee_tin_number"]
                 employee_updated=request.form["employee_tin_number"]
                 employee_data=db.session.query(
@@ -446,6 +447,7 @@ def update_employee_salary():
                     update_by=update_by,
                     employee_updated=employee_updated,
                     salary_before=salary_before,
+                    update_reason=update_reason
                 )
                 db.session.add(salary_history)
                 db.session.commit()

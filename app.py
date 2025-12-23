@@ -469,9 +469,6 @@ def update_employee_salary():
         db.session.rollback()
         return render_template("404.html")
 
-
-
-
 @app.route("/my_account")
 @login_required
 def account():

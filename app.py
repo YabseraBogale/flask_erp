@@ -9,7 +9,7 @@ from flask_login import LoginManager, login_user, login_required, current_user, 
 from flask import Flask,url_for,render_template,redirect,request,session,jsonify
 from datetime import datetime
 from sqlalchemy import event
-from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder,Vendor,UtilityCost,Budget,Bonus
+from database import db,EmergencyContact,Employee,Item,CheckOut,CheckIn,Location,Category,Subcategory,Unit,Currency,Department,Sales,Customer,PurchaseOrder,Vendor,UtilityCost,Budget,SalaryHistroy,Bonus
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -423,6 +423,54 @@ def employee_info_for_hr(employee_tin_number):
         logging.exception(str(e))
         db.session.rollback()
         return render_template("404.html")
+
+@app.route("/employee_update/salary",methods=["GET","POST"])
+def update_employee_salary():
+    try:
+        if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":
+            csrf_token=generate_csrf()
+            if request.method=="POST":
+                salary_update=request.form["salary_update"]
+                update_by=session["employee_tin_number"]
+                employee_updated=request.form["employee_tin_number"]
+                employee_data=db.session.query(
+                    Employee
+                ).where(
+                    Employee.employee_tin_number==employee_updated
+                ).first()
+                if employee_data is None:
+                    return render_template("404.html")
+                salary_before=employee_data.salary
+                salary_history=SalaryHistroy(
+                    salary_update=salary_update,
+                    update_by=update_by,
+                    employee_updated=employee_updated,
+                    salary_before=salary_before,
+                )
+                db.session.add(salary_history)
+                db.session.commit()
+
+                stmt=(
+                    update(
+                        Employee
+                    ).where(
+                        Employee.employee_tin_number==employee_updated
+                    ).values(
+                        salary=salary_update
+                    )
+                )
+                db.session.execute(stmt)
+                db.session.commit()
+            return render_template("update_salary.html",csrf_token=csrf_token)
+        else:
+            return render_template("404.html")
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
+
+
 
 @app.route("/my_account")
 @login_required

@@ -318,6 +318,8 @@ for auditing dependences simply run to see:
     /item_checkout, methods=["GET","POST"]
     /item_checkin, methods=["GET","POST"]
     /sales_registeration, methods=["GET","POST"]
+    /bouns_registeration, methods=["GET","POST"]
+    /employee_update/salary, methods=["GET","POST"]
     /purchase_order, methods=["GET","POST"]
     /customer_registeration, methods=["GET","POST"]
     /purchase_order_approval/<purchase_order_id>, methods=["GET","POST"]

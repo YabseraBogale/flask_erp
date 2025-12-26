@@ -291,6 +291,15 @@ for auditing dependences simply run to see:
     recorded_by,
     employee_given,
     
+#### SalaryHistroy
+
+    salary_update,
+    salary_before,
+    recorded_at,
+    update_reason,
+    update_by,
+    employee_updated
+    
 
 ## Routes
 

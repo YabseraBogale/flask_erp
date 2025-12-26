@@ -303,59 +303,109 @@ for auditing dependences simply run to see:
 
 ## Routes
 
+### By All Users
+
     / redirect to /login
-
+    /logout
     /my_account
-    /employee_list
-    /finance
-    /store
-    /sales
-    /procurement
-    /human_resources
-    /administration
+    /login, methods=["GET","POST"]
 
+### Human Resources
+    
+    /human_resources
+    /employee_list
     /all/employee/data
-    /customer_list
-    /pending_listing
-    /sales_list
-    /approved_listing
-    /rejected_listing
-    /item_listing
-    /utility_listing
-    /vendor_listing
-    /checkout_list
-    /checkin_list
-    /budget_list
     /terminated_employee_list
     /terminated_employee_list/employee/data
-
     /employee_registeration, methods=["GET","POST"]
     /employee_termination, methods=["GET","POST"]
     /restate/<employee_tin_number>, methods=["GET","POST"]
+    /employee_update/salary, methods=["GET","POST"]
+    /terminated_employee_list/employee/data/<employee_tin_number>
+    /employee_info_for_hr/<employee_tin_number>
+
+### Finance
+
+    /finance
+    /budget_registeration, methods=["GET","POST"]
+    /finanical_data, methods=["GET","POST"]
+    /utility_registeration, methods=["GET","POST"]
+    /bouns_registeration, methods=["GET","POST"]
+    /budget_list
+    /utility_listing
+    
+### Store
+    
+    /store
+    /checkout_list
+    /checkin_list    
     /item_regsisteration, methods=["GET","POST"]
     /item_checkout, methods=["GET","POST"]
     /item_checkin, methods=["GET","POST"]
-    /sales_registeration, methods=["GET","POST"]
-    /bouns_registeration, methods=["GET","POST"]
-    /employee_update/salary, methods=["GET","POST"]
-    /purchase_order, methods=["GET","POST"]
-    /customer_registeration, methods=["GET","POST"]
-    /purchase_order_approval/<purchase_order_id>, methods=["GET","POST"]
-    /vendor_info/<vendor_tin>, methods=["GET","POST"]
-    /utility_registeration, methods=["GET","POST"]
-    /vendor_regsisteration, methods=["GET","POST"]
-    /budget_registeration, methods=["GET","POST"]
-    /finanical_data, methods=["GET","POST"]
-    /login, methods=["GET","POST"]
-
-    /terminated_employee_list/employee/data/<employee_tin_number>
-    /employee_info_for_hr/<employee_tin_number>
     /item_info/<item_id>
     /checkout_info/<checkout_id>
     /checkin_info/<checkin_id>
+    /item_listing
+
+### Sales
+
+    /sales
+    /customer_list
+    /sales_list
+    /customer_registeration, methods=["GET","POST"]
     /customer_list/list/<employee_tin_number>
     /sales_list/list/<employee_tin_number>  
+    /sales_registeration, methods=["GET","POST"]
     
-    /logout
+### Procurement
 
+    /procurement
+    /pending_listing
+    /approved_listing
+    /rejected_listing
+    /vendor_listing
+    /purchase_order, methods=["GET","POST"]
+    /purchase_order_approval/<purchase_order_id>, methods=["GET","POST"]
+    /vendor_info/<vendor_tin>, methods=["GET","POST"]
+    /vendor_regsisteration, methods=["GET","POST"]
+    
+### Administration
+    
+    /administration
+    
+    /pending_listing
+    /approved_listing
+    /rejected_listing
+    /vendor_listing
+    /purchase_order, methods=["GET","POST"]
+    /purchase_order_approval/<purchase_order_id>, methods=["GET","POST"]
+    /vendor_info/<vendor_tin>, methods=["GET","POST"]
+    /vendor_regsisteration, methods=["GET","POST"]
+    
+    /customer_list
+    /sales_list
+    /customer_registeration, methods=["GET","POST"]
+    /customer_list/list/<employee_tin_number>
+    /sales_list/list/<employee_tin_number>  
+    /sales_registeration, methods=["GET","POST"]
+    
+    /checkout_list
+    /checkin_list    
+    /item_regsisteration, methods=["GET","POST"]
+    /item_checkout, methods=["GET","POST"]
+    /item_checkin, methods=["GET","POST"]
+    /item_info/<item_id>
+    /checkout_info/<checkout_id>
+    /checkin_info/<checkin_id>
+    /item_listing
+
+    /budget_registeration, methods=["GET","POST"]
+    /finanical_data, methods=["GET","POST"]
+    /utility_registeration, methods=["GET","POST"]
+    /bouns_registeration, methods=["GET","POST"]
+    /budget_list
+    /utility_listing
+    
+
+    
     

@@ -44,9 +44,10 @@ Tailored for Ethiopian business workflows Scales with organizational growth Incr
     python >= 3.11
     sqlite3
     redis
+    sqlitebrowser
     
 
-Running the web app locally:
+Installing dependencies:
 
     pip install -r requirements.txt
 

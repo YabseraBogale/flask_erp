@@ -283,6 +283,15 @@ for auditing dependences simply run to see:
     date_from,
     date_to
 
+#### Bonus
+
+    bonus,
+    bonus_reason,
+    recorded_at,
+    recorded_by,
+    employee_given,
+    
+
 ## Routes
 
     / redirect to /login

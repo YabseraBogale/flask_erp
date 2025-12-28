@@ -16,7 +16,7 @@ from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect,generate_csrf
 from flask_caching import Cache
 
-init_admin=False
+init_admin=True
 logging.basicConfig(
     filename='application.log', 
     level=logging.ERROR, 
@@ -75,9 +75,12 @@ with app.app_context():
         # add info for the first admin and remove 
         admin_emergencyContact=EmergencyContact(
                         firstname="Yabsera",
-                        lastname="Yabsera",middlename="Yabsera",
-                        phonenumber="92020201161",location_name="Addis Ababa",
-                        fyida_id="321",gender="Male",
+                        lastname="Yabsera",
+                        middlename="Yabsera",
+                        phonenumber="92020201161",
+                        location_name="Addis Ababa",
+                        fyida_id="321",
+                        gender="Male",
                         email="yabserabgl@gmail.com")
         
         db.session.add(admin_emergencyContact)
@@ -88,12 +91,22 @@ with app.app_context():
         password=(password_to_send).encode("utf-8")
         admin=Employee(
                         emergency_contact_fyida_id="321",
-                        firstname="Yabsera",lastname="Yabsera",middlename="Yabsera",phonenumber="92020201161",
-                        gender="Male",email="yabserapython@gmail.com",date_of_employement=datetime.today(),fyida_id="123",
-                        employee_tin_number="123",currency_name="ETH",
-                        position="IT",location_name="Addis Ababa",
-                        department_name="Administration",job_description="Administration",
-                        bank_account_number="123456",salary="12333",
+                        firstname="Yabsera",
+                        lastname="Yabsera",
+                        middlename="Yabsera",
+                        phonenumber="92020201161",
+                        gender="Male",
+                        email="yabserapython@gmail.com",
+                        date_of_employement=datetime.today(),
+                        fyida_id="123",
+                        employee_tin_number="123",
+                        currency_name="ETH",
+                        position="IT",
+                        location_name="Addis Ababa",
+                        department_name="Administration",
+                        job_description="Administration",
+                        bank_account_number="123456",
+                        salary="12333",
                         password=bcrypt.hashpw(password,salt))
         db.session.add(admin)        
         db.session.commit()

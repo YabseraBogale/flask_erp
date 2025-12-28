@@ -16,6 +16,7 @@ from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect,generate_csrf
 from flask_caching import Cache
 
+init_admin=False
 logging.basicConfig(
     filename='application.log', 
     level=logging.ERROR, 
@@ -70,32 +71,32 @@ with app.app_context():
             cursor.close()
         
     db.create_all()
+    if init_admin==True:
+        # add info for the first admin and remove 
+        admin_emergencyContact=EmergencyContact(
+                        firstname="Yabsera",
+                        lastname="Yabsera",middlename="Yabsera",
+                        phonenumber="92020201161",location_name="Addis Ababa",
+                        fyida_id="321",gender="Male",
+                        email="yabserabgl@gmail.com")
+        
+        db.session.add(admin_emergencyContact)
+        db.session.commit()
 
-    # add info for the first admin and remove 
-    # admin_emergencyContact=EmergencyContact(
-    #                 firstname="Yabsera",
-    #                 lastname="Yabsera",middlename="Yabsera",
-    #                 phonenumber="92020201161",location_name="Addis Ababa",
-    #                 fyida_id="321",gender="Male",
-    #                 email="yabserabgl@gmail.com")
-    
-    # db.session.add(admin_emergencyContact)
-    # db.session.commit()
-
-    # password_to_send = ''.join(random.choice(characters) for i in range(15))  
-    # print(password_to_send)
-    # password=(password_to_send).encode("utf-8")
-    # admin=Employee(
-    #                 emergency_contact_fyida_id="321",
-    #                 firstname="Yabsera",lastname="Yabsera",middlename="Yabsera",phonenumber="92020201161",
-    #                 gender="Male",email="yabserapython@gmail.com",date_of_employement=datetime.today(),fyida_id="123",
-    #                 employee_tin_number="123",currency_name="ETH",
-    #                 position="IT",location_name="Addis Ababa",
-    #                 department_name="Administration",job_description="Administration",
-    #                 bank_account_number="123456",salary="12333",
-    #                 password=bcrypt.hashpw(password,salt))
-    # db.session.add(admin)        
-    # db.session.commit()
+        password_to_send = ''.join(random.choice(characters) for i in range(15))  
+        print(password_to_send)
+        password=(password_to_send).encode("utf-8")
+        admin=Employee(
+                        emergency_contact_fyida_id="321",
+                        firstname="Yabsera",lastname="Yabsera",middlename="Yabsera",phonenumber="92020201161",
+                        gender="Male",email="yabserapython@gmail.com",date_of_employement=datetime.today(),fyida_id="123",
+                        employee_tin_number="123",currency_name="ETH",
+                        position="IT",location_name="Addis Ababa",
+                        department_name="Administration",job_description="Administration",
+                        bank_account_number="123456",salary="12333",
+                        password=bcrypt.hashpw(password,salt))
+        db.session.add(admin)        
+        db.session.commit()
 
     db_location=Location.location_array
     db_unit=Unit.unit_array

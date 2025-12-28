@@ -522,7 +522,8 @@ class SalaryHistroy(db.Model):
     update_by=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     employee_updated=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     
-    employee=db.relationship("Employee",foreign_keys=[update_by,employee_updated])
+    employee_updated_employee=db.relationship("Employee",foreign_keys=[update_by,employee_updated])
+    employee_update_by=db.relationship("Employee",foreign_keys=[update_by])
 
     def to_dict(self):
         return {
@@ -547,8 +548,8 @@ class Bonus(db.Model):
     recorded_by=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     employee_given=db.Column(db.Integer,db.ForeignKey("Employee.employee_tin_number"),nullable=False)
     
-    employee=db.relationship("Employee",foreign_keys=[recorded_by,employee_given])
-
+    recorded_by_employee=db.relationship("Employee",foreign_keys=[recorded_by])
+    employee_given_employee=db.relationship("Employee",foreign_keys=[employee_given])
     def to_dict(self):
         return {
             "bonus_id":self.bonus_id,

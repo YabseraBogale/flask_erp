@@ -513,7 +513,8 @@ class Budget(db.Model):
 class SalaryHistroy(db.Model):
 
     __tablename__="SalaryHistroy"
-    
+
+    salary_histroy_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     salary_update=db.Column(db.Float,nullable=False)
     salary_before=db.Column(db.Float,nullable=False)
     recorded_at=db.Column(db.DateTime(timezone=True), server_default=func.now())
@@ -525,6 +526,7 @@ class SalaryHistroy(db.Model):
 
     def to_dict(self):
         return {
+            "salary_histroy_id":self.salary_histroy_id,
             "update_by":self.update_by,
             "salary_update":self.salary_update,
             "salary_before":self.salary_before,
@@ -537,6 +539,7 @@ class Bonus(db.Model):
 
     __tablename__="Bonus"
 
+    bonus_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     bonus=db.Column(db.Float,nullable=False)
     bonus_reason=db.Column(db.String,nullable=False)
 
@@ -548,6 +551,7 @@ class Bonus(db.Model):
 
     def to_dict(self):
         return {
+            "bonus_id":self.bonus_id,
             "bonus":self.bonus,
             "bonus_reason":self.bonus_reason,
             "employee_given":self.employee_given,

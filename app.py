@@ -73,6 +73,7 @@ with app.app_context():
     db.create_all()
     if init_admin==True:
         # add info for the first admin and remove 
+        # here is a bug that 
         admin_emergencyContact=EmergencyContact(
                         firstname="Yabsera",
                         lastname="Yabsera",
@@ -84,7 +85,6 @@ with app.app_context():
                         email="yabserabgl@gmail.com")
         
         db.session.add(admin_emergencyContact)
-        db.session.commit()
 
         password_to_send = ''.join(random.choice(characters) for i in range(15))  
         print(password_to_send)
@@ -98,7 +98,7 @@ with app.app_context():
                         gender="Male",
                         email="yabserapython@gmail.com",
                         date_of_employement=datetime.today(),
-                        fyida_id="123",
+                        fyida_id="1234",
                         employee_tin_number="123",
                         currency_name="ETH",
                         position="IT",
@@ -109,7 +109,12 @@ with app.app_context():
                         salary="12333",
                         password=bcrypt.hashpw(password,salt))
         db.session.add(admin)        
-        db.session.commit()
+        try:
+            db.session.commit()
+            print("All records saved successfully!")
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error saving to database: {e}")
 
     db_location=Location.location_array
     db_unit=Unit.unit_array

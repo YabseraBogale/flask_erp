@@ -109,7 +109,7 @@ class EmergencyContact(db.Model):
     lastname=db.Column(db.String,nullable=False)
     gender=db.Column(db.String,nullable=False)
     phonenumber=db.Column(db.String,nullable=False)
-    email=db.Column(db.String,nullable=False,unique=True)
+    email=db.Column(db.String,nullable=False)
     location_name=db.Column(Enum(*Location.location_array,name="location_enum"),db.ForeignKey("Location.location"),nullable=False)
     
     location=db.relationship("Location",foreign_keys=[location_name])

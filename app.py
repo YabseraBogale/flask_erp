@@ -187,6 +187,11 @@ def employee_registeration():
                 salary=request.form["salary"]
                 password_to_send = ''.join(random.choice(characters) for i in range(15))
                 
+                check_data=db.session.query(
+                    EmergencyContact).where(Employee.fyida_id==fyida_id).first()
+                if check_data:
+                    return "Employee"
+
                 password=(password_to_send).encode("utf-8")
                 employee=Employee(
                     emergency_contact_fyida_id=emergency_contact_fyida_id,

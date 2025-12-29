@@ -154,6 +154,11 @@ def employee_registeration():
                 emergency_contact_email=request.form["emergency_contact_email"]
                 emergency_contact_location=request.form["emergency_contact_location"]
                 
+                check_data=db.session.query(
+                    EmergencyContact).where(EmergencyContact.emergency_contact_fyida_id==emergency_contact_fyida_id).first()
+                if check_data:
+                    return "EmergencyContact Already in database"
+
                 emergency_contact=EmergencyContact(
                     firstname=emergency_contact_firstname,
                     lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,

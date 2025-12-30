@@ -158,7 +158,6 @@ def employee_registeration():
                     EmergencyContact).where(EmergencyContact.emergency_contact_fyida_id==emergency_contact_fyida_id).first()
                 
                 if not check_data:
-
                     emergency_contact=EmergencyContact(
                         firstname=emergency_contact_firstname,
                         lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
@@ -168,7 +167,6 @@ def employee_registeration():
                     db.session.add(emergency_contact)
                     db.session.commit()
                     
-
                 firstname=request.form["firstname"]
                 lastname=request.form["lastname"]
                 middlename=request.form["middlename"]

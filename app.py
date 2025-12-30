@@ -156,17 +156,18 @@ def employee_registeration():
                 
                 check_data=db.session.query(
                     EmergencyContact).where(EmergencyContact.emergency_contact_fyida_id==emergency_contact_fyida_id).first()
-                if check_data:
-                    return "EmergencyContact Already in database"
+                
+                if not check_data:
 
-                emergency_contact=EmergencyContact(
-                    firstname=emergency_contact_firstname,
-                    lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
-                    phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
-                    fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
-                    email=emergency_contact_email)
-                db.session.add(emergency_contact)
-                db.session.commit()
+                    emergency_contact=EmergencyContact(
+                        firstname=emergency_contact_firstname,
+                        lastname=emergency_contact_lastname,middlename=emergency_contact_middlename,
+                        phonenumber=emergency_contact_phonenumber,location_name=emergency_contact_location,
+                        fyida_id=emergency_contact_fyida_id,gender=emergency_contact_gender,
+                        email=emergency_contact_email)
+                    db.session.add(emergency_contact)
+                    db.session.commit()
+                    
 
                 firstname=request.form["firstname"]
                 lastname=request.form["lastname"]
@@ -188,9 +189,9 @@ def employee_registeration():
                 password_to_send = ''.join(random.choice(characters) for i in range(15))
                 
                 check_data=db.session.query(
-                    EmergencyContact).where(Employee.fyida_id==fyida_id).first()
+                    Employee).where(Employee.fyida_id==fyida_id).first()
                 if check_data:
-                    return "Employee"
+                    return render_template("employee_exists.html")
 
                 password=(password_to_send).encode("utf-8")
                 employee=Employee(

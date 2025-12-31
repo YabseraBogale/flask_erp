@@ -625,6 +625,7 @@ def item_listing():
         return render_template("404.html")
 
 @app.route("/checkout_info/<checkout_id>")
+@login_required
 def checkout_info(checkout_id):
     try:
         item=db.session.query(CheckOut).where(CheckOut.checkout_id==checkout_id).first()
@@ -635,6 +636,7 @@ def checkout_info(checkout_id):
         return render_template("404.html")
     
 @app.route("/checkin_info/<checkin_id>")
+@login_required
 def checkin_info(checkin_id):
     try:
         item=db.session.query(CheckIn).where(CheckIn.checkin_id==checkin_id).first()

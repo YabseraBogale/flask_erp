@@ -453,6 +453,7 @@ def employee_info_for_hr(employee_tin_number):
         return render_template("404.html")
 
 @app.route("/employee_update/salary",methods=["GET","POST"])
+@login_required
 def update_employee_salary():
     try:
         if session["department_name"]=="Human Resources" or session["department_name"]=="Administration":

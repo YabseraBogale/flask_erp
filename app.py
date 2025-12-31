@@ -1489,6 +1489,7 @@ def finanical_data():
         return render_template("404.html")
 
 @app.route("/bouns_registeration",methods=["GET","POST"])
+@login_required
 def bouns_registeration():
     try:
         if session["department_name"]=="Finance":

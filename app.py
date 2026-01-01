@@ -468,6 +468,12 @@ def update_employee_salary():
                 update_reason=request.form["update_reason"]
                 update_by=session["employee_tin_number"]
                 employee_updated=request.form["employee_tin_number"]
+                check_exists=db.session.query(
+                    Employee
+                ).where(Employee.employee_tin_number==employee_updated).first()
+                
+                if not check_exists:
+                    return render_template("employee_doesn't_exist.html")
                 employee_data=db.session.query(
                     Employee
                 ).where(

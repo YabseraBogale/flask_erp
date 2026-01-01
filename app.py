@@ -194,7 +194,7 @@ def employee_registeration():
                 check_data=db.session.query(
                     Employee).where(Employee.fyida_id==fyida_id).first()
                 if check_data:
-                    return render_template("employee_exists.html")
+                    return render_template("exists.html",msg="Employee")
 
                 password=(password_to_send).encode("utf-8")
                 employee=Employee(
@@ -468,12 +468,13 @@ def update_employee_salary():
                 update_reason=request.form["update_reason"]
                 update_by=session["employee_tin_number"]
                 employee_updated=request.form["employee_tin_number"]
-                check_exists=db.session.query(
+                check_employee_exists=db.session.query(
                     Employee
                 ).where(Employee.employee_tin_number==employee_updated).first()
                 
-                if not check_exists:
-                    return render_template("employee_doesn't_exist.html")
+                if not check_employee_exists:
+                    return render_template("doesn't_exist.html",msg="Employee")
+                
                 employee_data=db.session.query(
                     Employee
                 ).where(
@@ -578,6 +579,14 @@ def item_registeration():
                 item_shelf_life=request.form["item_shelf_life"]
                 currency=request.form["currency"]
                 item_shelf_life = datetime.strptime(item_shelf_life, "%Y-%m-%d").date()
+
+                check_item_exists=db.session.query(
+                    Item
+                ).where(Item.item_name==item_name).first()
+
+                if check_item_exists:
+                    return render_template("exists.html",msg="Item")
+
                 item=Item(
                     item_name=item_name,item_price=item_price,
                     currency_name=currency,item_quantity=item_quantity,

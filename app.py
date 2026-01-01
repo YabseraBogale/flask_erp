@@ -87,7 +87,6 @@ with app.app_context():
         db.session.add(admin_emergencyContact)
 
         password_to_send = ''.join(random.choice(characters) for i in range(15))  
-        print(password_to_send)
         password=(password_to_send).encode("utf-8")
         admin=Employee(
                         emergency_contact_fyida_id="321",
@@ -108,13 +107,21 @@ with app.app_context():
                         bank_account_number="123456",
                         salary="12333",
                         password=bcrypt.hashpw(password,salt))
-        db.session.add(admin)        
         try:
+            db.session.add(admin)
             db.session.commit()
-            print("All records saved successfully!")
+            subject="Well Come to Comapny Name"
+            body=f"This sent by bot for Comapny Name password. Employee id: 123 Your password: {password_to_send}"
+            msg = EmailMessage()
+            msg['subject']=subject
+            msg['From']=company_email
+            msg['To'] = "yabserapython@gmail.com"
+            msg.set_content(body)
+            with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: # For Gmail, use SMTP_SSL and port 465    
+                smtp.login(company_email, company_email_password)
+                smtp.send_message(msg)
         except Exception as e:
             db.session.rollback()
-            print(f"Error saving to database: {e}")
 
     db_location=Location.location_array
     db_unit=Unit.unit_array

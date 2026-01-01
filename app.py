@@ -73,7 +73,6 @@ with app.app_context():
     db.create_all()
     if init_admin==True:
         # add info for the first admin and remove 
-        # here is a bug that 
         admin_emergencyContact=EmergencyContact(
                         firstname="Yabsera",
                         lastname="Yabsera",
@@ -84,8 +83,6 @@ with app.app_context():
                         gender="Male",
                         email="yabserabgl@gmail.com")
         
-        db.session.add(admin_emergencyContact)
-
         password_to_send = ''.join(random.choice(characters) for i in range(15))  
         password=(password_to_send).encode("utf-8")
         admin=Employee(
@@ -108,6 +105,7 @@ with app.app_context():
                         salary="12333",
                         password=bcrypt.hashpw(password,salt))
         try:
+            db.session.add(admin_emergencyContact)
             db.session.add(admin)
             db.session.commit()
             subject="Well Come to Comapny Name"

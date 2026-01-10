@@ -1539,6 +1539,20 @@ def bouns_registeration():
         db.session.rollback()
         return render_template("404.html")
     
+@app.route("/bouns_listing")
+@login_required
+@cache.cached
+def bouns_listing():
+    try:
+        if session["department_name"]=="Finance" and session["department_name"]=="Administration":
+            return render_template("bouns_listing.html")
+        return render_template("404.html")
+
+    except Exception as e:
+        logging.exception(str(e))
+        db.session.rollback()
+        return render_template("404.html")
+
 
 @app.route("/finance")
 @login_required

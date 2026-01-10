@@ -1384,7 +1384,7 @@ def budget_registeration():
 @cache.cached(timeout=600)
 def budget_list():
     try:
-        if session["department_name"]=="Finance":
+        if session["department_name"]=="Finance" or session["department_name"]=="Administration":
             budget_list_name=db.session.query(
                 Budget.item_name,
                 Budget.department_name,
@@ -1544,7 +1544,7 @@ def bouns_registeration():
 @cache.cached
 def bouns_listing():
     try:
-        if session["department_name"]=="Finance" and session["department_name"]=="Administration":
+        if session["department_name"]=="Finance" or session["department_name"]=="Administration":
             bouns_list_name=db.session.query(
                 Bonus.employee_given,
                 Bonus.recorded_by,

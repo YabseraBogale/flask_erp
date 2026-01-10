@@ -1545,7 +1545,14 @@ def bouns_registeration():
 def bouns_listing():
     try:
         if session["department_name"]=="Finance" and session["department_name"]=="Administration":
-            return render_template("bouns_listing.html")
+            bouns_list_name=db.session.query(
+                Bonus.employee_given,
+                Bonus.recorded_by,
+                Bonus.bonus_reason,
+                Bonus.recorded_at,
+                Bonus.bonus
+            ).order_by(Bonus.recorded_at.desc()).all()
+            return render_template("bouns_listing.html",bouns_list_name=bouns_list_name)
         return render_template("404.html")
 
     except Exception as e:

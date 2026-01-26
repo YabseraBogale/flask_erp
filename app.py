@@ -16,7 +16,7 @@ from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect,generate_csrf
 from flask_caching import Cache
 
-init_admin=True
+init_admin=False
 logging.basicConfig(
     filename='application.log', 
     level=logging.ERROR, 
@@ -85,6 +85,7 @@ with app.app_context():
         
         password_to_send = ''.join(random.choice(characters) for i in range(15))  
         password=(password_to_send).encode("utf-8")
+        print(password)
         admin=Employee(
                         emergency_contact_fyida_id="321",
                         firstname="Yabsera",

@@ -161,7 +161,7 @@ def employee_registeration():
                 emergency_contact_location=request.form["emergency_contact_location"]
                 
                 check_data=db.session.query(
-                    EmergencyContact).where(EmergencyContact.emergency_contact_fyida_id==emergency_contact_fyida_id).first()
+                    EmergencyContact).where(EmergencyContact.fyida_id==emergency_contact_fyida_id).first()
                 
                 if not check_data:
                     emergency_contact=EmergencyContact(

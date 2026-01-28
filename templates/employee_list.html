@@ -49,20 +49,8 @@
                 
                 let found_employee=false
 
-                for(let i=0;i<data.length;i++){
-                        
-                            
-                            td+="<tr><td>"+data[i]["employee_tin_number"]+"</td>"
-                            td+="<td>"+data[i]["firstname"]+" "+data[i]["lastname"] +"</td>"
-                            td+="<td>"+data[i]["phonenumber"]+"</td>"
-                            td+="<td>"+data[i]["department_name"]+"</td>"
-                            td+="<td>"+data[i]["position"]+"</td>"
-                            td+="<td>"+data[i]["salary"]+"</td>"
-                            td+="<td>"+data[i]["bank_account_number"]+"</td>"
-                            td+="<td>"+"<a href='/employee_info_for_hr/"+data[i]["employee_tin_number"]+"' class='btn btn-primary'>View</a>"+"</td></tr>"  
-                          
-                }
                 
+
                 department.addEventListener("change",function(event){
                     let td=""
                     for(let i=0;i<data.length;i++){

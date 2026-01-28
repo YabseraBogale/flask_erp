@@ -1698,6 +1698,10 @@ def logout():
 def index():
     return redirect("/login")
 
+@app.route("/pp")
+def pp():
+    return render_template("pp.html")
+
 if __name__=="__main__":
     
     app.run(debug=True)

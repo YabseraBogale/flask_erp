@@ -284,7 +284,6 @@ def terminated_employee_list():
                                    db_department=db_department)
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/terminated_employee_list/employee/data")
@@ -316,7 +315,6 @@ def terminated_employee_list_data():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 
@@ -417,7 +415,6 @@ def employee_data():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/employee_info_for_hr/<employee_tin_number>")
@@ -455,7 +452,6 @@ def employee_info_for_hr(employee_tin_number):
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/employee_update/salary",methods=["GET","POST"])
@@ -546,7 +542,6 @@ def account():
                                employee=employee)
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/employee_list")
@@ -559,7 +554,6 @@ def employee_list():
                                    db_department=db_department)
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
    
 @app.route("/item_regsisteration",methods=["GET","POST"])
@@ -624,7 +618,6 @@ def item_info(item_id):
         return render_template("item_info.html",item=item[0])
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
     
 @app.route("/item_listing")
@@ -642,7 +635,6 @@ def item_listing():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/checkout_info/<checkout_id>")
@@ -653,7 +645,6 @@ def checkout_info(checkout_id):
         return render_template("checkout_info.html",item=item[0])
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
     
 @app.route("/checkin_info/<checkin_id>")
@@ -664,7 +655,6 @@ def checkin_info(checkin_id):
         return render_template("checkin_info.html",item=item[0])
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/checkout_list")
@@ -692,7 +682,6 @@ def checkout_list():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/item_checkout",methods=["GET","POST"])
@@ -783,7 +772,6 @@ def checkin_list():
     
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
     
 @app.route("/item_checkin",methods=["GET","POST"])
@@ -873,7 +861,6 @@ def customer_list():
             return render_template("customer_list.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/customer_list/list/<employee_tin_number>")
@@ -901,7 +888,6 @@ def customer_list_employee_tin_number(employee_tin_number):
             return jsonify(lst)
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/sales_list")
@@ -913,7 +899,6 @@ def sales_list():
             return render_template("sales_list.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/sales_list/list/<employee_tin_number>")
@@ -942,7 +927,6 @@ def sales_list_employee_tin_number(employee_tin_number):
             return jsonify(lst)
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/sales_registeration",methods=["GET","POST"])
@@ -1089,7 +1073,6 @@ def pending_listing():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/purchase_order_approval/<purchase_order_id>",methods=["GET","POST"])
@@ -1145,7 +1128,6 @@ def approved_listing():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
     
 @app.route("/rejected_listing")
@@ -1176,7 +1158,6 @@ def rejected_listing():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/vendor_info/<vendor_tin>",methods=["GET","POST"])
@@ -1279,7 +1260,6 @@ def utility_listing():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/vendor_listing")
@@ -1303,7 +1283,6 @@ def vendor_listing():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/vendor_regsisteration",methods=["GET","POST"])
@@ -1405,7 +1384,6 @@ def budget_list():
 
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/finanical_data",methods=["GET","POST"])
@@ -1537,7 +1515,6 @@ def bouns_registeration():
             return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
     
 @app.route("/bouns_listing")
@@ -1558,7 +1535,6 @@ def bouns_listing():
 
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 
@@ -1571,7 +1547,6 @@ def finance():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/store")
@@ -1583,7 +1558,6 @@ def store():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/sales")
@@ -1595,7 +1569,6 @@ def sales():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/procurement")
@@ -1607,7 +1580,6 @@ def procurement():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html") 
 
 @app.route("/human_resources")
@@ -1619,7 +1591,6 @@ def human_resources():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html") 
 
 @app.route("/administration")
@@ -1631,7 +1602,6 @@ def administration():
         return render_template("404.html")
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html") 
 
 @app.route("/login",methods=["GET","POST"])
@@ -1680,7 +1650,6 @@ def login():
         return render_template("login.html",csrf_token=csrf_token)
     except Exception as e:
         logging.exception(str(e))
-        db.session.rollback()
         return render_template("404.html")
 
 @app.route("/logout")

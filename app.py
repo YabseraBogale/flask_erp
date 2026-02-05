@@ -1555,7 +1555,7 @@ def finance():
 def store():
     try:
         if session["department_name"]=="Store":
-            # total item sold with category and most sold to customer
+            # total item value, check in ,check out 
             return render_template("store.html")
         return render_template("404.html")
     except Exception as e:
@@ -1567,6 +1567,7 @@ def store():
 def sales():
     try:
         if session["department_name"]=="Sales":
+            # total item sold with category and most sold to customer
             return render_template("sales.html")
         return render_template("404.html")
     except Exception as e:

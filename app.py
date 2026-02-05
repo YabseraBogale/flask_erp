@@ -1579,6 +1579,7 @@ def sales():
 def procurement():
     try:
         if session["department_name"]=="Procurement":
+            # total item with purchase order and time taken to approved of
             return render_template("procurement.html")
         return render_template("404.html")
     except Exception as e:
@@ -1590,6 +1591,7 @@ def procurement():
 def human_resources():
     try:
         if session["department_name"]=="Human Resources":
+            # total employee with department, new hired employee list 
             return render_template("human_resources.html")
         return render_template("404.html")
     except Exception as e:
@@ -1601,6 +1603,7 @@ def human_resources():
 def administration():
     try:
         if session["department_name"]=="Administration":
+            # summary of activites
             return render_template("administration.html")
         return render_template("404.html")
     except Exception as e:

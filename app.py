@@ -1543,6 +1543,7 @@ def bouns_listing():
 def finance():
     try:
         if session["department_name"]=="Finance":
+            # graph for total item value, total sales and utlilty cost
             return render_template("finance.html")
         return render_template("404.html")
     except Exception as e:

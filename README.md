@@ -1,5 +1,5 @@
 # flask_erp
-there might a change to legal license 
+
 
 Built for businesses with 100+ employees
 
